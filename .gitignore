@@ -1,1 +1,5 @@
+# Ignore le fichier de mise à jour auto sur le serveur
 /.vscode
+
+# Ignorer les fichiers générés par npm dont swiper
+node_modules/
