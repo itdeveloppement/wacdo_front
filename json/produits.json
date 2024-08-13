@@ -85,7 +85,7 @@
             "id": 14,
             "nom":"Le 280",
             "prix": 6.80,
-            "image": "/burgers/280.png.png"
+            "image": "/burgers/280.png"
         },
         {
             "id": 15,
@@ -215,31 +215,31 @@
             "id": 35,
             "nom":"Petite Frite",
             "prix": 1.45,
-            "image": "/frites/PETITE_FRITE.png.png"
+            "image": "/frites/PETITE_FRITE.png"
         },
         {
             "id": 36,
             "nom":"Moyenne Frite",
             "prix": 2.75,
-            "image": "/frites/MOYENNE_FRITE.png.png"
+            "image": "/frites/MOYENNE_FRITE.png"
         },
         {
             "id": 37,
             "nom":"Grande Frite",
             "prix": 3.50,
-            "image": "/frites/GRANDE_FRITE.png.png"
+            "image": "/frites/GRANDE_FRITE.png"
         },
         {
             "id": 38,
             "nom":"Potatoes",
             "prix": 2.15,
-            "image": "/frites/POTATOES.png.png"
+            "image": "/frites/POTATOES.png"
         },
         {
             "id": 39,
             "nom":"Grande Potatoes",
             "prix": 3.40,
-            "image": "/frites/GRANDE_POTATOES.jpg.png"
+            "image": "/frites/GRANDE_POTATOES.png"
         }
     ],
     "encas":[
@@ -247,7 +247,7 @@
             "id": 40,
             "nom":"Cheeseburger",
             "prix": 2.60,
-            "image": "/encas/cheeseburger.png.png"
+            "image": "/encas/cheeseburger.png"
         },
         {
             "id": 41,

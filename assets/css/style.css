@@ -1,14 +1,18 @@
 body {
   
 }
-
+/* GENERALE */
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
 /*  CAROUSSEL */
 .carousel {
     overflow: hidden;
     width: 100%; 
     position: relative;
 }
-.carousel-inner {
+.carousel-categorie {
     display: flex;
     transition: transform 0.5s ease-in-out;
 }
@@ -36,4 +40,24 @@ body {
 }
 .next {
     right: 20px;
+}
+
+/* CARD CATEGORIE */
+.cardCategorie {
+    flex: 0 0 200px; /* L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
+    height: 200px;
+    margin: 10px;
+    background-color: #f0f0f0;
+    text-align: center;
+    line-height: 150px;
+}
+
+/* CARD PRODUIY */
+.listeProduits {
+    background-color: blanchedalmond;
+}
+.cardProduit{
+    flex: 0 0 200px;
+    border: 1px solid;
+
 }

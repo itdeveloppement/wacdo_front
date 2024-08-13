@@ -7,23 +7,35 @@
     <!-- meta description max 160 caracteres -->
     <meta name="description" content="Menu, burger, boissons, frites, wraps, ancas, desserts, salades, sauces">
     <!-- link css -->
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <!-- favicon et image à la racine du site-->
     <link rel="shortcut icon" type="image/png" href="./logo.ico"/>
 </head>
 <body>
     <!-- SECTION HEADER CAROUSSEL -->
     <header>
-        <
+        <div class="carousel">
+            <div>
+                <img class="prev" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+            </div>
+            <div class="carousel-categorie">
+                <!-- fct js afficherCardsCategorie -->
+            </div>
+
+            <div>
+                <img class="next" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+            </div>
+        </div>
     </header>
     <main>
-        <!-- SECTION ARTICLES -->
-        <section>
+        <!-- SECTION PRODUITS -->
+        <section class="listeProduits flex">
+            <!-- fct js afficherCardsProduits -->
         </section>
         <!-- SECTION COMMANDE EN COURS -->
         <section>
             <div>
-                <img src="./assets/images/images/logo.png" alt="logo de la société Wacdo">
+                <img src="../images/images/logo.png" alt="logo de la société Wacdo">
             </div>
             <div>
                 <div>
@@ -51,11 +63,11 @@
                 <p>Prix</p>
             </div>
             <div>
-                <a href="./index.html">Abandon</a>
+                <a href="../../index.html">Abandon</a>
                 <a href="./commande.html">Payer</a>
             </div>
         </section>
     </main>
-     <script src="./assets/js/app.js" defer></script>
+       <script src="../js/app.js" defer></script>
 </body>
 </html>
