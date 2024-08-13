@@ -2,18 +2,41 @@
 document.addEventListener('DOMContentLoaded', () => {
   const numeroChevalet = '';
   const currentUrl = window.location.pathname; // url relative
+  const urlParams = new URLSearchParams(window.location.search); // parametre de l'irl pour chevalet
 
   // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
     datasCategorie();
     carousselHeader ();
-  }
- // page chevalet
- if (currentUrl === '/assets/pages/chevalet.html') { 
-  formChevalet ();
-}
-});
+    afficherNumeroChevalet(urlParams);
 
+  }
+  // page chevalet
+  if (currentUrl === '/assets/pages/chevalet.html') { 
+    
+    // verification des champs du formulaire
+    const regex = /^[0-9]$/;
+    const nombre1 = document.getElementById('nombre1');
+    nombre1.addEventListener('input', () => {
+      if (!regex.test(nombre1.value)) {
+        alert('Veuillez entrer un chiffre de 0 à 9.')
+    }});
+  
+    const nombre2 = document.getElementById('nombre2');
+    nombre2.addEventListener('input', () => {
+      if (!regex.test(nombre2.value)) {
+        alert('Veuillez entrer un chiffre de 0 à 9.')
+    }});
+
+    const nombre3 = document.getElementById('nombre3'); 
+    nombre3.addEventListener('input', () => {
+      if (!regex.test(nombre3.value)) {
+        alert('Veuillez entrer un chiffre de 0 à 9.')
+    }});
+    formChevalet ();
+}
+
+});
 
 // ---------------------- FETCHE ------------------------------------
 
@@ -195,6 +218,10 @@ function afficherCardsProduit(datas, categorie){
 
 // ------- FORM CHEVALET ----------------------------------------------
 
+/**
+ * role : envoi les données du formulaire pour affichage
+ * param no
+ */
 function formChevalet () {
 
 const form = document.getElementById('formChevalet');
@@ -214,21 +241,45 @@ form.addEventListener('submit', (event) => {
     params.append('nombreChevalet', numeroChevalet);
     window.location.href = 'choix.html?' + params.toString();
 });
-
-function afficherNumeroChevalet (){
-
-  
-  console.log(numeroChevalet)
-
-  let zone = document.querySelector(".surplace")
-  console.log(zone)
-  let template=
-  `
-    <p>Numero Chevalet : ${numeroChevalet}</div>
-  `
-  zone.innerHTML = template;
 }
 
+/**
+ * role : affiche le numero du chevalet si il existe
+ * @param {*} urlParams 
+ */
+function afficherNumeroChevalet(urlParams){
+  const nombreChevalet = urlParams.get('nombreChevalet'); // recuperation parametre
+  if(nombreChevalet) { 
+    let zone = document.querySelector(".surplace")
+    console.log(zone)
+    let template=
+    `
+      <p>Numero Chevalet : ${nombreChevalet}</div>
+    `
+    zone.innerHTML = template;
+  }
+}
+
+function verifierValeursChevalet() {
+  const nombre1 = document.getElementById('nombre1').value;
+ 
+console.log(nombre1.value)
+/*
+  const nombre2 = document.getElementById('nombre2').value;
+  const nombre3 = document.getElementById('nombre3').value;  
+
+
+  // Vérification si les valeurs sont des nombres entre 0 et 9
+  if (isNaN(nombre1) || nombre1 < 0 || nombre1 > 9 ||
+      isNaN(nombre2) || nombre2 < 0 || nombre2 > 9 ||
+      isNaN(nombre3) || nombre3 < 0 || nombre3 > 9) {
+    alert('Veuillez entrer des nombres entre 0 et 9 inclus.');
+    return false; // Empêche la soumission du formulaire (si utilisé dans un formulaire)
+  }
+*/
+  // Si toutes les valeurs sont correctes, vous pouvez effectuer d'autres actions ici
+  console.log('Toutes les valeurs sont correctes');
+  return true; // Permet la soumission du formulaire (si utilisé dans un formulaire)
 }
 
   
