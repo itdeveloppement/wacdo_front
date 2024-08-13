@@ -7,24 +7,24 @@ body {
     flex-wrap: wrap;
 }
 /*  CAROUSSEL */
-.carousel {
+.carouselCategorie, .carouselBoisson {
     overflow: hidden;
     width: 100%; 
     position: relative;
 }
-.carousel-categorie {
+.carousel-categorie, .carousel-boisson {
     display: flex;
     transition: transform 0.5s ease-in-out;
 }
-.card {
-    flex: 0 0 150px; /* L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
+.cardCategorie, .cardBoisson {
+    flex: 0 0 200px; /* L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
     height: 200px;
     margin: 10px;
     background-color: #f0f0f0;
     text-align: center;
     line-height: 150px;
 }
-.prev, .next {
+.prevCategorie, .nextCategorie, .prevBoisson, .nextBoisson{
     position: absolute;
     top: 50%;
     transform: translateY(-50%); /* centrer verticalement avec position absolut */
@@ -35,24 +35,16 @@ body {
     cursor: pointer;
     z-index: 1;
 }
-.prev {
+.prevCategorie, .prevBoisson {
     left: 20px;
 }
-.next {
+.nextCategorie, .nextBoisson  {
     right: 20px;
 }
 
-/* CARD CATEGORIE */
-.cardCategorie {
-    flex: 0 0 200px; /* L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
-    height: 200px;
-    margin: 10px;
-    background-color: #f0f0f0;
-    text-align: center;
-    line-height: 150px;
-}
 
-/* CARD PRODUIY */
+
+/* CARD PRODUIT */
 .listeProduits {
     background-color: blanchedalmond;
 }
@@ -67,3 +59,21 @@ body {
 .sectionCommande {
 height: 100vh;
 }
+
+/* modale taille menu */
+.modaleTailleMenu {
+    background-color: brown;
+}
+/* modale frites*/
+.modaleFrite {
+    background-color: rgb(42, 165, 85);
+}
+/* modale boisson */
+.modaleboissons {
+    width: 80%;
+    background-color: rgb(151, 124, 212);
+}
+/* ouverture / fermeture modale */
+.modal-hidden {
+    display: none;
+  }

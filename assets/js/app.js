@@ -1,16 +1,19 @@
+let commande = [];
+
 // -------------- AU CHARGEMENT --------------------
 document.addEventListener('DOMContentLoaded', () => {
-  const numeroChevalet = '';
   const currentUrl = window.location.pathname; // url relative
-  const urlParams = new URLSearchParams(window.location.search); // parametre de l'irl pour chevalet
+  const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
 
   // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
+   
     datasCategorie();
-    carousselHeader ();
+    carousselCategorie ();
     afficherNumeroChevalet(urlParams);
-
+    datasProduits('menus')
   }
+
   // page chevalet
   if (currentUrl === '/assets/pages/chevalet.html') { 
     
@@ -74,25 +77,45 @@ function datasProduits(categorie) {
   })
   .catch(error => {
     // Gérer les erreurs
-    console.error('Erreur lors de la recuperation de la liste des categories :', error);
+    console.error('Erreur lors de la recuperation de la liste des produits :', error);
   });
+}
+
+/**
+ * role : recuperation de la liste des boissons
+ * param : no
+ * return :array : liste des produits
+ */
+function datasBoissons() {
+  fetch('../../json/produits.json')
+    .then(response => response.json())
+    .then(datas => {
+    afficherCardsBoissons(datas)
+   
+    })
+    .catch(error => {
+      console.error('Erreur lors de la récupération des boissons :', error);
+    });
 }
 
 
 // ----------------- CAROUSSEL CATEGORIE -------------------------
 
-function carousselHeader () {
+function carousselCategorie() {
+  
   // selection des elements
   const carousel = document.querySelector('.carousel-categorie');
-  const prevBtn = document.querySelector('.prev');
-  const nextBtn = document.querySelector('.next');  
   const cards = document.querySelectorAll('.cardCategorie');
+  
+  const prevBtn = document.querySelector('.prevCategorie');
+  const nextBtn = document.querySelector('.nextCategorie'); 
 
   // variables
   let currentIndex = 0;
   //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
   cardWidth = 200; // largeur card
 
+  
   // bornage du defilement
   const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
   const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
@@ -138,6 +161,71 @@ function carousselHeader () {
   prevBtn.addEventListener('click', goToPrevSlide);
   nextBtn.addEventListener('click', goToNextSlide);
 }
+
+// ----------------- CAROUSSEL BOISSONS -------------------------
+
+function carousselBoissons() {
+  
+  // selection des elements
+  const carousel = document.querySelector('.carousel-boisson');
+  const cards = document.querySelectorAll('.cardBoisson');
+  
+  const prevBtn = document.querySelector('.prevBoisson');
+  const nextBtn = document.querySelector('.nextBoisson'); 
+
+  // variables
+  let currentIndex = 0;
+  //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
+  cardWidth = 200; // largeur card
+
+  
+  // bornage du defilement
+  const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
+  const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
+
+  /**
+   * role : fonction pour defiler les cards/ Translation d'une longueur egale à la positon de la card * la largeur de la card
+   * param : no
+   * return : no 
+   */
+  const updateCarousel = () => {
+    carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    nextBtn.disabled = isLastSlide(); // Désactiver le bouton "Suivant" à la fin
+    prevBtn.disabled = isFirstSlide(); // Désactiver le bouton "Précédent" au début (optionnel)
+  };
+
+  /**
+   * role : faire defiler ou pas le caroussel (precedent)
+   * param : no
+   * return : no
+   * algo : au click si defilement possible decrementte l'index et effectue la translation
+   */
+  const goToPrevSlide = () => {
+    if (!isFirstSlide()) {
+      currentIndex--;
+      updateCarousel();
+    }
+  };
+
+  /**
+   * role : faire defiler ou pas le caroussel (precedent)
+   * param : no
+   * return : no
+   * algo : au click si defilement possible incremente l'index et effectue la translation
+   */
+  const goToNextSlide = () => {
+    if (!isLastSlide()) {
+      currentIndex++;
+      updateCarousel();
+    }
+  };
+
+  // ecouteurs evenements
+  prevBtn.addEventListener('click', goToPrevSlide);
+  nextBtn.addEventListener('click', goToNextSlide);
+}
+
+
 // ---------- AFFICHAGE CARDS CATEGORIE --------------------------
 
 /**
@@ -166,7 +254,8 @@ function afficherCardsCategorie(datas){
   // ajout au html
   zone.innerHTML = template;
 
-  // --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
+// --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
+
 const cardsCategorie = document.querySelectorAll('.cardCategorie');
 cardsCategorie.forEach(card => {
   card.addEventListener('click', (event) => {
@@ -205,7 +294,7 @@ function afficherCardsProduit(datas, categorie){
                 <img src="../images/${card.image}" alt="menu">
             </div>
             <p>${card.nom}</p>
-            <p>${card.prix} €</p>
+            <p class="priceMenu">${card.prix}</p><p>€</p>
           </div>
         </article>
       `;    
@@ -213,7 +302,242 @@ function afficherCardsProduit(datas, categorie){
  
   // ajout au html
   zone.innerHTML = templateTitre + cardPoduit;
+
+// --------- ECOUTEUR EVENEMENT CARD PRODUIT apres ajout du DOM template------------------
+
+// faire la partie : hors menu pour ajouter produit au panier
+
+const cardsProduit = document.querySelectorAll('.cardProduit');
+cardsProduit.forEach(card => {
+  card.addEventListener('click', (event) => {
+    const produit = event.currentTarget;
+    if (categorie == "menus") {
+      afficherModaleTailleMenu(produit)
+    
+    } else {
+      console.log("ajouter produit à commande")
+    }
+  });
+});
+}
+
+// -------------- MODALES MENU ------------------------------------------
+
+/**
+ * role : affiche la modale menu
+ * param : htmlElement : le produit selectionné
+ */
+function afficherModaleTailleMenu(produit){
+  // traitement des données
+  const name = produit.querySelector('p').textContent
+  const price = produit.querySelector('.priceMenu').textContent
+  const urlImage =  produit.querySelector('img').src
+
   
+  let zone = document.querySelector(".modaleTailleMenu")
+  let template= 
+  `
+    <!-- nav-->
+    <nav >
+      <div id="croixImageMenu">
+        <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+      </div>
+    </nav>
+    <!-- titre -->
+    <div>
+        <h4>Une grosse fin ?</h4>
+        <p>Le ${name} comprend un sandwich, une frite et une boisson</p>
+    </div>
+    <!-- taille produits -->
+    <section>
+        <article class="menuNormal">
+            <div>
+                 <img src="${urlImage}" alt="menu ${name}">
+            </div>
+            <p>${name}</p>
+            <span hidden>${price}</span>
+        </article>
+        <article class="menuMax">
+            <div>
+                <img src="${urlImage}" alt="menu ${name}">
+            </div>
+            <p>${name} Maxi</p>
+            <p>+ 0.50 €</p>
+            <span hidden>${price}</span>
+        </article>
+    </section>
+    <div>
+        <button id="btnModalTailleMenu" >Etape suivante</button>
+    </div>
+  `
+  zone.innerHTML = template
+  // classe afficher modale
+  togglerModale(".modaleTailleMenu")
+  // fermeture modale par la croix
+  const croix = document.getElementById("croixImageMenu");
+  croix.addEventListener("click", function(){
+    togglerModale(".modaleTailleMenu")
+  });
+
+  // -----  ecouteurs evenement dans la modale taille menu ------
+
+  //ajouter le choix taille normale à la commande
+  const menuNormal = document.querySelector(".menuNormal");
+  menuNormal.addEventListener("click", (event) => {
+    let produit = event.currentTarget;
+    ajouterMenuNormalCommande(produit);
+  });
+
+  // ajouter le choix taille max à la commande
+  const menuMax = document.querySelector(".menuMax");
+  menuMax.addEventListener("click", (event) => {
+    let produit = event.currentTarget;
+    ajouterMenuMaxCommande(produit);
+  });
+
+  // boutton etape suivante
+  const btnModalTailleMenu = document.getElementById("btnModalTailleMenu");
+  btnModalTailleMenu.addEventListener("click", () => {
+    togglerModale(".modaleTailleMenu");
+   afficherModaleFrite(produit);
+  });
+}
+
+// ------ fct preparation commande --------------
+
+/**
+ * role : ajouter menu normal à la commande
+ * param : htmlElement : produit selectionné
+ */
+function ajouterMenuNormalCommande(produit) {
+  menu = produit.querySelector('p').textContent;
+  priceMenu = produit.querySelector('span').textContent;
+  priceMenu = parseFloat(priceMenu)
+  commande.menu= menu;
+  commande.priceMenu= priceMenu;
+  console.log(commande);
+  return commande;
+}
+
+/**
+ * role : ajouter menu max à la commande
+ * param : htmlElement : produit selectionné
+ */
+function ajouterMenuMaxCommande(produit) {
+  menu = produit.querySelector('p').textContent;
+  priceMenu = produit.querySelector('span').textContent;
+  priceMenu = parseFloat(priceMenu)+ 0.5;
+  commande.menu= menu;
+  commande.priceMenu= priceMenu;
+  console.log(commande);
+  return commande;
+}
+
+// ----------------- MODAL FRITE -----------------------
+
+/**
+ * role : affiche la modale frite
+ * param : HTMLelement : le produit menu en cours
+ */
+function afficherModaleFrite(produit){
+  // classe afficher modale
+  togglerModale(".modaleFrite")
+
+  // fermeture modale par la croix
+  const croix = document.getElementById("croixImageFrite");
+  croix.addEventListener("click", function(){
+    togglerModale(".modaleFrite")
+  });
+
+  // retour vers modale menu
+  const btnRetour = document.getElementById("btnRetourFrite");
+  btnRetour.addEventListener("click", function(){
+    togglerModale(".modaleFrite")
+    afficherModaleTailleMenu(produit)
+  });
+
+// -----  ecouteurs evenement dans la modale frite ------
+
+  //ajouter frite à la commande
+  const friteModal = document.querySelector(".friteModal");
+  friteModal.addEventListener("click", (event) => {
+    let produit = event.currentTarget;
+    let frite = produit.querySelector('p').textContent;
+    commande.frite = frite; 
+    console.log(commande)
+  });
+
+  // ajouter le choix taille max à la commande
+  const potatoesModal = document.querySelector(".potatoesModal");
+  potatoesModal.addEventListener("click", (event) => {
+    let produit = event.currentTarget;
+    let frite = produit.querySelector('p').textContent;
+    commande.frite = frite; 
+    console.log(commande)
+  });
+
+  // boutton etape suivante
+  const btnModalTailleMenu = document.getElementById("btnModalFrite");
+  btnModalTailleMenu.addEventListener("click", () => {
+    togglerModale(".modaleFrite");
+    afficherModaleBoisson(produit);
+  });
+
+}
+
+// --------------- MODAL BOISSONS ---------------------------------
+
+
+function afficherModaleBoisson() {
+  togglerModale(".modaleBoissons");
+  console.log(commande);
+
+    // 1. recuperer les données
+    datasBoissons()
+     // 3. acctionner le carousel
+     carousselBoissons();
+
+}
+
+
+/**
+ * role : afficher les cards boisson
+ * param : {array} tableau de données
+ * return : no
+ */
+function afficherCardsBoissons(datas){
+  console.log(datas.boissons);
+  let zone = document.querySelector(".carousel-boisson") // ciblage
+  let template = ''; // declaration
+  // extraction des données et construction card / template
+  datas.boissons.forEach(card=>{
+      template += 
+      `
+      <article class="cardBoisson">
+        <div>
+          <div>
+              <img src="../images/${card.image}" alt="menu">
+          </div>
+          <p>${card.nom}</p>
+        </div>
+      </article>
+      `;    
+  });  
+  
+  // ajout au html
+  zone.innerHTML = template;
+}
+
+// ----------- OUVERTURE ET FERMETURE MODALES --------------------
+
+/**
+ * role : ajoute la classe pour affichage de la modale ou l'enleve
+ * param : string le nom de la class au forma .nomdelaclasse
+ * return : no
+ */
+function togglerModale(classModal) {
+  const modale = document.querySelector(classModal);
+  modale.classList.toggle("modal-hidden");
 }
 
 // ------- FORM CHEVALET ----------------------------------------------
@@ -251,7 +575,6 @@ function afficherNumeroChevalet(urlParams){
   const nombreChevalet = urlParams.get('nombreChevalet'); // recuperation parametre
   if(nombreChevalet) { 
     let zone = document.querySelector(".surplace")
-    console.log(zone)
     let template=
     `
       <p>Numero Chevalet : ${nombreChevalet}</div>
@@ -260,26 +583,6 @@ function afficherNumeroChevalet(urlParams){
   }
 }
 
-function verifierValeursChevalet() {
-  const nombre1 = document.getElementById('nombre1').value;
- 
-console.log(nombre1.value)
-/*
-  const nombre2 = document.getElementById('nombre2').value;
-  const nombre3 = document.getElementById('nombre3').value;  
 
-
-  // Vérification si les valeurs sont des nombres entre 0 et 9
-  if (isNaN(nombre1) || nombre1 < 0 || nombre1 > 9 ||
-      isNaN(nombre2) || nombre2 < 0 || nombre2 > 9 ||
-      isNaN(nombre3) || nombre3 < 0 || nombre3 > 9) {
-    alert('Veuillez entrer des nombres entre 0 et 9 inclus.');
-    return false; // Empêche la soumission du formulaire (si utilisé dans un formulaire)
-  }
-*/
-  // Si toutes les valeurs sont correctes, vous pouvez effectuer d'autres actions ici
-  console.log('Toutes les valeurs sont correctes');
-  return true; // Permet la soumission du formulaire (si utilisé dans un formulaire)
-}
 
   

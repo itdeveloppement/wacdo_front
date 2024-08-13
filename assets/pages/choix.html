@@ -14,16 +14,16 @@
 <body>
     <!-- SECTION HEADER CAROUSSEL -->
     <header>
-        <div class="carousel">
+        <div class="carouselCategorie">
             <div>
-                <img class="prev" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+                <img class="prevCategorie" src="../images/images/fleche-slider.png" alt="Fleche precedent">
             </div>
             <div class="carousel-categorie">
                 <!-- fct js afficherCardsCategorie -->
             </div>
 
             <div>
-                <img class="next" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+                <img class="nextCategorie" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
             </div>
         </div>
     </header>
@@ -32,6 +32,83 @@
         <section class="listeProduits flex">
             <!-- fct js afficherCardsProduits -->
         </section>
+        <!-- SECTION MODALE TAILLE MENU -->
+        <section class="modaleTailleMenu modal-hidden">
+             <!-- fct js afficherModaleTailleMenu -->
+        </section>
+        <!-- SECTION MODALE FRITE -->
+        <section class="modaleFrite modal-hidden">
+            <nav>
+                <ul>
+                    <li>
+                      <button id="btnRetourFrite">Retour</button>
+                    </li>
+                    <li> 
+                      <div id="croixImageFrite">
+                        <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+                      </div>
+                    </li>
+                </ul>
+              </nav>
+              <!-- titre -->
+              <div>
+                  <h4>Choisissez votre accompagnement</h4>
+                  <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+              </div>
+              <!-- frite / potatoes -->
+              <section>
+                  <article class="friteModal">
+                      <div>
+                           <img src="../images/frites/GRANDE_FRITE.png" alt="barquette de grande frite">
+                      </div>
+                      <p>Frites</p>
+                  </article>
+                  <article class="potatoesModal">
+                      <div>
+                           <img src="../images/frites/GRANDE_POTATOES.png" alt="barquette de grande frite potetoes">
+                      </div>
+                      <p>Potatoes</p>
+                  </article>
+              </section>
+              <div>
+                  <button id="btnModalFrite">Etape suivante</button>
+              </div>
+        </section>
+        <!-- SECTION MODALE BOISSON -->
+        <section class="modaleboissons modal-hidden">
+            <nav>
+                <ul>
+                    <li>
+                      <button id="btnRetourFrite">Retour</button>
+                    </li>
+                    <li> 
+                      <div id="croixImageFrite">
+                        <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+                      </div>
+                    </li>
+                </ul>
+              </nav>
+              <!-- titre -->
+              <div>
+                  <h4>Choisissez votre accompagnement</h4>
+                  <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+              </div>
+              <!-- caroussel boissons -->
+            <div class="carouselBoisson">
+                <div>
+                    <img class="prevBoisson" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+                </div>
+                <div class="carousel-boisson">
+                    <!-- fct js afficherCardBoisson -->
+                </div>
+                <div>
+                    <img class="nextBoisson" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+                </div>
+            </div>
+            <div>
+                <button id="btnModalBoisson">Ajouter le menu à ma commande</button>
+            </div>
+        </section>   
         <!-- SECTION COMMANDE EN COURS -->
         <section class="sectionCommande">
             <div>
