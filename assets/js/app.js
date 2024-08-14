@@ -1,7 +1,7 @@
 
 let commandeProduit = [];
 let commandeMenus=[];
-let commandeMenu = [];
+
 
 // -------------- AU CHARGEMENT --------------------
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     datasCategorie();
     carousselCategorie ();
     afficherNumeroChevalet(urlParams);
-    afficehrMontantCommande(0)
+    afficherMontantCommande(0)
     datasProduits('menus')
   }
 
@@ -90,11 +90,11 @@ function datasProduits(categorie) {
  * param : no
  * return :array : liste des produits
  */
-function datasBoissons() {
+function datasBoissons(commandeMenu) {
   fetch('../../json/produits.json')
     .then(response => response.json())
     .then(datas => {
-    afficherCardsBoissons(datas)
+    afficherCardsBoissons(datas, commandeMenu)
    
     })
     .catch(error => {
@@ -333,9 +333,8 @@ let produit = null;
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleTailleMenu(produit){
-
-  // commandeMenu = afficherMenuCommande(commandeMenu);
-
+  let commandeMenu = [];
+  
   console.log(commandeMenu);
   // ouverture modale menu
   // togglerModale(".modaleTailleMenu");
@@ -394,7 +393,7 @@ function afficherModaleTailleMenu(produit){
   menuNormal.addEventListener("click", (event) => {
     messageErreur (".erreurtTailleMenu")
     let produit = event.currentTarget;
-    ajouterMenuNormalCommande(produit);
+    ajouterMenuNormalCommande(produit, commandeMenu);
   
 
   });
@@ -404,7 +403,7 @@ function afficherModaleTailleMenu(produit){
   menuMax.addEventListener("click", (event) => {
     messageErreur (".erreurtTailleMenu")
     let produit = event.currentTarget;
-    ajouterMenuMaxCommande(produit);
+    ajouterMenuMaxCommande(produit, commandeMenu);
   });
 
   // fermeture modale par la croix
@@ -421,7 +420,7 @@ function afficherModaleTailleMenu(produit){
     if(commandeMenu.menu){
     togglerModale(".modaleFrite")
     togglerModale(".modaleTailleMenu");
-    afficherModaleFrite(produit);
+    afficherModaleFrite(produit, commandeMenu);
     // Suppression de l'écouteur après le premier clic
     btnModalTailleMenu.removeEventListener('click', arguments.callee);
     } else {
@@ -438,7 +437,7 @@ function afficherModaleTailleMenu(produit){
  * role : ajouter menu normal à la commande
  * param : htmlElement : produit selectionné
  */
-function ajouterMenuNormalCommande(produit) {
+function ajouterMenuNormalCommande(produit, commandeMenu) {
   menu = produit.querySelector('p').textContent;
   priceMenu = produit.querySelector('span').textContent;
   priceMenu = parseFloat(priceMenu)
@@ -451,7 +450,7 @@ function ajouterMenuNormalCommande(produit) {
  * role : ajouter menu max à la commande
  * param : htmlElement : produit selectionné
  */
-function ajouterMenuMaxCommande(produit) {
+function ajouterMenuMaxCommande(produit, commandeMenu) {
   menu = produit.querySelector('p').textContent;
   priceMenu = produit.querySelector('span').textContent;
   priceMenu = parseFloat(priceMenu)+ 0.5;
@@ -466,7 +465,7 @@ function ajouterMenuMaxCommande(produit) {
  * role : affiche la modale frite
  * param : HTMLelement : le produit menu en cours
  */
-function afficherModaleFrite(produit){
+function afficherModaleFrite(produit, commandeMenu){
   
   let zone = document.querySelector(".modaleFrite")
 
@@ -542,7 +541,7 @@ function afficherModaleFrite(produit){
   btnModalFrite.addEventListener("click", () => {
     if(commandeMenu.frite){
       togglerModale(".modaleBoissons");
-      afficherModaleBoisson(produit);
+      afficherModaleBoisson(produit, commandeMenu);
       togglerModale(".modaleFrite")
     
       // afficherModaleFrite(produit);
@@ -575,53 +574,53 @@ function afficherModaleFrite(produit){
 
 // --------------- MODAL BOISSONS ---------------------------------
 
-function afficherModaleBoisson(produit) {
+function afficherModaleBoisson(produit, commandeMenu) {
 
   let zone = document.querySelector(".modaleBoissons")
   let template = 
     `
       <nav>
-                <ul>
-                    <li>
-                      <button id="btnRetourBoisson">Retour</button>
-                    </li>
-                    <li> 
-                      <div id="croixImageBoisson">
-                        <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
-                      </div>
-                    </li>
-                </ul>
-              </nav>
-              <!-- titre -->
-              <div>
-                  <h4>Choisissez votre accompagnement</h4>
-                  <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+        <ul>
+            <li>
+              <button id="btnRetourBoisson">Retour</button>
+            </li>
+            <li> 
+              <div id="croixImageBoisson">
+                <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
               </div>
-              <!-- caroussel boissons -->
-            <div class="carouselBoisson">
-                <div>
-                    <img class="prevBoisson" src="../images/images/fleche-slider.png" alt="Fleche precedent">
-                </div>
-                <div class="carousel-boisson">
-                    <!-- fct js afficherCardBoisson -->
-                </div>
-                <div>
-                    <img class="nextBoisson" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
-                </div>
-            </div>
-            <div class="erreurBoisson modal-hidden">
-              <p>Vous devez selectionner une boisson</p>
-            </div>
-            <div>
-                <button id="btnModalAjouter">Ajouter le menu à ma commande</button>
-            </div>
+            </li>
+        </ul>
+      </nav>
+      <!-- titre -->
+      <div>
+          <h4>Choisissez votre accompagnement</h4>
+          <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+      </div>
+      <!-- caroussel boissons -->
+      <div class="carouselBoisson">
+          <div>
+              <img class="prevBoisson" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+          </div>
+          <div class="carousel-boisson">
+              <!-- fct js afficherCardBoisson -->
+          </div>
+          <div>
+              <img class="nextBoisson" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+          </div>
+      </div>
+      <div class="erreurBoisson modal-hidden">
+        <p>Vous devez selectionner une boisson</p>
+      </div>
+      <div>
+          <button id="btnModalAjouter">Ajouter le menu à ma commande</button>
+      </div>
     `
   zone.innerHTML = template;
 
   // classe afficher modale
   // togglerModale(".modaleBoissons");
 
-  datasBoissons()
+  datasBoissons(commandeMenu)
   carousselBoissons();
 
   // -----  ecouteurs evenement dans la modale boisson ------
@@ -647,6 +646,7 @@ function afficherModaleBoisson(produit) {
   // ajouter menu à la commande
   const btnAjouter = document.getElementById("btnModalAjouter");
   btnAjouter.addEventListener("click", function(){
+    console.log(commandeMenu)
     if(commandeMenu.boisson){
       togglerModale(".modaleBoissons");
       // afficherModaleBoisson(produit)
@@ -658,12 +658,14 @@ function afficherModaleBoisson(produit) {
   }
   });
 }
+
+
 /**
  * role : afficher les cards boisson
  * param : {array} tableau de données
  * return : no
  */
-function afficherCardsBoissons(datas){
+function afficherCardsBoissons(datas, commandeMenu){
   let zone = document.querySelector(".carousel-boisson") // ciblage
   let template = ''; // declaration
   // extraction des données et construction card / template
@@ -697,26 +699,24 @@ cardsBoisson.forEach(card => {
 }
 
 
-// ---------------- COMMANDE ------------------------------------
+// ---------------- COMMANDE -----------------------
 
 // PROBLEME : utilisation d'une copie du trableau me retourne un tableau vide 
 //    const copieCommandeMenu = { ...commandeMenu };
 //    commandeMenus.push(copieCommandeMenu);
 
+// -------- affichage commande --------------------
+
+/**
+ * role : affiche la commande pour les menus
+ * @param {*} commandeMenu 
+ * @returns 
+ */
 function afficherMenuCommande (commandeMenu) {
-  console.log(commandeMenu)
-  console.log(commandeMenus)
-
-
-
   // Ajouter la copie au tableau
-  /commandeMenus.push(commandeMenu);
+  commandeMenus.push(commandeMenu);
   // commandeMenus.push([...commandeMenu]);
  
-  console.log(commandeMenus)
-  console.log(commandeMenu)
-
-
   let zone = document.getElementById("commandeMenu")
   let template = ''; // declaration
   // extraction des données et construction card / template
@@ -724,21 +724,28 @@ function afficherMenuCommande (commandeMenu) {
       template += 
       `
         <div>
-            <p>1</p>
-            <p>${menu.menu ? menu.menu : ''}</p>
-            <p>${menu.frite ? menu.frite : ''}</p>
-            <p>${menu.boisson ? menu.boisson : ''}</p>
-            <p>${menu.priceMenu ? menu.priceMenu : ''} €</p>
+            <div>
+                <p class="cmd-nomProduit">${menu.menu ? menu.menu : ''}</p>
+                <p>${menu.frite ? menu.frite : ''}</p>
+                <p>${menu.boisson ? menu.boisson : ''}</p>
+                <p>${menu.priceMenu ? menu.priceMenu : ''} €</p>
+            </div>
+            <div class="poubelleImage">
+                <img src="../images/images/trash.png" alt="poubelle">
+            </div>
         </div>
       `;    
   });  
 
   zone.innerHTML = template;
 
+  // Ecouteur d'événement à la zone (element) pour suppression produit
+    zone.addEventListener('click', supprimerProduit);
+
+  calculerMontantCommandeMenus (commandeMenus)
+
   return []; // Retourne un tableau vide
 }
-
-
 
 /**
  * role : afficher la commande d'un produit individuel
@@ -753,25 +760,22 @@ function afficherProduitCommande(produit) {
   produitTemp.price = price;
 
   commandeProduit.push(produitTemp)
-  console.log(commandeProduit)
 
-
-let zone = document.getElementById("commandeProduit")
-  let template = ''; // declaration
-  // extraction des données et construction card / template
-  commandeProduit.forEach(produit=>{
-      template += 
-      `
-        <div>
-            <p>1</p>
-            <p class="cmd-nomProduit">${produit.nom}</p>
-            <p>${produit.price} €</p>
-             <div class="poubelleImage">
-               <img src="../images/images/trash.png" alt="poubelle">
-            </div>
-        </div>
-      `;    
-  });
+  let zone = document.getElementById("commandeProduit")
+    let template = ''; // declaration
+    // extraction des données et construction card / template
+    commandeProduit.forEach(produit=>{
+        template += 
+        `
+          <div>
+              <p class="cmd-nomProduit">${produit.nom}</p>
+              <p>${produit.price} €</p>
+              <div class="poubelleImage">
+                <img src="../images/images/trash.png" alt="poubelle">
+              </div>
+          </div>
+        `;    
+    });
 
  zone.innerHTML = template;
 
@@ -779,8 +783,10 @@ let zone = document.getElementById("commandeProduit")
 zone.addEventListener('click', supprimerProduit);
 
 // calculer et afficher montant de la commande
-calculerMontantCommande (commandeProduit)
+calculerMontantCommandeProduit (commandeProduit)
 };
+
+// -------- supression produit ou menus commande --------------------
 
 /**
  * role :suprrimer un produit de la commande
@@ -789,8 +795,9 @@ calculerMontantCommande (commandeProduit)
 function supprimerProduit(event) {
 
   const parentDiv = event.target.closest('.poubelleImage').parentNode; // Trouver la div parente
+  console.log(parentDiv)
   const nomProduit = parentDiv.querySelector('.cmd-nomProduit').textContent; // Récupérer l'id du produit
-
+  console.log(nomProduit)
   // Trouver l'index du produit dans le tableau
   const index = commandeProduit.findIndex(produit => produit.nom === nomProduit);
 
@@ -800,27 +807,84 @@ function supprimerProduit(event) {
   // Supprimer l'élément du tableau
   commandeProduit.splice(index, 1); // (1 = nb element à suprimer)
   console.log(commandeProduit)
-  calculerMontantCommande (commandeProduit)
+  calculerMontantCommandeProduit (commandeProduit)
+}
+
+// ------------ calculer et afficher montant commande -----------------
+
+/**
+ * role : calaculer le montant de la commande produits individuel
+ * param : array : liste des produits individuels de la commande
+ */
+function calculerMontantCommandeProduit (commandeProduit) {
+  console.log(commandeProduit)
+  let montanProduit = 0;
+  commandeProduit.forEach(produit => {
+    montanProduit +=  parseFloat(produit.price);
+})
+console.log(montanProduit)
+param = "produits";
+sommeCommande(montanProduit, param)
+
 }
 
 /**
- * role : calaculer le montant de la commande
- * param : array : liste des produits individuels de la commande
+ * role : calaculer le montant de la commande menus
+ * param : array : liste menus selectionnés
  */
-function calculerMontantCommande (commandeProduit) {
-  console.log(commandeProduit)
-  let montant = 0;
-  commandeProduit.forEach(produit => {
-    montant +=  parseFloat(produit.price);
+function calculerMontantCommandeMenus (commandeMenus) {
+  console.log(commandeMenus)
+  let montantMenus = 0;
+  commandeMenus.forEach(menu => {
+    console.log("test")
+    console.log(menu.priceMenu)
+    montantMenus +=  parseFloat(menu.priceMenu);
 })
+param = "menus";
+sommeCommande(montantMenus, param)
+console.log(montantMenus)
 
-afficehrMontantCommande(montant)
-  
+
 }
+
+/**
+ * role : faire la somme du montant commande menu et montant commande produits
+ * @param {*} montant 
+ * @param {*} param soit "menus" soit "produits"
+ */
+let tabMontant = {
+  "menus": 0,
+  "produits": 0,
+};
+function sommeCommande(montant, param) {
+  if (param === "menus") {
+    tabMontant[param] = montant
+  } else (param === "produits"){
+    tabMontant[param] = montant
+  }
+console.log(tabMontant)
+}
+/*
+function calculerMontantTotalCommande(commandeProduits, commandeMenus) {
+  const montantProduits = calculerMontantCommandeProduit(commandeProduits);
+  const montantMenus = calculerMontantCommandeMenus(commandeMenus);
+
+  if (!montantProduits) {
+    montantProduits =0;
+  }
+  if (!montantProduits) {
+    montantMenus =0;
+  }
+
+  const montantTotal = montantProduits + montantMenus;
+  return montantTotal;
+}
+*/
+
 /**
  * role : afficher le prix de la commande
  */
-function afficehrMontantCommande (montant) {
+function afficherMontantCommande (montant) {
   let zone = document.getElementById("commandeMontant")
   let template= 
     `
