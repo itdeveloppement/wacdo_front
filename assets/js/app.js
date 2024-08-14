@@ -1,4 +1,5 @@
 let commandeMenu = [];
+let commandeProduit = [];
 
 
 // -------------- AU CHARGEMENT --------------------
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     datasCategorie();
     carousselCategorie ();
     afficherNumeroChevalet(urlParams);
+    afficehrMontantCommande(0)
     datasProduits('menus')
   }
 
@@ -294,7 +296,7 @@ function afficherCardsProduit(datas, categorie){
             <div>
                 <img src="../images/${card.image}" alt="menu">
             </div>
-            <p>${card.nom}</p>
+            <p class="nomProduit">${card.nom}</p>
             <p class="priceMenu">${card.prix}</p><p>€</p>
           </div>
         </article>
@@ -315,10 +317,9 @@ cardsProduit.forEach(card => {
     if (categorie == "menus") {
       afficherModaleTailleMenu(produit);
 
-      
-    
     } else {
       console.log("ajouter produit à commande")
+      afficherProduitCommande(produit)
     }
   });
 });
@@ -523,7 +524,7 @@ function afficherModaleBoisson(produit) {
     event.stopPropagation();
     console.log(commandeMenu)
     afficherModaleBoisson(produit)
-    afficherCommande (commandeMenu) 
+    afficherMenuCommande (commandeMenu) 
     
   });
 }
@@ -567,7 +568,7 @@ cardsBoisson.forEach(card => {
 // ---------------- COMMANDE ------------------------------------
 
 let commandeMenus=[];
-function afficherCommande (commandeMenu) {
+function afficherMenuCommande (commandeMenu) {
  
  
   commandeMenus.push(commandeMenu);
@@ -591,6 +592,102 @@ function afficherCommande (commandeMenu) {
   });  
 
   zone.innerHTML = template;
+
+}
+
+
+
+/**
+ * role : afficher la commande d'un produit individuel
+ * @param {*} produit produit selectionnée
+ */
+function afficherProduitCommande(produit) {
+  let nom = produit.querySelector('.nomProduit').textContent
+  let price = produit.querySelector('.priceMenu').textContent
+
+  let produitTemp = [];
+  produitTemp.nom = nom;
+  produitTemp.price = price;
+
+  commandeProduit.push(produitTemp)
+  console.log(commandeProduit)
+
+
+let zone = document.getElementById("commandeProduit")
+  let template = ''; // declaration
+  // extraction des données et construction card / template
+  commandeProduit.forEach(produit=>{
+      template += 
+      `
+        <div>
+            <p>1</p>
+            <p class="cmd-nomProduit">${produit.nom}</p>
+            <p>${produit.price} €</p>
+             <div class="poubelleImage">
+               <img src="../images/images/trash.png" alt="poubelle">
+            </div>
+        </div>
+      `;    
+  });
+
+ zone.innerHTML = template;
+
+// Ecouteur d'événement à la zone (element) pour suppression produit
+zone.addEventListener('click', supprimerProduit);
+
+// calculer et afficher montant de la commande
+calculerMontantCommande (commandeProduit)
+};
+
+/**
+ * role :suprrimer un produit de la commande
+ * @param {role } event (element selectionné)
+ */
+function supprimerProduit(event) {
+
+  const parentDiv = event.target.closest('.poubelleImage').parentNode; // Trouver la div parente
+  const nomProduit = parentDiv.querySelector('.cmd-nomProduit').textContent; // Récupérer l'id du produit
+
+  // Trouver l'index du produit dans le tableau
+  const index = commandeProduit.findIndex(produit => produit.nom === nomProduit);
+
+  // Supprimer l'élément du DOM
+  parentDiv.remove();
+
+  // Supprimer l'élément du tableau
+  commandeProduit.splice(index, 1); // (1 = nb element à suprimer)
+  console.log(commandeProduit)
+  calculerMontantCommande (commandeProduit)
+}
+
+/**
+ * role : calaculer le montant de la commande
+ * param : array : liste des produits individuels de la commande
+ */
+function calculerMontantCommande (commandeProduit) {
+  console.log(commandeProduit)
+  let montant = 0;
+  commandeProduit.forEach(produit => {
+    montant +=  parseFloat(produit.price);
+})
+
+afficehrMontantCommande(montant)
+  
+}
+/**
+ * role : afficher le prix de la commande
+ */
+function afficehrMontantCommande (montant) {
+  let zone = document.getElementById("commandeMontant")
+  let template= 
+    `
+    <div>          
+        <p>TOTAL</p>
+        <p>(ttc)</p>
+    </div>
+    <p>${montant} €</p>
+    `
+  zone.innerHTML = template
 
 }
 
