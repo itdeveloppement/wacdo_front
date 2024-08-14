@@ -1,7 +1,5 @@
-
 let commandeProduit = [];
 let commandeMenus=[];
-
 
 // -------------- AU CHARGEMENT --------------------
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
-   
     datasCategorie();
     carousselCategorie ();
     afficherNumeroChevalet(urlParams);
@@ -698,12 +695,7 @@ cardsBoisson.forEach(card => {
 
 }
 
-
 // ---------------- COMMANDE -----------------------
-
-// PROBLEME : utilisation d'une copie du trableau me retourne un tableau vide 
-//    const copieCommandeMenu = { ...commandeMenu };
-//    commandeMenus.push(copieCommandeMenu);
 
 // -------- affichage commande --------------------
 
@@ -713,9 +705,9 @@ cardsBoisson.forEach(card => {
  * @returns 
  */
 function afficherMenuCommande (commandeMenu) {
-  // Ajouter la copie au tableau
+ 
+  console.log(commandeMenu)
   commandeMenus.push(commandeMenu);
-  // commandeMenus.push([...commandeMenu]);
  
   let zone = document.getElementById("commandeMenu")
   let template = ''; // declaration
@@ -725,12 +717,12 @@ function afficherMenuCommande (commandeMenu) {
       `
         <div>
             <div>
-                <p class="cmd-nomProduit">${menu.menu ? menu.menu : ''}</p>
+                <p class="cmd-nomProduitM">${menu.menu ? menu.menu : ''}</p>
                 <p>${menu.frite ? menu.frite : ''}</p>
                 <p>${menu.boisson ? menu.boisson : ''}</p>
                 <p>${menu.priceMenu ? menu.priceMenu : ''} €</p>
             </div>
-            <div class="poubelleImage">
+            <div class="poubelleImageM">
                 <img src="../images/images/trash.png" alt="poubelle">
             </div>
         </div>
@@ -738,13 +730,14 @@ function afficherMenuCommande (commandeMenu) {
   });  
 
   zone.innerHTML = template;
-
   // Ecouteur d'événement à la zone (element) pour suppression produit
-    zone.addEventListener('click', supprimerProduit);
+    zone.addEventListener('click',(event) => {
+      console.log(commandeMenus)
+      supprimerMenu(event)
+  });
 
   calculerMontantCommandeMenus (commandeMenus)
-
-  return []; // Retourne un tableau vide
+  // return []; // Retourne un tableau vide
 }
 
 /**
@@ -806,8 +799,31 @@ function supprimerProduit(event) {
 
   // Supprimer l'élément du tableau
   commandeProduit.splice(index, 1); // (1 = nb element à suprimer)
-  console.log(commandeProduit)
-  calculerMontantCommandeProduit (commandeProduit)
+  console.log(commandeProduit);
+  calculerMontantCommandeProduit (commandeProduit);
+}
+
+/**
+ * role :suprrimer un menu de la commande
+ * @param {role } event (element selectionné)
+ */
+function supprimerMenu(event) {
+
+  const parentDiv = event.target.closest('.poubelleImageM').parentNode; // Trouver la div parente
+  console.log(parentDiv)
+  const nomProduit = parentDiv.querySelector('.cmd-nomProduitM').textContent; // Récupérer l'id du produit
+  console.log(nomProduit)
+  console.log(commandeMenus);
+  // Trouver l'index du produit dans le tableau
+  const index = commandeMenus.findIndex(menu => menu.nom === nomProduit);
+  console.log(index);
+  // Supprimer l'élément du DOM
+  parentDiv.remove();
+  console.log(commandeMenus);
+  // Supprimer l'élément du tableau
+  commandeMenus.splice(index, 1); // (1 = nb element à suprimer)
+  
+  calculerMontantCommandeMenus (commandeMenus);
 }
 
 // ------------ calculer et afficher montant commande -----------------
@@ -844,7 +860,6 @@ param = "menus";
 sommeCommande(montantMenus, param)
 console.log(montantMenus)
 
-
 }
 
 /**
@@ -857,29 +872,18 @@ let tabMontant = {
   "produits": 0,
 };
 function sommeCommande(montant, param) {
-  if (param === "menus") {
+  console.log(param)
+  if (param == "menus") {
     tabMontant[param] = montant
-  } else (param === "produits"){
+  } else if (param == "produits"){
     tabMontant[param] = montant
-  }
-console.log(tabMontant)
-}
-/*
-function calculerMontantTotalCommande(commandeProduits, commandeMenus) {
-  const montantProduits = calculerMontantCommandeProduit(commandeProduits);
-  const montantMenus = calculerMontantCommandeMenus(commandeMenus);
-
-  if (!montantProduits) {
-    montantProduits =0;
-  }
-  if (!montantProduits) {
-    montantMenus =0;
   }
 
-  const montantTotal = montantProduits + montantMenus;
-  return montantTotal;
+  let somme = tabMontant.menus + tabMontant.produits
+  afficherMontantCommande (somme)
+
+console.log(somme)
 }
-*/
 
 /**
  * role : afficher le prix de la commande
@@ -895,7 +899,6 @@ function afficherMontantCommande (montant) {
     <p>${montant} €</p>
     `
   zone.innerHTML = template
-
 }
 
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
