@@ -314,8 +314,7 @@ cardsProduit.forEach(card => {
     if (categorie == "menus") {
       afficherModaleTailleMenu(produit);
 
-      // ouverture modale menu
-      togglerModale(".modaleTailleMenu");
+      
     
     } else {
       console.log("ajouter produit à commande")
@@ -325,19 +324,22 @@ cardsProduit.forEach(card => {
 }
 
 // -------------- MODALES MENU ------------------------------------------
-
+let produit = null;
 /**
  * role : affiche la modale menu
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleTailleMenu(produit){
+console.log(produit)
+  // ouverture modale menu
+  togglerModale(".modaleTailleMenu");
 
   // traitement des données
+
   const name = produit.querySelector('p').textContent
   const price = produit.querySelector('.priceMenu').textContent
   const urlImage =  produit.querySelector('img').src
 
-  
   let zone = document.querySelector(".modaleTailleMenu")
   let template= 
   `
@@ -378,6 +380,8 @@ function afficherModaleTailleMenu(produit){
 
   // -----  ecouteurs evenement dans la modale taille menu ------
 
+
+
   //ajouter le choix taille normale à la commande
   const menuNormal = document.querySelector(".menuNormal");
   menuNormal.addEventListener("click", (event) => {
@@ -409,7 +413,7 @@ function afficherModaleTailleMenu(produit){
   // ouverture et fermeture modale
   console.log("menu : etape suivante : fermeture menu / ouverture frite")
   togglerModale(".modaleTailleMenu");
-  togglerModale(".modaleFrite")
+  
   });
 }
 
@@ -449,28 +453,25 @@ function ajouterMenuMaxCommande(produit) {
  */
 function afficherModaleFrite(produit){
 
+  // ouverture - fermeture modale
+  togglerModale(".modaleFrite")
+
   // fermeture modale par la croix
   const croix = document.getElementById("croixImageFrite");
   croix.addEventListener("click", function(){
 
     // ouverture fermeture modale
     console.log("frite : croix : fermeture frite")
-    togglerModale(".modaleFrite")
-    
+    afficherModaleFrite(produit);
   });
 
-  // retour vers modale menu
+  // bouton retour
   const btnRetour = document.getElementById("btnRetourFrite");
-  btnRetour.addEventListener("click", function(){
-    afficherModaleTailleMenu(produit)
-    
-    // ouverture fermeture modale
-    console.log("frite : retour : fermeture frite / ouverture menu")
-    togglerModale(".modaleFrite")
-    togglerModale(".modaleTailleMenu");
-  });
-
-// -----  ecouteurs evenement dans la modale frite ------
+  btnRetour.addEventListener("click", (event) => {
+    // event.stopPropagation();
+    afficherModaleTailleMenu(produit);
+    afficherModaleFrite(produit);
+ });
 
   //ajouter frite à la commande
   const friteModal = document.querySelector(".friteModal");
@@ -491,11 +492,8 @@ function afficherModaleFrite(produit){
   // boutton etape suivante
   const btnModalTailleMenu = document.getElementById("btnModalFrite");
   btnModalTailleMenu.addEventListener("click", () => {
-    afficherModaleBoisson();
-
-    // ouverture fermeture modale
-    togglerModale(".modaleFrite");
-    togglerModale(".modaleBoissons");
+    afficherModaleBoisson(produit);
+    afficherModaleFrite(produit);
    
   });
 
@@ -504,11 +502,11 @@ function afficherModaleFrite(produit){
 // --------------- MODAL BOISSONS ---------------------------------
 
 
-function afficherModaleBoisson() {
-
+function afficherModaleBoisson(produit) {
+  console.log(produit)
   console.log(commande);
   // classe afficher modale
-  // togglerModale(".modaleBoissons");
+  togglerModale(".modaleBoissons");
 
   datasBoissons()
   carousselBoissons();
@@ -519,17 +517,16 @@ function afficherModaleBoisson() {
   const croixBoisson = document.getElementById("croixImageBoisson");
   croixBoisson.addEventListener("click", function(){
     console.log("test")
-    togglerModale(".modaleBoissons")
+    afficherModaleBoisson(produit) 
   });
 
   // retour vers modale menu
   const btnRetourBoisson = document.getElementById("btnRetourBoisson");
   btnRetourBoisson.addEventListener("click", function(){
-    afficherModaleFrite()
-
+  
     // ouverture fermeture modale
-    togglerModale(".modaleBoissons")
-    togglerModale(".modaleFrite")
+    afficherModaleBoisson(produit) 
+    afficherModaleFrite(produit);
    
   });
 
@@ -577,6 +574,8 @@ function togglerModale(classModal) {
   modale.classList.toggle("modal-hidden");
   */
 }
+
+
 
 // ------- FORM CHEVALET ----------------------------------------------
 
