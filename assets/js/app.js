@@ -328,6 +328,11 @@ cardsProduit.forEach(card => {
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleTailleMenu(produit){
+
+  // classe afficher modale
+  console.log("test1b")
+  togglerModale(".modaleTailleMenu")
+
   // traitement des données
   const name = produit.querySelector('p').textContent
   const price = produit.querySelector('.priceMenu').textContent
@@ -371,8 +376,7 @@ function afficherModaleTailleMenu(produit){
     </div>
   `
   zone.innerHTML = template
-  // classe afficher modale
-  togglerModale(".modaleTailleMenu")
+
   // fermeture modale par la croix
   const croix = document.getElementById("croixImageMenu");
   croix.addEventListener("click", function(){
@@ -440,6 +444,7 @@ function ajouterMenuMaxCommande(produit) {
  * param : HTMLelement : le produit menu en cours
  */
 function afficherModaleFrite(produit){
+
   // classe afficher modale
   togglerModale(".modaleFrite")
 
@@ -452,8 +457,10 @@ function afficherModaleFrite(produit){
   // retour vers modale menu
   const btnRetour = document.getElementById("btnRetourFrite");
   btnRetour.addEventListener("click", function(){
+    console.log("test1a")
     togglerModale(".modaleFrite")
     afficherModaleTailleMenu(produit)
+    
   });
 
 // -----  ecouteurs evenement dans la modale frite ------
@@ -480,7 +487,7 @@ function afficherModaleFrite(produit){
   const btnModalTailleMenu = document.getElementById("btnModalFrite");
   btnModalTailleMenu.addEventListener("click", () => {
     togglerModale(".modaleFrite");
-    afficherModaleBoisson(produit);
+    afficherModaleBoisson();
   });
 
 }
@@ -489,17 +496,29 @@ function afficherModaleFrite(produit){
 
 
 function afficherModaleBoisson() {
+  // classe afficher modale
   togglerModale(".modaleBoissons");
-  console.log(commande);
 
-    // 1. recuperer les données
-    datasBoissons()
-     // 3. acctionner le carousel
-     carousselBoissons();
+  datasBoissons()
+  carousselBoissons();
+
+  // -----  ecouteurs evenement dans la modale boisson ------
+
+  // fermeture modale par la croix
+  const croixBoisson = document.getElementById("croixImageBoisson");
+  croixBoisson.addEventListener("click", function(){
+    console.log("test")
+    togglerModale(".modaleBoissons")
+  });
+
+  // retour vers modale menu
+  const btnRetourBoisson = document.getElementById("btnRetourBoisson");
+  btnRetourBoisson.addEventListener("click", function(){
+    togglerModale(".modaleBoissons")
+    afficherModaleFrite()
+  });
 
 }
-
-
 /**
  * role : afficher les cards boisson
  * param : {array} tableau de données
