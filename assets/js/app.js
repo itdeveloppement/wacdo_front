@@ -1,4 +1,5 @@
-let commande = [];
+let commandeMenu = [];
+
 
 // -------------- AU CHARGEMENT --------------------
 document.addEventListener('DOMContentLoaded', () => {
@@ -330,7 +331,7 @@ let produit = null;
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleTailleMenu(produit){
-console.log(produit)
+
   // ouverture modale menu
   togglerModale(".modaleTailleMenu");
 
@@ -380,8 +381,6 @@ console.log(produit)
 
   // -----  ecouteurs evenement dans la modale taille menu ------
 
-
-
   //ajouter le choix taille normale à la commande
   const menuNormal = document.querySelector(".menuNormal");
   menuNormal.addEventListener("click", (event) => {
@@ -396,24 +395,17 @@ console.log(produit)
     ajouterMenuMaxCommande(produit);
   });
 
-   // fermeture modale par la croix
-   const croixFermeture = document.getElementById("croixImageMenu");
-   croixFermeture.addEventListener("click", function(){
- 
-     // fermeture modale
-     console.log("menu : croix : fermeture menu")
-     togglerModale(".modaleTailleMenu")
-   });
+  // fermeture modale par la croix
+  const croixFermeture = document.getElementById("croixImageMenu");
+  croixFermeture.addEventListener("click", function(){
+    afficherModaleTailleMenu(produit)
+  });
 
   // boutton etape suivante
   const btnModalTailleMenu = document.getElementById("btnModalTailleMenu");
   btnModalTailleMenu.addEventListener("click", () => {
-  afficherModaleFrite(produit);
-
-  // ouverture et fermeture modale
-  console.log("menu : etape suivante : fermeture menu / ouverture frite")
-  togglerModale(".modaleTailleMenu");
-  
+    afficherModaleFrite(produit);
+    afficherModaleTailleMenu(produit)
   });
 }
 
@@ -427,9 +419,9 @@ function ajouterMenuNormalCommande(produit) {
   menu = produit.querySelector('p').textContent;
   priceMenu = produit.querySelector('span').textContent;
   priceMenu = parseFloat(priceMenu)
-  commande.menu= menu;
-  commande.priceMenu= priceMenu;
-  return commande;
+  commandeMenu.menu= menu;
+  commandeMenu.priceMenu= priceMenu;
+  return commandeMenu;
 }
 
 /**
@@ -440,9 +432,9 @@ function ajouterMenuMaxCommande(produit) {
   menu = produit.querySelector('p').textContent;
   priceMenu = produit.querySelector('span').textContent;
   priceMenu = parseFloat(priceMenu)+ 0.5;
-  commande.menu= menu;
-  commande.priceMenu= priceMenu;
-  return commande;
+  commandeMenu.menu= menu;
+  commandeMenu.priceMenu= priceMenu;
+  return commandeMenu;
 }
 
 // ----------------- MODAL FRITE -----------------------
@@ -478,7 +470,7 @@ function afficherModaleFrite(produit){
   friteModal.addEventListener("click", (event) => {
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
-    commande.frite = frite; 
+    commandeMenu.frite = frite; 
   });
 
   // ajouter le choix taille max à la commande
@@ -486,7 +478,7 @@ function afficherModaleFrite(produit){
   potatoesModal.addEventListener("click", (event) => {
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
-    commande.frite = frite; 
+    commandeMenu.frite = frite; 
   });
 
   // boutton etape suivante
@@ -494,17 +486,14 @@ function afficherModaleFrite(produit){
   btnModalTailleMenu.addEventListener("click", () => {
     afficherModaleBoisson(produit);
     afficherModaleFrite(produit);
-   
   });
 
 }
 
 // --------------- MODAL BOISSONS ---------------------------------
 
-
 function afficherModaleBoisson(produit) {
-  console.log(produit)
-  console.log(commande);
+
   // classe afficher modale
   togglerModale(".modaleBoissons");
 
@@ -523,13 +512,20 @@ function afficherModaleBoisson(produit) {
   // retour vers modale menu
   const btnRetourBoisson = document.getElementById("btnRetourBoisson");
   btnRetourBoisson.addEventListener("click", function(){
-  
-    // ouverture fermeture modale
     afficherModaleBoisson(produit) 
     afficherModaleFrite(produit);
-   
   });
 
+
+  // ajouter menu à la commande
+  const btnAjouter = document.getElementById("btnModalAjouter");
+  btnAjouter.addEventListener("click", function(event){
+    event.stopPropagation();
+    console.log(commandeMenu)
+    afficherModaleBoisson(produit)
+    afficherCommande (commandeMenu) 
+    
+  });
 }
 /**
  * role : afficher les cards boisson
@@ -554,8 +550,48 @@ function afficherCardsBoissons(datas){
       `;    
   });  
   
-  // ajout au html
   zone.innerHTML = template;
+
+//  ecoiteur sur card boissons
+const cardsBoisson = document.querySelectorAll('.cardBoisson');
+cardsBoisson.forEach(card => {
+  card.addEventListener('click', (event) => {
+    const boisson = event.currentTarget.querySelector('p').textContent;
+    commandeMenu.boisson = boisson; 
+   
+  });
+});
+
+}
+
+// ---------------- COMMANDE ------------------------------------
+
+let commandeMenus=[];
+function afficherCommande (commandeMenu) {
+ 
+ 
+  commandeMenus.push(commandeMenu);
+  commandeMenu = [];
+  console.log(commandeMenus)
+
+  let zone = document.getElementById("commandeMenu")
+  let template = ''; // declaration
+  // extraction des données et construction card / template
+  commandeMenus.forEach(menu=>{
+      template += 
+      `
+        <div>
+            <p>1</p>
+            <p>${menu.menu}</p>
+            <p>${menu.frite}</p>
+            <p>${menu.boisson}</p>
+            <p>${menu.priceMenu} €</p>
+        </div>
+      `;    
+  });  
+
+  zone.innerHTML = template;
+
 }
 
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
