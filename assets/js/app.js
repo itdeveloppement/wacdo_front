@@ -889,6 +889,8 @@ console.log(somme)
  * role : afficher le prix de la commande
  */
 function afficherMontantCommande (montant) {
+  console.log(commandeMenus)
+  console.log(commandeProduit)
   let zone = document.getElementById("commandeMontant")
   let template= 
     `
@@ -897,9 +899,32 @@ function afficherMontantCommande (montant) {
         <p>(ttc)</p>
     </div>
     <p>${montant} €</p>
+    <div>
+        <a href="../../index.html">Abandon</a>
+        <button id="btnPayerCommande">Payer</button>
+    </div>
     `
   zone.innerHTML = template
+
+  let btnPayerCommande = document.getElementById("btnPayerCommande");
+  btnPayerCommande.addEventListener("click", function() {
+    // Donnée à envoyer en AJAX vers serveur
+    console.log(commandeMenus)
+    console.log(commandeProduit)
+     // Préparer les données
+     window.location.href = "./commande.html";
+  
+});
+
 }
+/**
+ * role : enregistrer le paiement
+ */
+
+function enregistrerPayment () {
+  console.log(commandeMenus);
+}
+
 
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
 let modalOuverte = null;
