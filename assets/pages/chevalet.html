@@ -15,27 +15,27 @@
 
 <main>
     <!-- SECTION IMAGE DE FOND -->
-    <section>
+    <section class="mainImgFond">
         <div>
-            <img src="../images/images/mc_landing_banner.png" alt="image du logo Wacdo, d'une potion de frite, un burger et un CocaCola">
+            <img src="../images/images/mc_landing_banner.png" alt="image du logo Wacdo, d'une portion de frite, un burger et un CocaCola">
         </div>
     </section>
     <!-- SECTION CHEVALET -->
-    <section>
-        <div>
+    <section class="flex cardPrincipale chevaletCorps">
+        <div class="chevaletImg">
             <img src="../images/images/chevalet.png" alt="Image d'un chevalet avec un numero">
         </div>
         <h2>Pour etre <strong>servis à table</strong></h2>
         <h1>Récupérez un <strong>chevalet</strong> et indiquez ici le numéro inscrit dessus ?</h1>
-        <div>
-            <form id="formChevalet" action="./choix.html" method="post"> 
-                <!-- utilisaton type text avec validation js et non number pour faciliter formatage css-->
-                <input type="text" id="nombre1" name="nombre1" required>
-                <input type="text" id="nombre2" name="nombre2" required>
-                <input type="text" id="nombre3" name="nombre3" required>
-                <button type="submit">Enregistrer votre numéro</button>
-            </form>
-        </div>
+        <form id="formChevalet" class="flex form" action="./choix.html" method="post"> 
+            <!-- utilisaton type text avec validation js et non number pour faciliter formatage css-->
+            <div class="flex">
+                <input type="text" id="nombre1" name="nombre1" required placeholder="0">
+                <input type="text" id="nombre2" name="nombre2" required placeholder="0">
+                <input type="text" id="nombre3" name="nombre3" required placeholder="0">
+            </div>
+            <button class="btnJaune" type="submit">Enregistrer votre numéro</button>
+        </form>
     </section>
 </main>
        <script src="../js/app.js" defer></script>

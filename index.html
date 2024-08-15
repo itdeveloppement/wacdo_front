@@ -10,39 +10,37 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <!-- favicon et image à la racine du site-->
     <link rel="shortcut icon" type="image/png" href="./logo.ico"/>
-<body>
+</head>
+
+<body >
 
 <main>
     <!-- SECTION IMAGE DE FOND -->
-    <section>
+    <section class="mainImgFond">
         <div>
-            <img src="./assets/images/images/mc_landing_banner.png" alt="image du logo Wacdo, d'une potion de frite, un burger et un CocaCola">
+            <img src="./assets/images/images/mc_landing_banner.png" alt="image du logo Wacdo, d'une portion de frite, un burger et un CocaCola">
         </div>
     </section>
     <!-- SECTION BONJOUR -->
-    <section>
+    <section class="cardPrincipale">
         <h2>Bonjour,</h2>
         <h1>Souhaitez-vous consommer votre <strong>menu sur place ou préférez-vous l'emporter</strong> ?</h1>
         <nav>
-            <ul>
-                <li>
-                    <a href="./assets/pages/chevalet.html">
-                        <div>
-                            <div>
-                                <img src="./assets/images/images/illustration-sur-place.png" alt="Illustration pour manger sur place">
-                            </div>
-                            <p>Sur place</p>
+            <ul class="flex cardSegondaireParent">
+                <li class="flex cardSegondaireCoprs">
+                    <a href="./assets/pages/chevalet.html">                        
+                        <div class="flex cardSegondaireImg">
+                            <img src="./assets/images/images/illustration-sur-place.png" alt="Illustration pour manger sur place">
                         </div>
+                        <p class="cardSegondaireText">Sur Place</p>
                     </a>
                 </li>
-                <li>
+                <li class="flex cardSegondaireCoprs">
                     <a href="./assets/pages/choix.html">
-                        <div>
-                            <div>
-                                <img src="./assets/images/images/illustration-a-emporter.png" alt="Illustration pour en porter">
-                            </div>
-                            <p>A emporter</p>
+                        <div class="flex cardSegondaireImg">
+                            <img src="./assets/images/images/illustration-a-emporter.png" alt="Illustration pour en porter">
                         </div>
+                        <p class="cardSegondaireText">A Emporter</p>
                     </a>
                 </li>
             </ul>

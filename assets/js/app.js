@@ -92,13 +92,11 @@ function datasBoissons(commandeMenu) {
     .then(response => response.json())
     .then(datas => {
     afficherCardsBoissons(datas, commandeMenu)
-   
-    })
+  })
     .catch(error => {
       console.error('Erreur lors de la récupération des boissons :', error);
-    });
+  });
 }
-
 
 // ----------------- CAROUSSEL CATEGORIE -------------------------
 
@@ -116,7 +114,6 @@ function carousselCategorie() {
   //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
   cardWidth = 200; // largeur card
 
-  
   // bornage du defilement
   const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
   const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
@@ -179,7 +176,6 @@ function carousselBoissons() {
   //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
   cardWidth = 200; // largeur card
 
-  
   // bornage du defilement
   const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
   const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
@@ -192,7 +188,7 @@ function carousselBoissons() {
   const updateCarousel = () => {
     carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
     nextBtn.disabled = isLastSlide(); // Désactiver le bouton "Suivant" à la fin
-    prevBtn.disabled = isFirstSlide(); // Désactiver le bouton "Précédent" au début (optionnel)
+    prevBtn.disabled = isFirstSlide(); // Désactiver le bouton "Précédent" au début
   };
 
   /**
@@ -226,7 +222,6 @@ function carousselBoissons() {
   nextBtn.addEventListener('click', goToNextSlide);
 }
 
-
 // ---------- AFFICHAGE CARDS CATEGORIE --------------------------
 
 /**
@@ -237,7 +232,6 @@ function carousselBoissons() {
 function afficherCardsCategorie(datas){
   let zone = document.querySelector(".carousel-categorie") // ciblage
   let template = ''; // declaration
-  // extraction des données et construction card / template
   datas.forEach(card=>{
       template += 
       `
@@ -251,8 +245,6 @@ function afficherCardsCategorie(datas){
       </article>
       `;    
   });  
-  
-  // ajout au html
   zone.innerHTML = template;
 
 // --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
@@ -276,7 +268,6 @@ cardsCategorie.forEach(card => {
  */
 function afficherCardsProduit(datas, categorie){
   let zone = document.querySelector(".listeProduits")
-  // let templateTitre = '';
   let templateTitre=
   `
     <div>
@@ -300,13 +291,9 @@ function afficherCardsProduit(datas, categorie){
         </article>
       `;    
   });  
- 
-  // ajout au html
   zone.innerHTML = templateTitre + cardPoduit;
 
-// --------- ECOUTEUR EVENEMENT CARD PRODUIT apres ajout du DOM template------------------
-
-// faire la partie : hors menu pour ajouter produit au panier
+// --------- ECOUTEUR EVENEMENT CARD PRODUIT ------------------
 
 const cardsProduit = document.querySelectorAll('.cardProduit');
 cardsProduit.forEach(card => {
@@ -316,14 +303,13 @@ cardsProduit.forEach(card => {
       afficherModaleTailleMenu(produit);
       togglerModale(".modaleTailleMenu");
     } else {
-      console.log("ajouter produit à commande")
       afficherProduitCommande(produit)
     }
   });
 });
 }
 
-// -------------- MODALES MENU ------------------------------------------
+// -------------- MODALES MENU ----------------------------------
 let produit = null;
 /**
  * role : affiche la modale menu
@@ -331,13 +317,7 @@ let produit = null;
  */
 function afficherModaleTailleMenu(produit){
   let commandeMenu = [];
-  
-  console.log(commandeMenu);
-  // ouverture modale menu
-  // togglerModale(".modaleTailleMenu");
-
   // traitement des données
-
   const name = produit.querySelector('p').textContent
   const price = produit.querySelector('.priceMenu').textContent
   const urlImage =  produit.querySelector('img').src
@@ -346,7 +326,7 @@ function afficherModaleTailleMenu(produit){
   let template= 
   `
     <!-- nav-->
-    <nav >
+    <nav class="flex overlayNav">
       <div id="croixImageMenu">
         <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
       </div>
@@ -391,8 +371,6 @@ function afficherModaleTailleMenu(produit){
     messageErreur (".erreurtTailleMenu")
     let produit = event.currentTarget;
     ajouterMenuNormalCommande(produit, commandeMenu);
-  
-
   });
 
   // ajouter le choix taille max à la commande
@@ -408,7 +386,6 @@ function afficherModaleTailleMenu(produit){
   croixFermeture.addEventListener("click", function(){
     // afficherModaleTailleMenu(produit)
     togglerModale(".modaleTailleMenu");
-
   });
 
   // boutton etape suivante
@@ -423,8 +400,6 @@ function afficherModaleTailleMenu(produit){
     } else {
       togglerModale(".erreurtTailleMenu");
     }
-
-
   });
 }
 
@@ -440,7 +415,6 @@ function ajouterMenuNormalCommande(produit, commandeMenu) {
   priceMenu = parseFloat(priceMenu)
   commandeMenu.menu= menu;
   commandeMenu.priceMenu= priceMenu;
- 
 }
 
 /**
@@ -453,7 +427,6 @@ function ajouterMenuMaxCommande(produit, commandeMenu) {
   priceMenu = parseFloat(priceMenu)+ 0.5;
   commandeMenu.menu= menu;
   commandeMenu.priceMenu= priceMenu;
-
 }
 
 // ----------------- MODAL FRITE -----------------------
@@ -463,74 +436,70 @@ function ajouterMenuMaxCommande(produit, commandeMenu) {
  * param : HTMLelement : le produit menu en cours
  */
 function afficherModaleFrite(produit, commandeMenu){
-  
   let zone = document.querySelector(".modaleFrite")
-
   let template = 
     `
-      <nav>
-        <ul>
-            <li>
-              <button id="btnRetourFrite">Retour</button>
-            </li>
-            <li> 
-              <div id="croixImageFrite">
-                <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
-              </div>
-            </li>
-        </ul>
-      </nav>
-      <!-- titre -->
-      <div>
-          <h4>Choisissez votre accompagnement</h4>
-          <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
-      </div>
-      <!-- frite / potatoes -->
-      <section>
-          <article class="friteModal">
-              <div>
-                    <img src="../images/frites/GRANDE_FRITE.png" alt="barquette de grande frite">
-              </div>
-              <p>Frites</p>
-          </article>
-          <article class="potatoesModal">
-              <div>
-                    <img src="../images/frites/GRANDE_POTATOES.png" alt="barquette de grande frite potetoes">
-              </div>
-              <p>Potatoes</p>
-          </article>
-      </section>
-      <div class="erreurtFrite modal-hidden">
-        <p>Vous devez selectionner un accompagnement</p>
-     </div>
-      <div>
-          <button id="btnModalFrite">Etape suivante</button>
-      </div>
+    <nav class="flex">
+      <ul class="flex overlayNav">
+          <li>
+            <button class="btnTransparent" id="btnRetourFrite">Retour</button>
+          </li>
+          <li> 
+            <div id="croixImageFrite">
+              <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+            </div>
+          </li>
+      </ul>
+    </nav>
+    <div class="flex overlayCoprs">
+
+        <!-- titre -->
+        <div class="flex overlayTitre">
+            <h4>Choisissez votre accompagnement</h4>
+            <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+        </div>
+
+        <!-- frite / potatoes -->
+        <section class="flex overlayCardParent">
+            <article class="friteModal flex cardSegondaireCoprs">
+                <div>
+                      <img src="../images/frites/GRANDE_FRITE.png" alt="barquette de grande frite">
+                </div>
+                <p class="cardSegondaireText">Frites</p>
+            </article>
+            <article class="potatoesModal flex cardSegondaireCoprs">
+                <div>
+                      <img src="../images/frites/GRANDE_POTATOES.png" alt="barquette de grande frite potetoes">
+                </div>
+                <p class="cardSegondaireText">Potatoes</p>
+            </article>
+        </section>
+
+        <!-- message erreur -->
+        <div class="erreurtFrite modal-hidden">
+          <p class="cardSegondaireText">Vous devez selectionner un accompagnement</p>
+        </div>
+
+         <!-- button -->
+        <div class="btnCorps flex">
+            <button id="btnModalFrite" class="btnJaune">Etape suivante</button>
+        </div>
+
+    </div>
     `
-
   zone.innerHTML = template;
-
-  // ouverture - fermeture modale
-  // togglerModale(".modaleFrite")
 
   // fermeture modale par la croix
   const croix = document.getElementById("croixImageFrite");
   croix.addEventListener("click", function(){
-
-    // ouverture fermeture modale
     togglerModale(".modaleFrite")
-    // afficherModaleFrite(produit);
   });
 
   // bouton retour
   const btnRetour = document.getElementById("btnRetourFrite");
   btnRetour.addEventListener("click", (event) => {
-    // event.stopPropagation();
     togglerModale(".modaleFrite")
     togglerModale(".modaleTailleMenu");
-
-    // afficherModaleTailleMenu(produit);
-    // afficherModaleFrite(produit);
  });
 
   // boutton etape suivante
@@ -541,8 +510,7 @@ function afficherModaleFrite(produit, commandeMenu){
       afficherModaleBoisson(produit, commandeMenu);
       togglerModale(".modaleFrite")
     
-      // afficherModaleFrite(produit);
-      // Suppression de l'écouteur après le premier clic
+    // Suppression de l'écouteur après le premier clic
     btnModalFrite.removeEventListener('click', arguments.callee);
     } else {
       togglerModale(".erreurtFrite");
@@ -566,13 +534,11 @@ function afficherModaleFrite(produit, commandeMenu){
     let frite = produit.querySelector('p').textContent;
     commandeMenu.frite = frite; 
   });
-
 }
 
 // --------------- MODAL BOISSONS ---------------------------------
 
 function afficherModaleBoisson(produit, commandeMenu) {
-
   let zone = document.querySelector(".modaleBoissons")
   let template = 
     `
@@ -614,9 +580,6 @@ function afficherModaleBoisson(produit, commandeMenu) {
     `
   zone.innerHTML = template;
 
-  // classe afficher modale
-  // togglerModale(".modaleBoissons");
-
   datasBoissons(commandeMenu)
   carousselBoissons();
 
@@ -625,9 +588,7 @@ function afficherModaleBoisson(produit, commandeMenu) {
   // fermeture modale par la croix
   const croixBoisson = document.getElementById("croixImageBoisson");
   croixBoisson.addEventListener("click", function(){
-    console.log("test")
     togglerModale(".modaleBoissons");
-    // afficherModaleBoisson(produit) 
   });
 
   // retour vers modale frite
@@ -635,19 +596,15 @@ function afficherModaleBoisson(produit, commandeMenu) {
   btnRetourBoisson.addEventListener("click", function(){
     togglerModale(".modaleBoissons");
     togglerModale(".modaleFrite")
-    //afficherModaleBoisson(produit) 
-    // afficherModaleFrite(produit);
   });
-
 
   // ajouter menu à la commande
   const btnAjouter = document.getElementById("btnModalAjouter");
   btnAjouter.addEventListener("click", function(){
-    console.log(commandeMenu)
     if(commandeMenu.boisson){
       togglerModale(".modaleBoissons");
-      // afficherModaleBoisson(produit)
       afficherMenuCommande (commandeMenu) 
+
       // Suppression de l'écouteur après le premier clic
       btnAjouter.removeEventListener('click', arguments.callee);
   } else {
@@ -655,7 +612,6 @@ function afficherModaleBoisson(produit, commandeMenu) {
   }
   });
 }
-
 
 /**
  * role : afficher les cards boisson
@@ -665,7 +621,6 @@ function afficherModaleBoisson(produit, commandeMenu) {
 function afficherCardsBoissons(datas, commandeMenu){
   let zone = document.querySelector(".carousel-boisson") // ciblage
   let template = ''; // declaration
-  // extraction des données et construction card / template
   datas.boissons.forEach(card=>{
       template += 
       `
@@ -689,7 +644,6 @@ cardsBoisson.forEach(card => {
     messageErreur (".erreurBoisson")
     const boisson = event.currentTarget.querySelector('p').textContent;
     commandeMenu.boisson = boisson; 
-   
   });
 });
 
@@ -705,10 +659,7 @@ cardsBoisson.forEach(card => {
  * @returns 
  */
 function afficherMenuCommande (commandeMenu) {
- 
-  console.log(commandeMenu)
   commandeMenus.push(commandeMenu);
- 
   let zone = document.getElementById("commandeMenu")
   let template = ''; // declaration
   // extraction des données et construction card / template
@@ -732,12 +683,9 @@ function afficherMenuCommande (commandeMenu) {
   zone.innerHTML = template;
   // Ecouteur d'événement à la zone (element) pour suppression produit
     zone.addEventListener('click',(event) => {
-      console.log(commandeMenus)
       supprimerMenu(event)
   });
-
   calculerMontantCommandeMenus (commandeMenus)
-  // return []; // Retourne un tableau vide
 }
 
 /**
@@ -745,18 +693,16 @@ function afficherMenuCommande (commandeMenu) {
  * @param {*} produit produit selectionnée
  */
 function afficherProduitCommande(produit) {
+  // recuperation des données
   let nom = produit.querySelector('.nomProduit').textContent
   let price = produit.querySelector('.priceMenu').textContent
-
   let produitTemp = [];
   produitTemp.nom = nom;
   produitTemp.price = price;
-
   commandeProduit.push(produitTemp)
-
+  // affichage
   let zone = document.getElementById("commandeProduit")
     let template = ''; // declaration
-    // extraction des données et construction card / template
     commandeProduit.forEach(produit=>{
         template += 
         `
@@ -769,13 +715,11 @@ function afficherProduitCommande(produit) {
           </div>
         `;    
     });
-
  zone.innerHTML = template;
 
 // Ecouteur d'événement à la zone (element) pour suppression produit
 zone.addEventListener('click', supprimerProduit);
 
-// calculer et afficher montant de la commande
 calculerMontantCommandeProduit (commandeProduit)
 };
 
@@ -786,20 +730,14 @@ calculerMontantCommandeProduit (commandeProduit)
  * @param {role } event (element selectionné)
  */
 function supprimerProduit(event) {
-
   const parentDiv = event.target.closest('.poubelleImage').parentNode; // Trouver la div parente
-  console.log(parentDiv)
   const nomProduit = parentDiv.querySelector('.cmd-nomProduit').textContent; // Récupérer l'id du produit
-  console.log(nomProduit)
   // Trouver l'index du produit dans le tableau
   const index = commandeProduit.findIndex(produit => produit.nom === nomProduit);
-
   // Supprimer l'élément du DOM
   parentDiv.remove();
-
   // Supprimer l'élément du tableau
   commandeProduit.splice(index, 1); // (1 = nb element à suprimer)
-  console.log(commandeProduit);
   calculerMontantCommandeProduit (commandeProduit);
 }
 
@@ -808,18 +746,13 @@ function supprimerProduit(event) {
  * @param {role } event (element selectionné)
  */
 function supprimerMenu(event) {
-
   const parentDiv = event.target.closest('.poubelleImageM').parentNode; // Trouver la div parente
-  console.log(parentDiv)
   const nomProduit = parentDiv.querySelector('.cmd-nomProduitM').textContent; // Récupérer l'id du produit
-  console.log(nomProduit)
-  console.log(commandeMenus);
   // Trouver l'index du produit dans le tableau
   const index = commandeMenus.findIndex(menu => menu.nom === nomProduit);
   console.log(index);
   // Supprimer l'élément du DOM
   parentDiv.remove();
-  console.log(commandeMenus);
   // Supprimer l'élément du tableau
   commandeMenus.splice(index, 1); // (1 = nb element à suprimer)
   
@@ -833,15 +766,12 @@ function supprimerMenu(event) {
  * param : array : liste des produits individuels de la commande
  */
 function calculerMontantCommandeProduit (commandeProduit) {
-  console.log(commandeProduit)
   let montanProduit = 0;
   commandeProduit.forEach(produit => {
     montanProduit +=  parseFloat(produit.price);
-})
-console.log(montanProduit)
-param = "produits";
-sommeCommande(montanProduit, param)
-
+  })
+  param = "produits";
+  sommeCommande(montanProduit, param)
 }
 
 /**
@@ -849,17 +779,12 @@ sommeCommande(montanProduit, param)
  * param : array : liste menus selectionnés
  */
 function calculerMontantCommandeMenus (commandeMenus) {
-  console.log(commandeMenus)
   let montantMenus = 0;
   commandeMenus.forEach(menu => {
-    console.log("test")
-    console.log(menu.priceMenu)
     montantMenus +=  parseFloat(menu.priceMenu);
-})
-param = "menus";
-sommeCommande(montantMenus, param)
-console.log(montantMenus)
-
+  })
+  param = "menus";
+  sommeCommande(montantMenus, param)
 }
 
 /**
@@ -872,25 +797,21 @@ let tabMontant = {
   "produits": 0,
 };
 function sommeCommande(montant, param) {
-  console.log(param)
   if (param == "menus") {
     tabMontant[param] = montant
   } else if (param == "produits"){
     tabMontant[param] = montant
   }
-
   let somme = tabMontant.menus + tabMontant.produits
-  afficherMontantCommande (somme)
-
-console.log(somme)
+  // limiter a deux decimale
+  let montantCommande = Math.round(somme * 100) / 100;
+  afficherMontantCommande (montantCommande)
 }
 
 /**
  * role : afficher le prix de la commande
  */
 function afficherMontantCommande (montant) {
-  console.log(commandeMenus)
-  console.log(commandeProduit)
   let zone = document.getElementById("commandeMontant")
   let template= 
     `
@@ -908,23 +829,20 @@ function afficherMontantCommande (montant) {
 
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
-    // Donnée à envoyer en AJAX vers serveur
-    console.log(commandeMenus)
-    console.log(commandeProduit)
-     // Préparer les données
+    enregistrerPayment()
+     // Redirection
      window.location.href = "./commande.html";
-  
 });
 
 }
 /**
  * role : enregistrer le paiement
  */
-
-function enregistrerPayment () {
-  console.log(commandeMenus);
+function enregistrerPayment() {
+      // Données à envoyées en AJAX vers serveur
+  console.log(commandeMenus)
+  console.log(commandeProduit)
 }
-
 
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
 let modalOuverte = null;
@@ -937,10 +855,6 @@ function togglerModale(classModal) {
     const modale = document.querySelector(classModal);
     modalOuverte = modalOuverte === classModal ? null : classModal;
     modale.classList.toggle('modal-hidden');
-    /*
-  const modale = document.querySelector(classModal);
-  modale.classList.toggle("modal-hidden");
-  */
 }
 
 /**
@@ -965,7 +879,6 @@ function messageErreur (classModal) {
 function formChevalet () {
 
 const form = document.getElementById('formChevalet');
-
 form.addEventListener('submit', (event) => {
     event.preventDefault(); // Empêche le rechargement de la page
 
@@ -973,7 +886,6 @@ form.addEventListener('submit', (event) => {
     const nombre1 = document.getElementById('nombre1').value;
     const nombre2 = document.getElementById('nombre2').value;
     const nombre3 = document.getElementById('nombre3').value;  
-
     numeroChevalet = nombre1+nombre2+nombre3;
   
     // Envoyer les données à la nouvelle page

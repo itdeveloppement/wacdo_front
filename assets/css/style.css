@@ -1,12 +1,197 @@
-body {
-  
+
+
+/* initialisation */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
 }
+
+/* Importe la police Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Freehand&family=Handlee&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
+
+/* Déclare la classe pour les polices*/
+.source-sans-3-texte {
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+.freehand-regular {
+  font-family: "Freehand", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/*VARIABLES*/
+:root {
+    /*variable color*/
+    --premiereColor: rgb(255, 200, 54);
+    --deuxiemeColor: rgb(189, 0, 23);
+    --troisiemeColor:rgb(44, 44, 44); 
+    --quatriemeColor: rgb(214, 214, 214);
+    --cinquiemeColor: rgb(241, 241, 241);
+    --sixiemeColor: rgb(255, 255, 255);
+
+    /*variable font*/
+    --fonte: "Source Sans 3", sans-serif;
+
+    --robotoFont: "Roboto", sans-serif;
+    --tekoFont: "Teko", sans-serif;
+
+    /* border */
+    --borderRadius: 10px;
+    --borderShadow: 0 0 20px rgb(96, 96, 96);  /* box-shadow */
+    --borderHover: 6px solid rgb(255, 200, 54);
+
+    /* largeur goutiere*/
+    --gutter: 10px;
+}
+
+/* LARGEUR COLONNE */
+
+/*Desktop*/
+.large-1 {
+  
+    width: calc(8.3333333333% - 11 * var(--gutter) / 12);
+  }
+  .large-2 {
+    width: calc(16.6666666667% - 5 * var(--gutter) / 6);
+  }
+  .large-3 {
+    width: calc(25% - 3 * var(--gutter) / 4);
+  }
+  .large-4 {
+    width: calc(33.3333333333% - 2 * var(--gutter) / 3);
+  }
+  .large-5 {
+    width: calc(41.6666666667% - 1.4 * var(--gutter) / 2.4);
+  }
+  .large-6 {
+    width: calc(50% - 1 * var(--gutter) / 2);
+  }
+  .large-7 {
+    width: calc(58.3333333333% - 0.7142857143 * var(--gutter) / 1.7142857143);
+  }
+  .large-8 {
+    width: calc(66.6666666667% - 0.5 * var(--gutter) / 1.5);
+  }
+  .large-9 {
+    width: calc(75% - 0.3333333333 * var(--gutter) / 1.3333333333);
+  }
+  .large-10 {
+    width: calc(83.3333333333% - 0.2 * var(--gutter) / 1.2);
+  }
+  .large-11 {
+    width: calc(91.6666666667% - 0.0909090909 * var(--gutter) / 1.0909090909);
+  }
+  .large-12 {
+    width: calc(100% - 0 * var(--gutter) / 1);
+  }
+
 /* GENERALE */
+
+
+body {
+  font-family: var(--fonte);
+  font-size: 15px;
+}
+strong {
+  font-weight: normal;
+}
+h1, h1 strong {
+  width: 100%;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 40px 0;
+}
+h2, h2 strong {
+  width: 100%;
+  font-weight: 800;
+  font-size: 35px;
+}
+h3 {
+  width: 100%;
+  font-weight: 600;
+  font-size: 30px;
+}
+h4 {
+  width: 100%;
+  font-weight: 600;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
 .flex {
     display: flex;
     flex-wrap: wrap;
 }
-/*  CAROUSSEL */
+
+/* image de fond */
+.mainImgFond {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  transform: scale(1.2);
+}
+.mainImgFond img{
+  max-height: 80vh; 
+  width: auto;
+}
+/* button */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.btnJaune, .btnTransparent {
+  border-radius: var(--borderRadius);
+  padding: 15px;
+  font-weight: 700;
+  font-size: 15px;
+}
+.btnJaune {
+background-color: var(--premiereColor);
+transition: background-color 0.3s ease-in-out;
+width: 150px;
+text-align: center;
+margin: 40px 0 10px 0;
+}
+.btnJaune:hover {
+  background-color: var(--deuxiemeColor);
+ 
+}
+.btnTransparent {
+  background-color: var(--cinquiemeColor);
+  width: 150px;
+  border: 1px solid var(--troisiemeColor);
+  transition: background-color 0.3s ease-in-out;
+  text-align: center;
+}
+.btnTransparent:hover {
+  background-color: var(--quatriemeColor);
+}
+.btnCorps {
+  justify-content: center;
+  width: 100%;
+  
+}
+/* gestion format par defaut */
+a{
+  text-decoration: none;
+  color: inherit;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/*  caroussel */
 .carouselCategorie, .carouselBoisson {
     overflow: hidden;
     width: 100%; 
@@ -42,41 +227,178 @@ body {
     right: 20px;
 }
 
+/* card principal */
 
+.cardPrincipale {
+  width: 40%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--sixiemeColor);
+  border-radius: var(--borderRadius);
+  box-shadow: var(--borderShadow);
+  padding: 20px;
+}
 
-/* CARD PRODUIT */
+/* card segondaire */
+.cardSegondaireParent {
+  justify-content: space-between;
+  padding: 20px 0;
+  background-color: blueviolet;
+
+}
+.cardSegondaireCoprs {
+  width: 45%;
+  justify-content: center;
+  background-color: var(--sixiemeColor);
+  border-radius: var(--borderRadius);
+  border: 6px solid var(--quatriemeColor);
+  padding: 20px;
+}
+.cardSegondaireCoprs:hover {
+  border: var(--borderHover);
+}
+.cardSegondaireImg {
+  width: 100%;
+  height: auto;
+}
+.cardSegondaireText {
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* card produit */
 .listeProduits {
     background-color: blanchedalmond;
 }
 .cardProduit{
     flex: 0 0 200px;
     border: 1px solid;
-
 }
 
-/* PAGE CHOIX */
-/* section commande */
-.sectionCommande {
-height: 100vh;
+/* formulaire chevalet et numero commande*/
+
+.form div {
+  width: 100%;
+  justify-content: center;
+  gap: 20px
+} 
+.form input {
+  text-align: center;
+  font-size: 80px;
+    border: none;
+    outline: none;
+    border-bottom: 10px solid var(--quatriemeColor);
+    width: 80px;
 }
+/* GESTION MODALE */
 
 /* modale taille menu */
 .modaleTailleMenu {
-    background-color: brown;
+  background-color: brown;
 }
 /* modale frites*/
 .modaleFrite {
-    background-color: rgb(42, 165, 85);
+  background-color: rgb(42, 165, 85);
 }
 /* modale boisson */
 .modaleboissons {
-    width: 80%;
-    background-color: rgb(151, 124, 212);
+  width: 80%;
+  background-color: rgb(151, 124, 212);
 }
 /* ouverture / fermeture modale */
 .modal-hidden {
-    display: none;
-  }
+  display: none;
+}
+
+/* PAGE CHOIX */
+
+/* section commande */
+.sectionCommande {
+height: 100vh;
+background-color: blue;
+}
+
+/* PAGE CHEVALET */
+.chevaletCorps {
+ justify-content: center;
+}
+.chevaletImg {
+  width: 100px;
+  margin-bottom: 40px;
+}
+.chevaletImg img {
+  border-radius: var(--borderRadius);
+  width: 100%;
+  height: auto;
+}
+#formChevalet .btnJaune {
+  width: 220px;
+  margin: 30px auto 0 auto;
+}
+.chevaletCorps form {
+  width: 100%;
+}
 
 /* message erreurs */
 
+/* PAGE A BIENTOT */
+.abientotCorps {
+  justify-content: center;
+}
+.abientotCorps p {
+  width: 100%;
+  font-family: "Freehand", cursive;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 40px;
+}
+.abientotCorps .btnJaune {
+  width: 200px;
+}
+
+/* PAGE A COMMANDE */
+#formNumCommande .btnJaune {
+  width: 330px;
+  margin: 30px auto 0 auto;
+}
+
+/* overlay navigation haute*/
+.overlay {
+ 
+
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--sixiemeColor);
+  align-items: center;
+  z-index: 4;
+
+}
+.overlayCoprs {
+  justify-content: center;
+  width: 100%;
+  padding: 0 20%;
+}
+.overlayNav {
+  width: 100%;
+  justify-content: space-between;
+  padding: 5%;
+  
+}
+
+  
+.overlayTitre {
+  width: 100%;
+  margin:40px 0;
+}
+.overlayCardParent {
+  width: 100%;
+  justify-content: space-between;
+
+}
