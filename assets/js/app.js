@@ -236,11 +236,11 @@ function afficherCardsCategorie(datas){
       template += 
       `
       <article class="cardCategorie">
-        <div>
-          <div>
-              <img src="../images/${card.image}" alt="menu">
-          </div>
-          <p>${card.title}</p>
+        <div class="cardCarouselCorps flex">
+            <div class="cardImgCarousel flex">
+                <img src="../images/${card.image}" alt="menu">
+            </div>
+            <p>${card.title}</p>
         </div>
       </article>
       `;    
@@ -331,34 +331,44 @@ function afficherModaleTailleMenu(produit){
         <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
       </div>
     </nav>
-    <!-- titre -->
-    <div>
-        <h4>Une grosse fin ?</h4>
-        <p>Le ${name} comprend un sandwich, une frite et une boisson</p>
-    </div>
-    <!-- taille produits -->
-    <section>
-        <article class="menuNormal">
-            <div>
-                 <img src="${urlImage}" alt="menu ${name}">
-            </div>
-            <p>${name}</p>
-            <span hidden>${price}</span>
-        </article>
-        <article class="menuMax">
-            <div>
-                <img src="${urlImage}" alt="menu ${name}">
-            </div>
-            <p>${name} Maxi</p>
-            <p>+ 0.50 €</p>
-            <span hidden>${price}</span>
-        </article>
-    </section>
-     <div class="erreurtTailleMenu modal-hidden">
-        <p>Vous devez selectionner une taille</p>
-     </div>
-    <div>
-        <button id="btnModalTailleMenu" >Etape suivante</button>
+
+    <div class="flex overlayCoprs">
+
+        <!-- titre -->
+        <div class="flex overlayTitre">
+            <h4>Une grosse fin ?</h4>
+            <p>Le ${name} comprend un sandwich, une frite et une boisson</p>
+        </div>
+
+        <!-- taille produits -->
+        <section class="flex overlayCardParent">
+            <article class="menuNormal flex cardSegondaireCoprs">
+                <div>
+                    <img src="${urlImage}" alt="menu ${name}">
+                </div>
+                <p class="cardSegondaireText">${name}</p>
+                <span hidden>${price}</span>
+            </article>
+            <article class="menuMax flex cardSegondaireCoprs">
+                <div>
+                    <img src="${urlImage}" alt="menu ${name}">
+                </div>
+                <p class="cardSegondaireText">${name} Maxi</p>
+                <p>+ 0.50 €</p>
+                <span hidden>${price}</span>
+            </article>
+        </section>
+
+        <!-- message erreur -->
+        <div class="erreurtTailleMenu modal-hidden erreurMessage">
+            <p class="cardSegondaireText">Selectionner une taille</p>
+        </div>
+
+        <!-- button -->
+        <div class="btnCorps flex">
+            <button id="btnModalTailleMenu" class="btnJaune">Etape suivante</button>
+        </div>
+
     </div>
   `
   zone.innerHTML = template;
@@ -439,53 +449,54 @@ function afficherModaleFrite(produit, commandeMenu){
   let zone = document.querySelector(".modaleFrite")
   let template = 
     `
-    <nav class="flex">
-      <ul class="flex overlayNav">
-          <li>
-            <button class="btnTransparent" id="btnRetourFrite">Retour</button>
-          </li>
-          <li> 
-            <div id="croixImageFrite">
-              <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
-            </div>
-          </li>
-      </ul>
-    </nav>
-    <div class="flex overlayCoprs">
-
-        <!-- titre -->
-        <div class="flex overlayTitre">
-            <h4>Choisissez votre accompagnement</h4>
-            <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
-        </div>
-
-        <!-- frite / potatoes -->
-        <section class="flex overlayCardParent">
-            <article class="friteModal flex cardSegondaireCoprs">
-                <div>
-                      <img src="../images/frites/GRANDE_FRITE.png" alt="barquette de grande frite">
+        <nav class="flex">
+          <ul class="flex overlayNav">
+              <li>
+                <button class="btnTransparent" id="btnRetourFrite">Retour</button>
+              </li>
+              <li> 
+                <div id="croixImageFrite">
+                  <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
                 </div>
-                <p class="cardSegondaireText">Frites</p>
-            </article>
-            <article class="potatoesModal flex cardSegondaireCoprs">
-                <div>
-                      <img src="../images/frites/GRANDE_POTATOES.png" alt="barquette de grande frite potetoes">
-                </div>
-                <p class="cardSegondaireText">Potatoes</p>
-            </article>
-        </section>
+              </li>
+          </ul>
+        </nav>
 
-        <!-- message erreur -->
-        <div class="erreurtFrite modal-hidden">
-          <p class="cardSegondaireText">Vous devez selectionner un accompagnement</p>
-        </div>
+      <div class="flex overlayCoprs">
 
-         <!-- button -->
-        <div class="btnCorps flex">
-            <button id="btnModalFrite" class="btnJaune">Etape suivante</button>
-        </div>
+          <!-- titre -->
+          <div class="flex overlayTitre">
+              <h4>Choisissez votre accompagnement</h4>
+              <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+          </div>
 
-    </div>
+          <!-- frite / potatoes -->
+          <section class="flex overlayCardParent">
+              <article class="friteModal flex cardSegondaireCoprs">
+                  <div>
+                        <img src="../images/frites/GRANDE_FRITE.png" alt="barquette de grande frite">
+                  </div>
+                  <p class="cardSegondaireText">Frites</p>
+              </article>
+              <article class="potatoesModal flex cardSegondaireCoprs">
+                  <div>
+                        <img src="../images/frites/GRANDE_POTATOES.png" alt="barquette de grande frite potetoes">
+                  </div>
+                  <p class="cardSegondaireText">Potatoes</p>
+              </article>
+          </section>
+
+          <!-- message erreur -->
+          <div class="erreurtFrite modal-hidden erreurMessage">
+            <p class="cardSegondaireText">Selectionner un accompagnement</p>
+          </div>
+
+          <!-- button -->
+          <div class="btnCorps flex">
+              <button id="btnModalFrite" class="btnJaune">Etape suivante</button>
+          </div>
+
+      </div>
     `
   zone.innerHTML = template;
 
@@ -542,10 +553,10 @@ function afficherModaleBoisson(produit, commandeMenu) {
   let zone = document.querySelector(".modaleBoissons")
   let template = 
     `
-      <nav>
-        <ul>
+       <nav class="flex">
+        <ul class="flex overlayNav">
             <li>
-              <button id="btnRetourBoisson">Retour</button>
+              <button class="btnTransparent" id="btnRetourBoisson">Retour</button>
             </li>
             <li> 
               <div id="croixImageBoisson">
@@ -554,29 +565,39 @@ function afficherModaleBoisson(produit, commandeMenu) {
             </li>
         </ul>
       </nav>
-      <!-- titre -->
-      <div>
-          <h4>Choisissez votre accompagnement</h4>
-          <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
-      </div>
-      <!-- caroussel boissons -->
-      <div class="carouselBoisson">
-          <div>
-              <img class="prevBoisson" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+
+      <div class="flex overlayCoprs">
+
+          <!-- titre -->
+          <div class="flex overlayTitre">
+              <h4>Choisissez votre accompagnement</h4>
+              <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
           </div>
-          <div class="carousel-boisson">
-              <!-- fct js afficherCardBoisson -->
+
+          <!-- caroussel boissons -->
+          <div class="carouselBoisson">
+              <div>
+                  <img class="prevBoisson" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+              </div>
+              <div class="carousel-boisson">
+                  <!-- fct js afficherCardBoissons -->
+              </div>
+              <div>
+                  <img class="nextBoisson" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+              </div>
           </div>
-          <div>
-              <img class="nextBoisson" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+
+          <!-- message erreur -->
+          <div class="erreurBoisson modal-hidden erreurMessage">
+            <p class="cardSegondaireText">Selectionner une boisson</p>
           </div>
-      </div>
-      <div class="erreurBoisson modal-hidden">
-        <p>Vous devez selectionner une boisson</p>
-      </div>
-      <div>
-          <button id="btnModalAjouter">Ajouter le menu à ma commande</button>
-      </div>
+
+          <!-- boutons -->
+          <div class="btnCorps flex">
+              <button id="btnModalAjouter" class="btnJaune">Ajouter le menu à ma commande</button>
+          </div>
+
+    </div>
     `
   zone.innerHTML = template;
 
@@ -625,11 +646,11 @@ function afficherCardsBoissons(datas, commandeMenu){
       template += 
       `
       <article class="cardBoisson">
-        <div>
-          <div>
-              <img src="../images/${card.image}" alt="menu">
-          </div>
-          <p>${card.nom}</p>
+        <div class="cardCarouselCorps flex">
+            <div class="cardImgCarousel flex">
+                <img src="../images/${card.image}" alt="menu">
+            </div>
+            <p>${card.nom}</p>
         </div>
       </article>
       `;    
