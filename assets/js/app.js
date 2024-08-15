@@ -8,11 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
-    datasCategorie();
-    carousselCategorie ();
+   ;
     afficherNumeroChevalet(urlParams);
     afficherMontantCommande(0)
     datasProduits('menus')
+
+    datasCategorie(() => {
+      // Appeler carousselCategorie après que les données soient chargées
+      carousselCategorie();
+    });
+    
   }
 
   // page chevalet
@@ -49,13 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
  * param : no
  * return :array : liste des produits
  */
-function datasCategorie() { 
+function datasCategorie(callback) { 
 fetch('../../json/categories.json')
   .then(response => {
     return response.json();
   })
   .then (datas => {
     afficherCardsCategorie(datas)
+    callback();
   })
   .catch(error => {
     // Gérer les erreurs
@@ -101,8 +107,23 @@ function datasBoissons(commandeMenu) {
 
 // ----------------- CAROUSSEL CATEGORIE -------------------------
 
+/**
+ * orole : organise le defilement du caroussel
+ */
 function carousselCategorie() {
   
+  /**
+   * Algo : au click fleche de droite
+   *  si index different de 0
+   *  j'effectue une translation de la largeur d une carde multiplier par la valeur de lindex ()
+   *  je d'ecremente l'inde de 1
+   *  je desactive la fleche si index = 0
+   * Algo : au click fleche de  gauche
+   *  si index different du nombre de carte - 1
+   *  j'effectue une translation de la largeur d une carde multiplier par la valeur de lindex ()
+   *  je d'ecremente l'inde de 1
+   *  je desactive la fleche si index = 0
+   */
   // selection des elements
   const carousel = document.querySelector('.carousel-categorie');
   const cards = document.querySelectorAll('.cardCategorie');
@@ -112,12 +133,13 @@ function carousselCategorie() {
 
   // variables
   let currentIndex = 0;
-  //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
-  cardWidth = 200; // largeur card
-
+  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
+  const carouselWidth = carousel.offsetWidth; // Largeur visible du carrousel
+  const visibleCards = Math.floor(carouselWidth / cardWidth); // Nombre de cartes visibles
   // bornage du defilement
   const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
-  const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
+  const isLastSlide = () => currentIndex === cards.length - visibleCards; // si index card = cards.length - visibleCards; (derniere card) alors true sinon false
+  
 
   /**
    * role : fonction pour defiler les cards/ Translation d'une longueur egale à la positon de la card * la largeur de la card
@@ -126,25 +148,24 @@ function carousselCategorie() {
    */
   const updateCarousel = () => {
     carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    nextBtn.disabled = isLastSlide(); // Désactiver le bouton "Suivant" à la fin
-    prevBtn.disabled = isFirstSlide(); // Désactiver le bouton "Précédent" au début (optionnel)
+    nextBtn.disabled = isLastSlide(); // Désactiver  le bouton "Suivant" à la fin / desiable desactive l'elementy
+    prevBtn.disabled = currentIndex === 0;  // Désactiver le bouton "Précédent" au début (optionnel)
   };
 
   /**
-   * role : faire defiler ou pas le caroussel (precedent)
-   * param : no
+   * role :  passer a la slide precedente (fleche gauche)
    * return : no
    * algo : au click si defilement possible decrementte l'index et effectue la translation
    */
   const goToPrevSlide = () => {
-    if (!isFirstSlide()) {
+    if (currentIndex > 0) {
       currentIndex--;
       updateCarousel();
     }
   };
 
   /**
-   * role : faire defiler ou pas le caroussel (precedent)
+   * role : passer a la slide psuivante(fleche droite)
    * param : no
    * return : no
    * algo : au click si defilement possible incremente l'index et effectue la translation

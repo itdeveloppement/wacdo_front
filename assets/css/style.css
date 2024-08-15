@@ -207,10 +207,15 @@ ul {
     overflow: hidden;
     width: 100%; 
     position: relative;
+    padding-left: 95px;
+    padding-right: 95px;
+  
 }
 .carousel-categorie, .carousel-boisson {
     display: flex;
     transition: transform 0.5s ease-in-out;
+   
+    ;
 }
 .cardCategorie, .cardBoisson {
     flex: 200px; /*  flex: 0 0 200px; L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
@@ -245,10 +250,6 @@ ul {
     position: absolute;
     top: 50%;
     transform: translateY(-50%); /* centrer verticalement avec position absolut */
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 36px;
     cursor: pointer;
     z-index: 1;
 }
@@ -389,6 +390,7 @@ ul {
 /* PAGE CHOIX */
 header {
   margin: 20px;
+
 }
 main {
   margin: 20px;
