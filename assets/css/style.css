@@ -159,7 +159,6 @@ background-color: var(--premiereColor);
 transition: background-color 0.3s ease-in-out;
 width: 150px;
 text-align: center;
-margin: 40px 0 10px 0;
 }
 .btnJaune:hover {
   background-color: var(--deuxiemeColor);
@@ -215,10 +214,12 @@ ul {
 }
 .cardCategorie, .cardBoisson {
     flex: 200px; /*  flex: 0 0 200px; L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
-    height: 180px; /*  height: auto;*/
+    /*height: 180px; /*  height: auto;*/
+     /* min-width: 200px; */
+     /* max-width: 200px; */
+    min-height: 180px;
+    max-height: 180px;
     margin: 5px;
-    /* text-align: center; */
-    /* line-height: 170px; */
     border: 1px solid var(--quatriemeColor);
     border-radius: var(--borderRadius);
 }
@@ -286,6 +287,7 @@ ul {
   border-radius: var(--borderRadius);
   border: 6px solid var(--quatriemeColor);
   padding: 20px;
+  margin-bottom: 40px;
 }
 .cardSegondaireCoprs:hover {
   border: var(--borderHover);
@@ -302,12 +304,19 @@ ul {
 }
 
 /* card produit */
-.listeProduits {
-    background-color: rgb(146, 121, 83);
-}
 .cardProduit{
-    flex: 0 0 200px;
-    border: 1px solid;
+    flex: 1; /* occuper tout l'espace disponible */
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 300px;
+    max-height: 300px;
+    border: 1px solid var(--quatriemeColor);
+    border-radius: var(--borderRadius);
+    padding: 10px;
+}
+.listeProduitsCards .cardProduit:last-child {
+  flex: 0 0 auto; /* pour largeur de la derniere card produit */
+  max-width: 200px;
 }
 
 /* formulaire chevalet et numero commande*/
@@ -325,57 +334,8 @@ ul {
     width: 80px;
 }
 
-/* PAGE CHOIX */
-
-/* section commande */
-.sectionCommande {
-height: 100vh;
-background-color: blue;
-}
-
-/* PAGE CHEVALET */
-.chevaletCorps {
- justify-content: center;
-}
-.chevaletImg {
-  width: 100px;
-  margin-bottom: 40px;
-}
-.chevaletImg img {
-  border-radius: var(--borderRadius);
-  width: 100%;
-  height: auto;
-}
-#formChevalet .btnJaune {
-  width: 220px;
-  margin: 30px auto 0 auto;
-}
-.chevaletCorps form {
-  width: 100%;
-}
-
-/* PAGE A BIENTOT */
-.abientotCorps {
-  justify-content: center;
-}
-.abientotCorps p {
-  width: 100%;
-  font-family: "Freehand", cursive;
-  font-weight: 800;
-  font-style: italic;
-  font-size: 40px;
-}
-.abientotCorps .btnJaune {
-  width: 200px;
-}
-
-/* PAGE A COMMANDE */
-#formNumCommande .btnJaune {
-  width: 330px;
-  margin: 30px auto 0 auto;
-}
-
 /* OVERLAY */
+
 .modal-hidden {
   display: none;
 }
@@ -425,3 +385,137 @@ background-color: blue;
 .modaleboissons .btnJaune {
   width: 350px;
 }
+
+/* PAGE CHOIX */
+header {
+  margin: 20px;
+}
+main {
+  margin: 20px;
+}
+/* section principale */
+.sectionPrincipale {
+  width: 85%;
+}
+
+/* section produit */
+.produits {
+  padding-left: 100px;
+}
+.listeProduits {
+  width: 100%;
+  margin: 20px 0 50px 0;
+}
+
+.listeProduitsCards{
+  width: 100%;
+  gap: 10px;
+}
+.cardProduitCoprs {
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+.cardProduitImg {
+  width: 100%;
+}
+.cardProduitImg img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.nomProduit, .priceMenu {
+text-align: center;
+font-weight: 600;
+margin-top: 20px;
+}
+
+/* section commande */
+.sectionCommande {
+  flex-direction: column;
+  justify-content: space-between;
+  width: 15%;
+  background-color: var(--quatriemeColor);
+  padding:20px;
+}
+/* entete commande */
+.logo {
+  width: 100%;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+}
+.logo img {
+  width: 50%;
+  height: auto;
+}
+.surplace p {
+  font-weight: 600;
+  text-align: center;
+}
+/* montant commande */
+#commandeMontant {
+  border-top: 2px solid var(--troisiemeColor);
+  padding-top: 10px;
+}
+.btnCommande {
+justify-content: space-between;
+align-items: center;
+padding: 20px 0 20px 0 ;
+}
+#commandeMontant .btnTransparent, #commandeMontant .btnJaune{
+  width: 80px;
+  font-size: 12px;
+  height: 45px;
+}
+#commandeMontant .montantTotalText {
+  justify-content: space-between
+}
+#commandeMontant .montantTotal {
+  font-size: 30px;
+  text-align: center;
+
+}
+/* PAGE CHEVALET */
+.chevaletCorps {
+ justify-content: center;
+}
+.chevaletImg {
+  width: 100px;
+  margin-bottom: 40px;
+}
+.chevaletImg img {
+  border-radius: var(--borderRadius);
+  width: 100%;
+  height: auto;
+}
+#formChevalet .btnJaune {
+  width: 220px;
+  margin: 30px auto 0 auto;
+}
+.chevaletCorps form {
+  width: 100%;
+}
+
+/* PAGE A BIENTOT */
+.abientotCorps {
+  justify-content: center;
+}
+.abientotCorps p {
+  width: 100%;
+  font-family: "Freehand", cursive;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 40px;
+}
+.abientotCorps .btnJaune {
+  width: 200px;
+}
+
+/* PAGE A COMMANDE */
+#formNumCommande .btnJaune {
+  width: 330px;
+  margin: 30px auto 0 auto;
+}
+

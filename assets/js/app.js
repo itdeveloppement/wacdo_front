@@ -74,6 +74,7 @@ function datasProduits(categorie) {
     return response.json();
   })
   .then (datas => {
+    afficherProduitTitre(categorie)
     afficherCardsProduit(datas, categorie)
   })
   .catch(error => {
@@ -262,36 +263,44 @@ cardsCategorie.forEach(card => {
 // ---------- AFFICHAGE CARDS PRODUITS --------------------------
 
 /**
- * role : afficher les cards produits
- * param : {array} tableau de données
+ * role : afficher le titre des cards produits
+ * param : strin : category
+ * return : no
+ */
+function afficherProduitTitre(categorie){
+  let zone1 = document.querySelector(".listeProduits")
+  let templateTitre=
+  `
+      <h3>Nos ${categorie}</h3>
+      <p>Choississez nos ${categorie}</p>
+  `;
+zone1.innerHTML = templateTitre; 
+}
+ 
+/**
+ * role : afficher le titre des cards produits
+ * param : string : category
+ * param : tableau d'objet : liste des produits
  * return : no
  */
 function afficherCardsProduit(datas, categorie){
-  let zone = document.querySelector(".listeProduits")
-  let templateTitre=
-  `
-    <div>
-      <h3>Nos ${categorie}</h3>
-      <p>Choississez nos ${categorie}</p>
-    </div>
-  `;
-
+  let zone2 = document.querySelector(".listeProduitsCards")
   let cardPoduit= ''; 
   datas[categorie].forEach(card=>{
     cardPoduit += 
       `
         <article class="cardProduit">
-          <div>
-            <div>
+          <div class="cardProduitCoprs flex">
+            <div class="cardProduitImg">
                 <img src="../images/${card.image}" alt="menu">
             </div>
             <p class="nomProduit">${card.nom}</p>
-            <p class="priceMenu">${card.prix}</p><p>€</p>
+            <p class="priceMenu">${card.prix.toFixed(2)} €</p>
           </div>
         </article>
       `;    
-  });  
-  zone.innerHTML = templateTitre + cardPoduit;
+  });
+zone2.innerHTML = cardPoduit;
 
 // --------- ECOUTEUR EVENEMENT CARD PRODUIT ------------------
 
@@ -729,7 +738,7 @@ function afficherProduitCommande(produit) {
         `
           <div>
               <p class="cmd-nomProduit">${produit.nom}</p>
-              <p>${produit.price} €</p>
+              <p>${produit.price}</p>
               <div class="poubelleImage">
                 <img src="../images/images/trash.png" alt="poubelle">
               </div>
@@ -836,14 +845,16 @@ function afficherMontantCommande (montant) {
   let zone = document.getElementById("commandeMontant")
   let template= 
     `
-    <div>          
-        <p>TOTAL</p>
-        <p>(ttc)</p>
-    </div>
-    <p>${montant} €</p>
-    <div>
-        <a href="../../index.html">Abandon</a>
-        <button id="btnPayerCommande">Payer</button>
+    <div class="montantTotalText flex">
+      <div>           
+          <p>TOTAL</p>
+          <p>(ttc)</p>
+      </div>
+      <p class="montantTotal">${montant.toFixed(2)} €</p>
+     </div>
+    <div class="btnCommande flex">
+        <a class="btnTransparent" href="../../index.html">Abandon</a>
+        <button class="btnJaune" id="btnPayerCommande">Payer</button>
     </div>
     `
   zone.innerHTML = template
@@ -927,6 +938,13 @@ function afficherNumeroChevalet(urlParams){
     let template=
     `
       <p>Numero Chevalet : ${nombreChevalet}</div>
+    `
+    zone.innerHTML = template;
+  } else {
+    let zone = document.querySelector(".surplace")
+    let template=
+    `
+      <p>Commande à emporter</div>
     `
     zone.innerHTML = template;
   }

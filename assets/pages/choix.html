@@ -11,64 +11,69 @@
     <!-- favicon et image à la racine du site-->
     <link rel="shortcut icon" type="image/png" href="../../logo.ico"/>
 </head>
-<body>
-    <!-- SECTION HEADER CAROUSSEL -->
-    <header>
-        <div class="carouselCategorie">
-            <div class="prevCorps">
-                <img class="prevCategorie" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+<body class="flex choix">
+    <div class="sectionPrincipale">
+        <!-- SECTION HEADER CAROUSSEL -->
+        <header>
+            <div class="carouselCategorie">
+                <div class="prevCorps">
+                    <img class="prevCategorie" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+                </div>
+                <div class="carousel-categorie">
+                    <!-- fct js afficherCardsCategorie -->
+                </div>
+                <div class="nextCorps">
+                    <img class="nextCategorie" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+                </div>
             </div>
-            <div class="carousel-categorie">
-                <!-- fct js afficherCardsCategorie -->
+        </header>
+        <main>
+            <!-- SECTION PRODUITS -->
+            <section class="flex produits">
+                <div class="listeProduits flex">
+                    <!-- fct js afficherCardsProduits -->
+                </div>
+                <div class="listeProduitsCards flex">
+                    <!-- fct js afficherCardsProduits -->
+                </div>
+            </section>
+            <!-- SECTION MODALE TAILLE MENU -->
+            <section class="modaleTailleMenu modal-hidden overlay">
+                <!-- fct js afficherModaleTailleMenu -->
+            </section>
+            <!-- SECTION MODALE FRITE -->
+            <section class="modaleFrite modal-hidden overlay"></section>
+                <!-- fct js afficherModaleFrite -->
+            </section>
+            <!-- SECTION MODALE BOISSON -->
+            <section class="modaleBoissons modal-hidden overlay">
+                <!-- fct js afficherModaleBoisson -->
+            </section>  
+        </main>
+    </div>
+    <!-- SECTION COMMANDE EN COURS -->
+    <aside class="sectionCommande flex">
+        <div>
+            <div class="logo flex">
+                <img src="../images/images/logo.png" alt="logo de la société Wacdo">
             </div>
-
-            <div class="nextCorps">
-                <img class="nextCategorie" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+            <div>
+                <div class="surplace">
+                    <!-- fonction js afficherNumeroChevalet -->
+                </div>
             </div>
         </div>
-    </header>
-    <main>
-        <!-- SECTION PRODUITS -->
-        <section class="listeProduits flex">
-            <!-- fct js afficherCardsProduits -->
-        </section>
-        <!-- SECTION MODALE TAILLE MENU -->
-        <section class="modaleTailleMenu modal-hidden overlay">
-             <!-- fct js afficherModaleTailleMenu -->
-        </section>
-        <!-- SECTION MODALE FRITE -->
-        <section class="modaleFrite modal-hidden overlay"></section>">
-             <!-- fct js afficherModaleFrite -->
-        </section>
-        <!-- SECTION MODALE BOISSON -->
-        <section class="modaleboissons modal-hidden ">
-             <!-- fct js afficherModaleBoisson -->
-        </section>   
-        <!-- SECTION COMMANDE EN COURS -->
-        <section class="sectionCommande">
-            <div>
-                <div>
-                    <img src="../images/images/logo.png" alt="logo de la société Wacdo">
-                </div>
-                <div>
-                    <div class="surplace">
-                        <!-- fonction js afficherNumeroChevalet -->
-                    </div>
-                </div>
-            </div>
-            <!-- menu -->
-            <div id="commandeMenu">
-                <!-- fct js afficherMenuCommande-->
-
-            </div>
-            <div id="commandeProduit">
-                <!-- fct js afficherProduitCommande-->
-            </div>
-            <div id="commandeMontant">
-                <!-- fct js afficherMontantCommande-->
-            </div>
-        </section>
-    </main>
+        <!-- menu -->
+        <div id="commandeMenu">
+            <!-- fct js afficherMenuCommande-->
+        </div>
+        <div id="commandeProduit">
+            <!-- fct js afficherProduitCommande-->
+        </div>
+        <div id="commandeMontant">
+            <!-- fct js afficherMontantCommande-->
+        </div>
+    </aside>
        <script src="../js/app.js" defer></script>
 </body>
 </html>
