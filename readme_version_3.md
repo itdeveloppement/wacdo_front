@@ -1,3 +1,7 @@
+# branche :
+- main : code en cours dedeveloppement
+- prod-version : la derniere version est la version en prod la plus aboutit
+
 # prod-version-2
   - documentations
     - README_version_prod

@@ -233,7 +233,7 @@ ul {
     left: 50%;
     transform: translateX(-50%);
     width: 300px;
-    z-index: 9999;
+    z-index: 8;
 }
 .erreurMessage p{
   color: var(--deuxiemeColor);
@@ -346,8 +346,8 @@ ul {
     flex: 1; /* occuper tout l'espace disponible */
     min-width: 200px;
     max-width: 200px;
-    min-height: 310px;
-    max-height: 310px;
+    min-height: 300px;
+    max-height: 300px;
     border: 1px solid var(--quatriemeColor);
     border-radius: var(--borderRadius);
     padding: 10px;
@@ -387,7 +387,19 @@ ul {
   left: 0;
   background-color: var(--sixiemeColor);
   align-items: center;
-  z-index: 4;
+  z-index: 9999;
+  background-color: rgba(241, 241, 241, 0.171);
+}
+.overlayFond{
+  width: 80%;
+  height: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--sixiemeColor);
+  border-radius: var(--borderRadius);
+  box-shadow: var(--borderShadow);
 }
 .overlayCoprs {
   justify-content: center;
@@ -430,7 +442,8 @@ header {
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 9999;
+  z-index: 8;
+
 }
 main {
   margin: 20px;
@@ -448,6 +461,7 @@ main {
   width: 100%;
   margin: 20px 0 50px 0;
 }
+
 .listeProduitsCards{
   width: 100%;
   gap: 10px;
@@ -456,6 +470,7 @@ main {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
+
 }
 .cardProduitImg {
   width: 100%;
@@ -490,7 +505,7 @@ margin-top: 20px;
   width: 50%;
   height: auto;
 }
-.surplace p, .numeroCommande p {
+.surplace p {
   font-weight: 600;
   text-align: center;
 }

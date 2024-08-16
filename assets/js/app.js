@@ -351,6 +351,8 @@ cardsProduit.forEach(card => {
     }
   });
 });
+
+const modal = document.getElementById('modaleTailleMenu');
 }
 
 // -------------- MODALES MENU ----------------------------------
@@ -369,6 +371,7 @@ function afficherModaleTailleMenu(produit){
   let zone = document.querySelector(".modaleTailleMenu")
   let template= 
   `
+  <div class="overlayFond">
     <!-- nav-->
     <nav class="flex overlayNav">
       <div id="croixImageMenu">
@@ -414,6 +417,7 @@ function afficherModaleTailleMenu(produit){
         </div>
 
     </div>
+  </div>
   `
   zone.innerHTML = template;
 
@@ -492,6 +496,7 @@ function afficherModaleFrite(produit, commandeMenu){
   let zone = document.querySelector(".modaleFrite")
   let template = 
     `
+    <div class="overlayFond">
         <nav class="flex">
           <ul class="flex overlayNav">
               <li>
@@ -540,6 +545,7 @@ function afficherModaleFrite(produit, commandeMenu){
           </div>
 
       </div>
+    </div>
     `
   zone.innerHTML = template;
 
@@ -596,6 +602,7 @@ function afficherModaleBoisson(produit, commandeMenu) {
   let zone = document.querySelector(".modaleBoissons")
   let template = 
     `
+    <div class="overlayFond">
        <nav class="flex">
         <ul class="flex overlayNav">
             <li>
@@ -640,6 +647,7 @@ function afficherModaleBoisson(produit, commandeMenu) {
               <button id="btnModalAjouter" class="btnJaune">Ajouter le menu à ma commande</button>
           </div>
 
+      </div>
     </div>
     `
   zone.innerHTML = template;
