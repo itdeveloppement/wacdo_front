@@ -59,7 +59,7 @@
     /* border */
     --borderRadius: 10px;
     --borderShadow: 0 0 20px rgb(96, 96, 96);  /* box-shadow */
-    --borderHover: 6px solid rgb(255, 200, 54);
+    --borderHover: 4px solid rgb(255, 200, 54);
 
     /* largeur goutiere*/
     --gutter: 10px;
@@ -266,9 +266,15 @@ ul {
     min-height: 180px;
     max-height: 180px;
     margin: 5px;
-    border: 1px solid var(--quatriemeColor);
+    border: 2px solid var(--quatriemeColor);
     border-radius: var(--borderRadius);
+
 }
+
+.cardCategorie:hover, .cardBoisson:hover {
+  border: 2px solid var(--premiereColor);
+}
+
 .cardCarouselCorps {
   padding: 15px 10px 15px 10px;
   flex-direction: column;
@@ -327,7 +333,7 @@ ul {
   justify-content: center;
   background-color: var(--sixiemeColor);
   border-radius: var(--borderRadius);
-  border: 6px solid var(--quatriemeColor);
+  border: 2px solid var(--quatriemeColor);
   padding: 20px;
   margin-bottom: 40px;
 }
@@ -357,9 +363,13 @@ ul {
     max-width: 200px;
     min-height: 300px;
     max-height: 300px;
-    border: 1px solid var(--quatriemeColor);
+    border: 2px solid var(--quatriemeColor);
     border-radius: var(--borderRadius);
     padding: 10px;
+    
+}
+.cardProduit:hover {
+    border: 2px solid var(--premiereColor);
 }
 .listeProduitsCards .cardProduit:last-child {
   flex: 0 0 auto; /* pour largeur de la derniere card produit */
@@ -383,8 +393,12 @@ ul {
 
 /* OVERLAY */
 
+/* modale */
 .modal-hidden {
   display: none;
+}
+.activeBordureJaune {
+  border: 2px solid var(--premiereColor);
 }
 
 /* generale*/

@@ -282,10 +282,19 @@ function afficherCardsCategorie(datas){
 // --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
 
 const cardsCategorie = document.querySelectorAll('.cardCategorie');
+
+
+
 cardsCategorie.forEach(card => {
+  console.log(card)
+  if(card.querySelector('p').textContent == 'menus') {
+    activeBordureJaune(card);
+  };
   card.addEventListener('click', (event) => {
+    desactiveBordureJaune(cardsCategorie);
     const categorie = event.currentTarget.querySelector('p').textContent;
     datasProduits(categorie);
+    activeBordureJaune(event.currentTarget);
   });
 });
 }
@@ -337,13 +346,15 @@ zone2.innerHTML = cardPoduit;
 const cardsProduit = document.querySelectorAll('.cardProduit');
 cardsProduit.forEach(card => {
   card.addEventListener('click', (event) => {
-    const produit = event.currentTarget;
+    desactiveBordureJaune(cardsProduit); 
+    activeBordureJaune(event.currentTarget); 
     if (categorie == "menus") {
-      afficherModaleTailleMenu(produit);
+      afficherModaleTailleMenu(event.currentTarget);
       togglerModale(".modaleTailleMenu");
     } else {
-      afficherProduitCommande(produit)
+      afficherProduitCommande(event.currentTarget)
     }
+      
   });
 });
 
@@ -421,6 +432,8 @@ function afficherModaleTailleMenu(produit){
   //ajouter le choix taille normale à la commande
   const menuNormal = document.querySelector(".menuNormal");
   menuNormal.addEventListener("click", (event) => {
+    menuMax.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
     let produit = event.currentTarget;
     ajouterMenuNormalCommande(produit, commandeMenu);
@@ -429,6 +442,8 @@ function afficherModaleTailleMenu(produit){
   // ajouter le choix taille max à la commande
   const menuMax = document.querySelector(".menuMax");
   menuMax.addEventListener("click", (event) => {
+    menuNormal.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
     let produit = event.currentTarget;
     ajouterMenuMaxCommande(produit, commandeMenu);
@@ -576,6 +591,8 @@ function afficherModaleFrite(produit, commandeMenu){
   const friteModal = document.querySelector(".friteModal");
   friteModal.addEventListener("click", (event) => {
     messageErreur (".erreurtFrite")
+    potatoesModal.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
     commandeMenu.frite = frite; 
@@ -584,6 +601,8 @@ function afficherModaleFrite(produit, commandeMenu){
   // ajouter potetose à la commande
   const potatoesModal = document.querySelector(".potatoesModal");
   potatoesModal.addEventListener("click", (event) => {
+    friteModal.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtFrite")
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
@@ -708,6 +727,8 @@ function afficherCardsBoissons(datas, commandeMenu){
 const cardsBoisson = document.querySelectorAll('.cardBoisson');
 cardsBoisson.forEach(card => {
   card.addEventListener('click', (event) => {
+    desactiveBordureJaune(cardsBoisson); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurBoisson")
     const boisson = event.currentTarget.querySelector('p').textContent;
     commandeMenu.boisson = boisson; 
@@ -953,6 +974,23 @@ function messageErreur (classModal) {
       togglerModale(classModal);
     }
   }
+
+/**
+ * role : active ou desactive la bordure jaune si element est selectionné
+ * param : htmlElement : element selectionné
+ */
+function activeBordureJaune(element) {
+  element.classList.toggle("activeBordureJaune");
+}
+/**
+ * role : desactive la bordure jaune
+ * param : htmlElement : les elements concernés
+ */
+function desactiveBordureJaune(elements){ 
+  elements.forEach(autresElements=> {
+  autresElements.classList.remove('activeBordureJaune');
+  });
+};
 
 // ------- FORM CHEVALET ----------------------------------------------
 
