@@ -91,11 +91,12 @@ function datasProduits(categorie) {
  * param : no
  * return :array : liste des produits
  */
-function datasBoissons(commandeMenu) {
+function datasBoissons(commandeMenu, callback) {
   fetch('../../json/produits.json')
     .then(response => response.json())
     .then(datas => {
     afficherCardsBoissons(datas, commandeMenu)
+    callback();
   })
     .catch(error => {
       console.error('Erreur lors de la récupération des boissons :', error);
@@ -125,13 +126,45 @@ function changeTypo() {
     btnTypo.classList.toggle("newTypo");
 }
 }
-// ----------------- CAROUSSEL CATEGORIE -------------------------
+// ----------------- CAROUSSEL -------------------------
+
+// ----------------- carousel categorie ----------------
 
 /**
- * orole : organise le defilement du caroussel
+ * orole : préparation des données du caroussel categorie
  */
 function carousselCategorie() {
   
+  // selection des elements
+  const carousel = document.querySelector('.carousel-categorie');
+  const cards = document.querySelectorAll('.cardCategorie');
+  let cat = "Categorie";
+  caroussel (carousel, cards, cat)
+}
+
+// ----------------- caroussel boisson -------------------------
+
+/**
+ * orole : préparation des données du caroussel categorie
+ */
+function carousselBoissons() {
+  
+  // selection des elements
+  const carousel = document.querySelector('.carousel-boisson');
+  const cards = document.querySelectorAll('.cardBoisson');
+  let cat = "Boisson";
+  caroussel (carousel, cards, cat)
+}
+
+// ----------------- carousel general ----------------
+/**
+ * role : organise le defilement du carousel
+ * @param {*} carousel eltHtml caroussel
+ * @param {*} cards eltHtml cards
+ * @param {*} cat : utilisation du carouselle pour (ex categories ou boissons)
+ */
+function caroussel (carousel, cards, cat) {
+
   /**
    * Algo : au click fleche de droite
    *  si index different de 0
@@ -145,18 +178,16 @@ function carousselCategorie() {
    *  je desactive la fleche si index = 0
    */
 
-  // selection des elements
-  const carousel = document.querySelector('.carousel-categorie');
-  const cards = document.querySelectorAll('.cardCategorie');
-  const prevBtn = document.querySelector('.prevCategorie');
-  const nextBtn = document.querySelector('.nextCategorie'); 
+  const selectorPrev = "prev" + cat;
+  const selectorNext = "next" + cat;
+  const prevBtn = document.querySelector('.' + selectorPrev);
+  const nextBtn = document.querySelector('.' + selectorNext); 
   // variables
   let currentIndex = 0;
   const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
   const carouselWidth = carousel.offsetWidth; // Largeur visible du carrousel
   const visibleCards = Math.floor(carouselWidth / cardWidth); // Nombre de cartes visibles
   // bornage du defilement
-  const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
   const isLastSlide = () => currentIndex === cards.length - visibleCards; // si index card = cards.length - visibleCards; (derniere card) alors true sinon false
   
   /**
@@ -196,68 +227,11 @@ function carousselCategorie() {
   };
 
   // ecouteurs evenements
-  prevBtn.addEventListener('click', goToPrevSlide);
-  nextBtn.addEventListener('click', goToNextSlide);
+ prevBtn.addEventListener('click', goToPrevSlide);
+ nextBtn.addEventListener('click', goToNextSlide);
 }
 
-// ----------------- CAROUSSEL BOISSONS -------------------------
 
-function carousselBoissons() {
-  
-  // selection des elements
-  const carousel = document.querySelector('.carousel-boisson');
-  const cards = document.querySelectorAll('.cardBoisson');
-  const prevBtn = document.querySelector('.prevBoisson');
-  const nextBtn = document.querySelector('.nextBoisson'); 
-  // variables
-  let currentIndex = 0;
-  //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
-  cardWidth = 200; // largeur card
-  // bornage du defilement
-  const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
-  const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
-
-  /**
-   * role : fonction pour defiler les cards/ Translation d'une longueur egale à la positon de la card * la largeur de la card
-   * param : no
-   * return : no 
-   */
-  const updateCarousel = () => {
-    carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    nextBtn.disabled = isLastSlide(); // Désactiver le bouton "Suivant" à la fin
-    prevBtn.disabled = isFirstSlide(); // Désactiver le bouton "Précédent" au début
-  };
-
-  /**
-   * role : faire defiler ou pas le caroussel (precedent)
-   * param : no
-   * return : no
-   * algo : au click si defilement possible decrementte l'index et effectue la translation
-   */
-  const goToPrevSlide = () => {
-    if (!isFirstSlide()) {
-      currentIndex--;
-      updateCarousel();
-    }
-  };
-
-  /**
-   * role : faire defiler ou pas le caroussel (precedent)
-   * param : no
-   * return : no
-   * algo : au click si defilement possible incremente l'index et effectue la translation
-   */
-  const goToNextSlide = () => {
-    if (!isLastSlide()) {
-      currentIndex++;
-      updateCarousel();
-    }
-  };
-
-  // ecouteurs evenements
-  prevBtn.addEventListener('click', goToPrevSlide);
-  nextBtn.addEventListener('click', goToNextSlide);
-}
 
 // ---------- AFFICHAGE CARDS CATEGORIE --------------------------
 
@@ -652,9 +626,9 @@ function afficherModaleBoisson(produit, commandeMenu) {
     `
   zone.innerHTML = template;
 
-  datasBoissons(commandeMenu)
-  carousselBoissons();
-
+// carouselBoissons en caalback pour timing dom
+datasBoissons(commandeMenu, carousselBoissons);
+  
   // -----  ecouteurs evenement dans la modale boisson ------
 
   // fermeture modale par la croix

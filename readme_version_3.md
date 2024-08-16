@@ -36,8 +36,9 @@
   - UI/UX fonctionnel
     - mise en page accueil / chevalet / choix / a bientot
 
-  - UI/UX a ajouter
-    - bouton changer typo se superpose sur le bouton retour en fct du format de la page
+  - UI/UX a ajouter ou modifier
+    - OK / bouton changer typo se superpose sur le bouton retour en fct du format de la page
+    - OK / modifier ouverture overlay qui se fait actuellement en pleine page
     - overlay : supprimer le scroll quand overlay ouvert
     - overlay : hover sur croix
     - overlay menu taille et frite à la selection maintenir le contour jaune
@@ -45,8 +46,7 @@
         ◦ mettre le caroussel à jour
         ◦ marge autour du btn
     - responsive
-    - modifier ouverture overlay qui se fait actuellement en pleine page
-  
+ 
   - fonctionnalités accessibilité
     - typo Luciol
     - attribut alt sur image et title (sur les a)
