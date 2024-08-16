@@ -1,20 +1,22 @@
+
+// variables globales
 let commandeProduit = [];
 let commandeMenus=[];
+let produit = null;
 
 // -------------- AU CHARGEMENT --------------------
 document.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.pathname; // url relative
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   typo()
-  // page choix
+  
+    // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
-   ;
     afficherNumeroChevalet(urlParams);
+    afficherNumeroCommande()
     afficherMontantCommande(0)
     datasProduits('menus')
-    // typo()
     datasCategorie(() => {
-      // Appeler carousselCategorie après que les données soient chargées
       carousselCategorie();
     });
     
@@ -22,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // page chevalet
   if (currentUrl === '/assets/pages/chevalet.html') { 
-    
     // verification des champs du formulaire
     const regex = /^[0-9]$/;
     const nombre1 = document.getElementById('nombre1');
@@ -30,19 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!regex.test(nombre1.value)) {
         alert('Veuillez entrer un chiffre de 0 à 9.')
     }});
-  
     const nombre2 = document.getElementById('nombre2');
     nombre2.addEventListener('input', () => {
       if (!regex.test(nombre2.value)) {
         alert('Veuillez entrer un chiffre de 0 à 9.')
     }});
-
     const nombre3 = document.getElementById('nombre3'); 
     nombre3.addEventListener('input', () => {
       if (!regex.test(nombre3.value)) {
         alert('Veuillez entrer un chiffre de 0 à 9.')
     }});
-    formChevalet ();
+    formChevalet();
 }
 
 });
@@ -64,7 +63,6 @@ fetch('../../json/categories.json')
     callback();
   })
   .catch(error => {
-    // Gérer les erreurs
     console.error('Erreur lors de la recuperation de la liste des categories :', error);
   });
 }
@@ -84,7 +82,6 @@ function datasProduits(categorie) {
     afficherCardsProduit(datas, categorie)
   })
   .catch(error => {
-    // Gérer les erreurs
     console.error('Erreur lors de la recuperation de la liste des produits :', error);
   });
 }
@@ -108,14 +105,12 @@ function datasBoissons(commandeMenu) {
 // CHANGEMENT TYPO
 
 function typo(){
+  const btnTypo = document.getElementById("btn-typo")
+  btnTypo.addEventListener("click", () => {
+    console.log("test")
+    changeTypo()
 
-const btnTypo = document.getElementById("btn-typo")
-btnTypo.addEventListener("click", () => {
-  console.log("test")
-  changeTypo()
-
-});
-// changement de la typo du site modal
+  });
 
 /** change typo du site
  *  @param {*} // pas de parametre
@@ -149,13 +144,12 @@ function carousselCategorie() {
    *  je d'ecremente l'inde de 1
    *  je desactive la fleche si index = 0
    */
+
   // selection des elements
   const carousel = document.querySelector('.carousel-categorie');
   const cards = document.querySelectorAll('.cardCategorie');
-  
   const prevBtn = document.querySelector('.prevCategorie');
   const nextBtn = document.querySelector('.nextCategorie'); 
-
   // variables
   let currentIndex = 0;
   const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
@@ -165,7 +159,6 @@ function carousselCategorie() {
   const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
   const isLastSlide = () => currentIndex === cards.length - visibleCards; // si index card = cards.length - visibleCards; (derniere card) alors true sinon false
   
-
   /**
    * role : fonction pour defiler les cards/ Translation d'une longueur egale à la positon de la card * la largeur de la card
    * param : no
@@ -214,15 +207,12 @@ function carousselBoissons() {
   // selection des elements
   const carousel = document.querySelector('.carousel-boisson');
   const cards = document.querySelectorAll('.cardBoisson');
-  
   const prevBtn = document.querySelector('.prevBoisson');
   const nextBtn = document.querySelector('.nextBoisson'); 
-
   // variables
   let currentIndex = 0;
   //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
   cardWidth = 200; // largeur card
-
   // bornage du defilement
   const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
   const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
@@ -277,8 +267,8 @@ function carousselBoissons() {
  * return : no
  */
 function afficherCardsCategorie(datas){
-  let zone = document.querySelector(".carousel-categorie") // ciblage
-  let template = ''; // declaration
+  let zone = document.querySelector(".carousel-categorie")
+  let template = '';
   datas.forEach(card=>{
       template += 
       `
@@ -303,7 +293,6 @@ cardsCategorie.forEach(card => {
     datasProduits(categorie);
   });
 });
-
 }
 
 // ---------- AFFICHAGE CARDS PRODUITS --------------------------
@@ -348,7 +337,7 @@ function afficherCardsProduit(datas, categorie){
   });
 zone2.innerHTML = cardPoduit;
 
-// --------- ECOUTEUR EVENEMENT CARD PRODUIT ------------------
+// --------- ecouteurs evenements cards produits ------------------
 
 const cardsProduit = document.querySelectorAll('.cardProduit');
 cardsProduit.forEach(card => {
@@ -365,7 +354,7 @@ cardsProduit.forEach(card => {
 }
 
 // -------------- MODALES MENU ----------------------------------
-let produit = null;
+
 /**
  * role : affiche la modale menu
  * param : htmlElement : le produit selectionné
@@ -449,7 +438,6 @@ function afficherModaleTailleMenu(produit){
   // fermeture modale par la croix
   const croixFermeture = document.getElementById("croixImageMenu");
   croixFermeture.addEventListener("click", function(){
-    // afficherModaleTailleMenu(produit)
     togglerModale(".modaleTailleMenu");
   });
 
@@ -681,8 +669,8 @@ function afficherModaleBoisson(produit, commandeMenu) {
       togglerModale(".modaleBoissons");
       afficherMenuCommande (commandeMenu) 
 
-      // Suppression de l'écouteur après le premier clic
-      btnAjouter.removeEventListener('click', arguments.callee);
+    // Suppression de l'écouteur après le premier clic
+    btnAjouter.removeEventListener('click', arguments.callee);
   } else {
       togglerModale(".erreurBoisson");
   }
@@ -735,12 +723,11 @@ cardsBoisson.forEach(card => {
  * @returns 
  */
 function afficherMenuCommande (commandeMenu) {
-
-  
+  // preparation des données
   commandeMenus.push(commandeMenu);
+
   let zone = document.getElementById("commandeMenu")
-  let template = ''; // declaration
-  // extraction des données et construction card / template
+  let template = ''; 
   commandeMenus.forEach(menu=>{
       template += 
       `
@@ -759,13 +746,21 @@ function afficherMenuCommande (commandeMenu) {
   });  
   
   zone.innerHTML = template;
-  // Ecouteur d'événement à la zone (element) pour suppression produit
-    zone.addEventListener('click',(event, commandeMenus) => {
-      const localCommandeMenus = commandeMenus; 
-      console.log(localCommandeMenus)
-      supprimerMenu(event, localCommandeMenus)
+ 
+  let siItemsSupprime = false; 
+  // ecouteur sur suppression (image poubelle)
+  let poubelleImg = document.querySelectorAll(".poubelleImageM")
+  poubelleImg.forEach(img => {
+    img.addEventListener('click', (event) => {
+      supprimerMenu(event);
+      siItemsSupprime = true;
+      // Supprimer l'écouteur sur cet élément spécifique
+      img.removeEventListener('click', arguments.callee);
+    });
   });
-  calculerMontantCommandeMenus (commandeMenus)
+  if (!siItemsSupprime) {
+    calculerMontantCommandeMenus(commandeMenus);
+  }
 }
 
 /**
@@ -812,12 +807,9 @@ calculerMontantCommandeProduit (commandeProduit)
 function supprimerProduit(event) {
   const parentDiv = event.target.closest('.poubelleImage').parentNode; // Trouver la div parente
   const nomProduit = parentDiv.querySelector('.cmd-nomProduit').textContent; // Récupérer l'id du produit
-  // Trouver l'index du produit dans le tableau
-  const index = commandeProduit.findIndex(produit => produit.nom === nomProduit);
-  // Supprimer l'élément du DOM
-  parentDiv.remove();
-  // Supprimer l'élément du tableau
-  commandeProduit.splice(index, 1); // (1 = nb element à suprimer)
+  const index = commandeProduit.findIndex(produit => produit.nom === nomProduit); // Trouver l'index du produit dans le tableau
+  parentDiv.remove(); // Supprimer l'élément du DOM
+  commandeProduit.splice(index, 1); // Supprimer l'élément du tableau // (1 = nb element à suprimer)
   calculerMontantCommandeProduit (commandeProduit);
 }
 
@@ -826,18 +818,12 @@ function supprimerProduit(event) {
  * @param {role } event (element selectionné)
  */
 function supprimerMenu(event) {
-  const parentDiv = event.target.closest('.poubelleImageM').parentNode; // Trouver la div parente
-  const nomProduit = parentDiv.querySelector('.cmd-nomProduitM').textContent; // Récupérer l'id du produit
-  // Trouver l'index du produit dans le tableau
-  console.log(commandeMenus)
-  const index = commandeMenus.findIndex(menu => menu.nom === nomProduit);
-  console.log(index);
-  // Supprimer l'élément du DOM
+  const parentDiv = event.target.closest('.poubelleImageM').parentNode;
+  const nomProduit = parentDiv.querySelector('.cmd-nomProduitM').textContent; 
+  const index = commandeMenus.findIndex(menu => menu.menu === nomProduit); 
   parentDiv.remove();
-  // Supprimer l'élément du tableau
   commandeMenus.splice(index, 1); // (1 = nb element à suprimer)
-  
-  
+  calculerMontantCommandeMenus(commandeMenus);
 }
 
 // ------------ calculer et afficher montant commande -----------------
@@ -884,8 +870,7 @@ function sommeCommande(montant, param) {
     tabMontant[param] = montant
   }
   let somme = tabMontant.menus + tabMontant.produits
-  // limiter a deux decimale
-  let montantCommande = Math.round(somme * 100) / 100;
+  let montantCommande = Math.round(somme * 100) / 100;   // limiter a deux decimale
   afficherMontantCommande (montantCommande)
 }
 
@@ -913,8 +898,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-     // Redirection
-     window.location.href = "./commande.html";
+    window.location.href = "./abientot.html";   // Redirection
 });
 
 }
@@ -922,12 +906,19 @@ function afficherMontantCommande (montant) {
  * role : enregistrer le paiement
  */
 function enregistrerPayment() {
-      // Données à envoyées en AJAX vers serveur
+  const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
+  const nombreChevalet = urlParams.get('nombreChevalet');
+  // Données à envoyées en AJAX vers serveur
+  if(nombreChevalet) {
+    console.log(nombreChevalet)
+  }
+  console.log(numeroCommande);
   console.log(commandeMenus)
   console.log(commandeProduit)
 }
 
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
+
 let modalOuverte = null;
 /**
  * role : ajoute la classe pour affichage de la modale ou l'enleve
@@ -953,6 +944,7 @@ function messageErreur (classModal) {
       togglerModale(classModal);
     }
   }
+
 // ------- FORM CHEVALET ----------------------------------------------
 
 /**
@@ -984,21 +976,40 @@ form.addEventListener('submit', (event) => {
  */
 function afficherNumeroChevalet(urlParams){
   const nombreChevalet = urlParams.get('nombreChevalet'); // recuperation parametre
+  let zone = document.querySelector(".surplace")
   if(nombreChevalet) { 
-    let zone = document.querySelector(".surplace")
     let template=
     `
-      <p>Numero Chevalet : ${nombreChevalet}</div>
+      <p>Surplace</P>
+      <p>Chevalet : ${nombreChevalet}</p>
     `
     zone.innerHTML = template;
   } else {
-    let zone = document.querySelector(".surplace")
     let template=
     `
-      <p>Commande à emporter</div>
+      <p>A emporter</P>
     `
     zone.innerHTML = template;
   }
+}
+
+let numeroCommande = null;
+/**
+ * role : affiche le numero de la commande
+ * @param {*} 
+ */
+function afficherNumeroCommande(){
+  min = 1;
+  max = 100;
+  let zone = document.querySelector(".numeroCommande")
+  numeroCommande = Math.floor(Math.random() * (max - min + 1)) + min;
+  if(numeroCommande) { 
+    let template=
+    `
+      <p>Commande : ${numeroCommande}</div>
+    `
+    zone.innerHTML = template;
+  } 
 }
 
 

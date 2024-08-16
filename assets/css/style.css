@@ -346,8 +346,8 @@ ul {
     flex: 1; /* occuper tout l'espace disponible */
     min-width: 200px;
     max-width: 200px;
-    min-height: 300px;
-    max-height: 300px;
+    min-height: 310px;
+    max-height: 310px;
     border: 1px solid var(--quatriemeColor);
     border-radius: var(--borderRadius);
     padding: 10px;
@@ -431,7 +431,6 @@ header {
   top: 10px;
   left: 10px;
   z-index: 9999;
-
 }
 main {
   margin: 20px;
@@ -449,7 +448,6 @@ main {
   width: 100%;
   margin: 20px 0 50px 0;
 }
-
 .listeProduitsCards{
   width: 100%;
   gap: 10px;
@@ -458,7 +456,6 @@ main {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
-
 }
 .cardProduitImg {
   width: 100%;
@@ -493,7 +490,7 @@ margin-top: 20px;
   width: 50%;
   height: auto;
 }
-.surplace p {
+.surplace p, .numeroCommande p {
   font-weight: 600;
   text-align: center;
 }
