@@ -28,11 +28,11 @@
     - soumission du payement
     
   - fonctionnalités à ajouter
-     - overlay menu : choisir une frite ou une salde pour les menus
-     - overlay menu : choisir sauce 
+    - overlay menu : choisir une frite ou une salde pour les menus
+    - overlay menu : choisir sauce 
     - quantité variable pour une selection d'un produit
     - message erreur sur form chevalet
-    - améliorer et verifier le traitement 
+    - améliorer et verifier le traitement des erreurs
 
   - UI/UX fonctionnel
     - mise en page accueil / chevalet / choix / a bientot

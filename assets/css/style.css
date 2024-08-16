@@ -338,6 +338,11 @@ ul {
   width: 100%;
   height: auto;
 }
+.cardSegondaireImg img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 .cardSegondaireText {
   width: 100%;
   margin-top: 10px;
@@ -392,10 +397,10 @@ ul {
   background-color: var(--sixiemeColor);
   align-items: center;
   z-index: 9999;
-  background-color: rgba(241, 241, 241, 0.171);
+  background-color: rgba(241, 241, 241, 0.517);
 }
 .overlayFond{
-  width: 80%;
+  width: 60%;
   height: auto;
   position: fixed;
   top: 50%;
@@ -448,14 +453,14 @@ header {
   top: 10px;
   left: 10px;
   z-index: 8;
-
 }
 main {
   margin: 20px;
 }
+
 /* section principale */
 .sectionPrincipale {
-  width: 85%;
+  width: 80%;
 }
 
 /* section produit */
@@ -466,7 +471,6 @@ main {
   width: 100%;
   margin: 20px 0 50px 0;
 }
-
 .listeProduitsCards{
   width: 100%;
   gap: 10px;
@@ -475,7 +479,6 @@ main {
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
-
 }
 .cardProduitImg {
   width: 100%;
@@ -491,12 +494,12 @@ font-weight: 600;
 margin-top: 20px;
 }
 
-
 /*  SECTION COMMANDE */
+
 .sectionCommande {
   flex-direction: column;
   justify-content:start;
-  width: 15%;
+  width: 20%;
   background-color: var(--quatriemeColor);
   padding:20px;
 }
@@ -504,20 +507,21 @@ margin-top: 20px;
 /* entete commande */
 .enteteCommande {
   padding-bottom: 10px;
+  min-height: 100px; /* ou une hauteur fixe */
 }
 .logo {
   width: 100%;
-  height: auto;
-  justify-content: center;
+  height: 100%;
   padding: 20px;
-  overflow: hidden;
 }
 .logo img {
-  width: 50%;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .commandeNumPlace {
-  height: 100px;
+  border-bottom: 2px solid var(--troisiemeColor);
+  padding: 10px 0;
 }
 .surplace p, .numeroCommande p {
   font-weight: 600;
@@ -526,13 +530,8 @@ margin-top: 20px;
 
 /* commande menus-produits */
 .cmdMenuProduit {
-  border-top: 2px solid var(--troisiemeColor);
-  padding-top: 20px;
+  padding-top: 100px;
   min-height: 58vh;
-}
-#commandeMenu {
-}
-#commandeProduit {
 }
 
 /* liste menu et produit */
@@ -557,7 +556,7 @@ margin-top: 20px;
   font-size: 12px; 
 }
 .pblCmd {
-  width: 15%;
+  width: 22px;
   height: auto;
 }
 .pblCmd img{
@@ -581,7 +580,6 @@ padding: 20px 0 20px 0 ;
   width: 45%;
   font-size: 11px;
   height: 45px;
-
 }
 #commandeMontant .montantTotalText {
   justify-content: space-between
@@ -589,9 +587,10 @@ padding: 20px 0 20px 0 ;
 #commandeMontant .montantTotal {
   font-size: 30px;
   text-align: center;
-
 }
+
 /* PAGE CHEVALET */
+
 .chevaletCorps {
  justify-content: center;
 }

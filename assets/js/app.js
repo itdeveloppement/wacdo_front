@@ -108,7 +108,6 @@ function datasBoissons(commandeMenu, callback) {
 function typo(){
   const btnTypo = document.getElementById("btn-typo")
   btnTypo.addEventListener("click", () => {
-    console.log("test")
     changeTypo()
 
   });
@@ -184,9 +183,9 @@ function caroussel (carousel, cards, cat) {
   const nextBtn = document.querySelector('.' + selectorNext); 
   // variables
   let currentIndex = 0;
-  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
-  const carouselWidth = carousel.offsetWidth; // Largeur visible du carrousel
-  const visibleCards = Math.floor(carouselWidth / cardWidth); // Nombre de cartes visibles
+  let cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
+  let carouselWidth = carousel.offsetWidth; // Largeur visible du carrousel
+  let visibleCards = Math.floor(carouselWidth / cardWidth); // Nombre de cartes visibles
   // bornage du defilement
   const isLastSlide = () => currentIndex === cards.length - visibleCards; // si index card = cards.length - visibleCards; (derniere card) alors true sinon false
   
@@ -229,6 +228,28 @@ function caroussel (carousel, cards, cat) {
   // ecouteurs evenements
  prevBtn.addEventListener('click', goToPrevSlide);
  nextBtn.addEventListener('click', goToNextSlide);
+
+
+  // Fonction pour recalculer les dimensions et ajuster le carrousel
+  const recalculate = () => {
+    console.log("test")
+    cardWidth = cards[0].offsetWidth; // Recalculer la largeur d'une carte
+    carouselWidth = carousel.offsetWidth; // Recalculer la largeur visible du carrousel
+    visibleCards = Math.floor(carouselWidth / cardWidth); // Recalculer le nombre de cartes visibles
+
+    // S'assurer que l'index actuel n'est pas hors des limites après le redimensionnement
+    if (currentIndex > cards.length - visibleCards) {
+      currentIndex = cards.length - visibleCards;
+    }
+
+    updateCarousel(); // Mettre à jour la position du carrousel
+  };
+
+  // Écouteur d'événement pour le redimensionnement de la fenêtre
+  window.addEventListener('resize', recalculate);
+
+  // Initialisation
+  recalculate();
 }
 
 
@@ -300,7 +321,7 @@ function afficherCardsProduit(datas, categorie){
       `
         <article class="cardProduit" itemscope itemtype="http://schema.org/Product">
           <div class="cardProduitCoprs flex">
-            <div class="cardProduitImg">
+            <div class="cardProduitImg flex">
                 <img itemprop="image" src="../images/${card.image}" alt="menu ${card.image}">
             </div>
             <p class="nomProduit" itemprop="name">${card.nom}</p>
@@ -364,14 +385,14 @@ function afficherModaleTailleMenu(produit){
         <!-- taille produits -->
         <section class="flex overlayCardParent">
             <article class="menuNormal flex cardSegondaireCoprs">
-                <div>
+                <div class="cardSegondaireImg">
                     <img src="${urlImage}" alt="menu ${name}">
                 </div>
                 <p class="cardSegondaireText">${name}</p>
                 <span hidden>${price}</span>
             </article>
             <article class="menuMax flex cardSegondaireCoprs">
-                <div>
+                <div class="cardSegondaireImg">
                     <img src="${urlImage}" alt="menu ${name}">
                 </div>
                 <p class="cardSegondaireText">${name} Maxi</p>
@@ -969,7 +990,7 @@ function afficherNumeroChevalet(urlParams){
     let template=
     `
     <div>
-      <p>Surplace</P>
+      <p>Surplace</p>
       <p>Chevalet : ${nombreChevalet}</p>
     </div>
     `
@@ -978,7 +999,7 @@ function afficherNumeroChevalet(urlParams){
     let template=
     `
     <div>
-      <p>A emporter</P>
+      <p>A emporter</p>
     </div>
     `
     zone.innerHTML = template;
