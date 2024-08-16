@@ -713,14 +713,16 @@ function afficherMenuCommande (commandeMenu) {
   commandeMenus.forEach(menu=>{
       template += 
       `
-        <div>
-            <div>
-                <p class="cmd-nomProduitM">${menu.menu ? menu.menu : ''}</p>
-                <p>${menu.frite ? menu.frite : ''}</p>
-                <p>${menu.boisson ? menu.boisson : ''}</p>
-                <p>${menu.priceMenu ? menu.priceMenu : ''} €</p>
+        <div class="menuCmdDetail flex">
+            <div class="menuCmd">
+                <p class="cmd-nomProduitM titleCmd">${menu.menu ? menu.menu : ''}</p>
+                <ul>
+                    <li>${menu.frite ? menu.frite : ''}</li>
+                    <li>${menu.boisson ? menu.boisson : ''}</li>
+                    <li>${menu.priceMenu ? menu.priceMenu : ''} €</li>
+                </ul>
             </div>
-            <div class="poubelleImageM">
+            <div class="poubelleImageM pblCmd">
                 <img src="../images/images/trash.png" alt="poubelle">
             </div>
         </div>
@@ -763,12 +765,16 @@ function afficherProduitCommande(produit) {
     commandeProduit.forEach(produit=>{
         template += 
         `
-          <div>
-              <p class="cmd-nomProduit">${produit.nom}</p>
-              <p>${produit.price}</p>
-              <div class="poubelleImage">
-                <img src="../images/images/trash.png" alt="poubelle">
-              </div>
+          <div class="menuCmdDetail flex">
+            <div class="menuCmd">
+              <p class="cmd-nomProduit titleCmd">${produit.nom}</p>
+              <ul>
+                <li>${produit.price}</li>
+              </ul>
+            </div>
+            <div class="poubelleImage  pblCmd">
+              <img src="../images/images/trash.png" alt="poubelle">
+            </div>
           </div>
         `;    
     });
@@ -962,14 +968,18 @@ function afficherNumeroChevalet(urlParams){
   if(nombreChevalet) { 
     let template=
     `
+    <div>
       <p>Surplace</P>
       <p>Chevalet : ${nombreChevalet}</p>
+    </div>
     `
     zone.innerHTML = template;
   } else {
     let template=
     `
+    <div>
       <p>A emporter</P>
+    </div>
     `
     zone.innerHTML = template;
   }

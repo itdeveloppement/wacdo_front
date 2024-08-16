@@ -28,7 +28,8 @@
     - soumission du payement
     
   - fonctionnalités à ajouter
-    - creation overlay pour choisir une frite ou une salde pour les menus
+     - overlay menu : choisir une frite ou une salde pour les menus
+     - overlay menu : choisir sauce 
     - quantité variable pour une selection d'un produit
     - message erreur sur form chevalet
     - améliorer et verifier le traitement 
@@ -37,14 +38,9 @@
     - mise en page accueil / chevalet / choix / a bientot
 
   - UI/UX a ajouter ou modifier
-    - OK / bouton changer typo se superpose sur le bouton retour en fct du format de la page
-    - OK / modifier ouverture overlay qui se fait actuellement en pleine page
+    - carooussel : adapatation largeur ecran auto si modification (portrait paysage)
     - overlay : supprimer le scroll quand overlay ouvert
-    - overlay : hover sur croix
     - overlay menu taille et frite à la selection maintenir le contour jaune
-    - overlay boisson :	
-        ◦ mettre le caroussel à jour
-        ◦ marge autour du btn
     - responsive
  
   - fonctionnalités accessibilité

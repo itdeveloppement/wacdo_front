@@ -216,9 +216,11 @@ button {
   
 }
 /* gestion format par defaut */
-a{
+a {
   text-decoration: none;
   color: inherit;
+  padding: 0;
+
 }
 ul {
   list-style: none;
@@ -243,16 +245,18 @@ ul {
     overflow: hidden;
     width: 100%; 
     position: relative;
-    margin-top: 90px;
     padding-left: 95px;
     padding-right: 95px;
-  
+}
+.carouselCategorie{
+  margin-top: 90px;
+}
+.carouselBoisson{
+  margin-bottom: 40px;
 }
 .carousel-categorie, .carousel-boisson {
     display: flex;
     transition: transform 0.5s ease-in-out;
-   
-    ;
 }
 .cardCategorie, .cardBoisson {
     flex: 200px; /*  flex: 0 0 200px; L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
@@ -400,6 +404,7 @@ ul {
   background-color: var(--sixiemeColor);
   border-radius: var(--borderRadius);
   box-shadow: var(--borderShadow);
+  padding: 20px;
 }
 .overlayCoprs {
   justify-content: center;
@@ -411,7 +416,7 @@ ul {
   justify-content: space-between;
   padding: 5%;
 }
-#croixImage img:hover {
+#croixImageMenu img:hover, #croixImageFrite img:hover, #croixImageBoisson img:hover  {
   background-color: var(--quatriemeColor);
   border-radius: 50%;
   transition: background-color 0.3s ease-in-out;
@@ -486,17 +491,23 @@ font-weight: 600;
 margin-top: 20px;
 }
 
-/* section commande */
+
+/*  SECTION COMMANDE */
 .sectionCommande {
   flex-direction: column;
-  justify-content: space-between;
+  justify-content:start;
   width: 15%;
   background-color: var(--quatriemeColor);
   padding:20px;
 }
+
 /* entete commande */
+.enteteCommande {
+  padding-bottom: 10px;
+}
 .logo {
   width: 100%;
+  height: auto;
   justify-content: center;
   padding: 20px;
   overflow: hidden;
@@ -505,10 +516,56 @@ margin-top: 20px;
   width: 50%;
   height: auto;
 }
-.surplace p {
+.commandeNumPlace {
+  height: 100px;
+}
+.surplace p, .numeroCommande p {
   font-weight: 600;
   text-align: center;
 }
+
+/* commande menus-produits */
+.cmdMenuProduit {
+  border-top: 2px solid var(--troisiemeColor);
+  padding-top: 20px;
+  min-height: 58vh;
+}
+#commandeMenu {
+}
+#commandeProduit {
+}
+
+/* liste menu et produit */
+.menuCmdDetail {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.menuCmd {
+  width: 85%;
+}
+.titleCmd {
+  width: 100%;
+  font-weight: 600;
+  font-size: 12px;
+}
+.menuCmd ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+.menuCmd li {
+  font-size: 12px; 
+}
+.pblCmd {
+  width: 15%;
+  height: auto;
+}
+.pblCmd img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
 /* montant commande */
 #commandeMontant {
   border-top: 2px solid var(--troisiemeColor);
@@ -520,9 +577,11 @@ align-items: center;
 padding: 20px 0 20px 0 ;
 }
 #commandeMontant .btnTransparent, #commandeMontant .btnJaune{
-  width: 80px;
-  font-size: 12px;
+  min-width: 50px;
+  width: 45%;
+  font-size: 11px;
   height: 45px;
+
 }
 #commandeMontant .montantTotalText {
   justify-content: space-between
