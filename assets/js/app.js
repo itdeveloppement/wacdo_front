@@ -5,14 +5,14 @@ let commandeMenus=[];
 document.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.pathname; // url relative
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
-
+  typo()
   // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
    ;
     afficherNumeroChevalet(urlParams);
     afficherMontantCommande(0)
     datasProduits('menus')
-
+    // typo()
     datasCategorie(() => {
       // Appeler carousselCategorie après que les données soient chargées
       carousselCategorie();
@@ -105,6 +105,31 @@ function datasBoissons(commandeMenu) {
   });
 }
 
+// CHANGEMENT TYPO
+
+function typo(){
+
+const btnTypo = document.getElementById("btn-typo")
+btnTypo.addEventListener("click", () => {
+  console.log("test")
+  changeTypo()
+
+});
+// changement de la typo du site modal
+
+/** change typo du site
+ *  @param {*} // pas de parametre
+ *  @return ne retourne rien
+ */
+function changeTypo() {
+    // ciblage
+    let body = document.querySelector("body");
+    let btnTypo = document.getElementById("btn-typo");
+    // ajout de classe
+    body.classList.toggle("newTypo");
+    btnTypo.classList.toggle("newTypo");
+}
+}
 // ----------------- CAROUSSEL CATEGORIE -------------------------
 
 /**
@@ -310,13 +335,13 @@ function afficherCardsProduit(datas, categorie){
   datas[categorie].forEach(card=>{
     cardPoduit += 
       `
-        <article class="cardProduit">
+        <article class="cardProduit" itemscope itemtype="http://schema.org/Product">
           <div class="cardProduitCoprs flex">
             <div class="cardProduitImg">
-                <img src="../images/${card.image}" alt="menu">
+                <img itemprop="image" src="../images/${card.image}" alt="menu ${card.image}">
             </div>
-            <p class="nomProduit">${card.nom}</p>
-            <p class="priceMenu">${card.prix.toFixed(2)} €</p>
+            <p class="nomProduit" itemprop="name">${card.nom}</p>
+            <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)} €</p>
           </div>
         </article>
       `;    
@@ -710,6 +735,8 @@ cardsBoisson.forEach(card => {
  * @returns 
  */
 function afficherMenuCommande (commandeMenu) {
+
+  
   commandeMenus.push(commandeMenu);
   let zone = document.getElementById("commandeMenu")
   let template = ''; // declaration
@@ -730,11 +757,13 @@ function afficherMenuCommande (commandeMenu) {
         </div>
       `;    
   });  
-
+  
   zone.innerHTML = template;
   // Ecouteur d'événement à la zone (element) pour suppression produit
-    zone.addEventListener('click',(event) => {
-      supprimerMenu(event)
+    zone.addEventListener('click',(event, commandeMenus) => {
+      const localCommandeMenus = commandeMenus; 
+      console.log(localCommandeMenus)
+      supprimerMenu(event, localCommandeMenus)
   });
   calculerMontantCommandeMenus (commandeMenus)
 }
@@ -800,6 +829,7 @@ function supprimerMenu(event) {
   const parentDiv = event.target.closest('.poubelleImageM').parentNode; // Trouver la div parente
   const nomProduit = parentDiv.querySelector('.cmd-nomProduitM').textContent; // Récupérer l'id du produit
   // Trouver l'index du produit dans le tableau
+  console.log(commandeMenus)
   const index = commandeMenus.findIndex(menu => menu.nom === nomProduit);
   console.log(index);
   // Supprimer l'élément du DOM
@@ -807,7 +837,7 @@ function supprimerMenu(event) {
   // Supprimer l'élément du tableau
   commandeMenus.splice(index, 1); // (1 = nb element à suprimer)
   
-  calculerMontantCommandeMenus (commandeMenus);
+  
 }
 
 // ------------ calculer et afficher montant commande -----------------

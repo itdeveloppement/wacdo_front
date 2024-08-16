@@ -13,6 +13,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Handlee&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 
 
+/* Luciole-Regular */
+@font-face {
+  font-family: 'Luciole';
+  src: url('../fonts/Luciole_webfonts/Luciole-Regular/Luciole-Regular.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/Luciole_webfonts/Luciole-Regular/Luciole-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/Luciole_webfonts/Luciole-Regular/Luciole-Regular.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/Luciole_webfonts/Luciole-Regular/Luciole-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/Luciole_webfonts/Luciole-Regular/Luciole-Regular.svg#Luciole-Regular') format('svg'); /* Legacy iOS */
+  font-style: normal;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+}
+
 /* Déclare la classe pour les polices*/
 .source-sans-3-texte {
   font-family: "Source Sans 3", sans-serif;
@@ -38,6 +51,7 @@
 
     /*variable font*/
     --fonte: "Source Sans 3", sans-serif;
+    --fontLuciol: 'Luciole', sans-serif;
 
     --robotoFont: "Roboto", sans-serif;
     --tekoFont: "Teko", sans-serif;
@@ -49,6 +63,28 @@
 
     /* largeur goutiere*/
     --gutter: 10px;
+}
+
+/* ACCESSIBILITE TYPO */ 
+/* nav chagement de typo */
+#btn-typo {
+  
+  background-color: var(--cinquiemeColor);
+  width: 150px;
+  border: 1px solid var(--troisiemeColor);
+  transition: background-color 0.3s ease-in-out;
+  text-align: center;
+  
+}
+
+#btn-typo:hover {
+  background-color: var(--quatriemeColor);
+}
+
+
+.newTypo {
+  font-family: var(--fontLuciol);
+  line-height:1.5 ;
 }
 
 /* LARGEUR COLONNE */
@@ -148,17 +184,17 @@ button {
   padding: 0;
   margin: 0;
 }
-.btnJaune, .btnTransparent {
+.btnJaune, .btnTransparent, #btn-typo {
   border-radius: var(--borderRadius);
   padding: 15px;
   font-weight: 700;
   font-size: 15px;
 }
 .btnJaune {
-background-color: var(--premiereColor);
-transition: background-color 0.3s ease-in-out;
-width: 150px;
-text-align: center;
+  background-color: var(--premiereColor);
+  transition: background-color 0.3s ease-in-out;
+  width: 150px;
+  text-align: center;
 }
 .btnJaune:hover {
   background-color: var(--deuxiemeColor);
@@ -207,6 +243,7 @@ ul {
     overflow: hidden;
     width: 100%; 
     position: relative;
+    margin-top: 90px;
     padding-left: 95px;
     padding-right: 95px;
   
@@ -390,6 +427,10 @@ ul {
 /* PAGE CHOIX */
 header {
   margin: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 9999;
 
 }
 main {
