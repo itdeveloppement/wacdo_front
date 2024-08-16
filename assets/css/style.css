@@ -59,7 +59,7 @@
     /* border */
     --borderRadius: 10px;
     --borderShadow: 0 0 20px rgb(96, 96, 96);  /* box-shadow */
-    --borderHover: 4px solid rgb(255, 200, 54);
+    --borderHover: 2px solid rgb(255, 200, 54);
 
     /* largeur goutiere*/
     --gutter: 10px;
@@ -153,6 +153,7 @@ h3 {
   width: 100%;
   font-weight: 600;
   font-size: 30px;
+  margin-top: 20px;
 }
 h4 {
   width: 100%;
@@ -245,8 +246,8 @@ ul {
     overflow: hidden;
     width: 100%; 
     position: relative;
-    padding-left: 95px;
-    padding-right: 95px;
+    padding-left: 70px;
+    padding-right: 85px;
 }
 .carouselCategorie{
   margin-top: 90px;
@@ -361,8 +362,8 @@ ul {
     flex: 1; /* occuper tout l'espace disponible */
     min-width: 200px;
     max-width: 200px;
-    min-height: 300px;
-    max-height: 300px;
+    min-height: 310px;
+    max-height: 310px;
     border: 2px solid var(--quatriemeColor);
     border-radius: var(--borderRadius);
     padding: 10px;
@@ -479,7 +480,8 @@ main {
 
 /* section produit */
 .produits {
-  padding-left: 100px;
+  padding-left: 10%;
+
 }
 .listeProduits {
   width: 100%;
@@ -646,3 +648,19 @@ padding: 20px 0 20px 0 ;
   margin: 30px auto 0 auto;
 }
 
+/* RESPONSIVE */
+
+/* De 0 à 630px */
+@media all and (max-width: 630px) {
+  
+}
+
+/* De 631px à 950px */
+@media all and (min-width: 631px) and (max-width: 950px) {
+  
+}
+
+/* De 951px et plus */
+@media all and (min-width: 951px) {
+  
+}

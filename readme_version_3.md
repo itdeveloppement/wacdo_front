@@ -40,6 +40,7 @@
   - UI/UX a ajouter ou modifier
     - carooussel : adapatation largeur ecran auto si modification (portrait paysage)
     - overlay : supprimer le scroll quand overlay ouvert
+    - reprendre mise en forme section commande
     - responsive
  
   - fonctionnalités accessibilité
