@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.pathname; // url relative
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   typo()
+  initModal()
   
     // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
@@ -991,6 +992,26 @@ function desactiveBordureJaune(elements){
   autresElements.classList.remove('activeBordureJaune');
   });
 };
+
+/**
+ * role : gestion modale bulma
+ */
+function initModal() {
+  const modal = document.getElementById('modal');
+const modalBtn = document.getElementById('openModal');
+const closeModal = document.getElementById('closeModal');
+
+modalBtn.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+closeModal.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+}
+
+// Call the function to initialize the modal behavior
+//initModal();
 
 // ------- FORM CHEVALET ----------------------------------------------
 

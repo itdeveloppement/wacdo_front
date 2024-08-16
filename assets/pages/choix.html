@@ -8,6 +8,8 @@
     <meta name="description" content="Menu, burger, boissons, frites, wraps, ancas, desserts, salades, sauces">
     <!-- url canonical -->
     <link rel="canonical" href="http://exam-front.mcastellano.mywebecom.ovh/assets/pages/choix.html"/>
+    <!-- link librery bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <!-- link css -->
     <link rel="stylesheet" href="../css/style.css">
     <!-- favicon et image à la racine du site-->
@@ -87,9 +89,23 @@
         <div id="commandeMontant">
             <!-- fct js afficherMontantCommande-->
         </div>
-
+        <button class="button is-primary" id="openModal">Ouvrir la modale</button>
     </aside>
-       <script src="../js/app.js" defer></script>
+
+    <button class="button is-primary" id="openModal">Ouvrir la modale</button>
+
+<div id="modal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <p>Contenu de votre modale</p>
+      <button class="button is-danger" id="closeModal">Fermer</button>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+
+<script src="../js/app.js" defer></script>
 </body>
 </html>
 
