@@ -57,3 +57,4 @@
     - balise description unique
     - balise titre unique
     - shema.org sur cardProduit
+    - balise strong pour renforcer referencement

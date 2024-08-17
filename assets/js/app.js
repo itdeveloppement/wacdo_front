@@ -1,4 +1,3 @@
-
 // variables globales
 let commandeProduit = [];
 let commandeMenus=[];
@@ -9,19 +8,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.pathname; // url relative
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   typo()
-  modaleLaterale()
-
  
     // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
     afficherNumeroChevalet(urlParams);
+    modaleLaterale()
     afficherNumeroCommande()
     afficherMontantCommande(0)
     datasProduits('menus')
     datasCategorie(() => {
     carousselCategorie();
+    headerFondTransparent ()
     });
-    
   }
 
   // page chevalet
@@ -1004,6 +1002,12 @@ function modaleLaterale() {
   const modalContainer = document.querySelector('.modal-container');
   const sectionPrincipale = document.querySelector('.sectionPrincipale');
 
+  // modale ouverte au chargement
+  /*
+  modal.classList.add('active');
+  modalContainer.classList.add('active');
+  sectionPrincipale.classList.add('active');
+*/
   openBtn.addEventListener('click', () => {
       modal.classList.add('active');
       modalContainer.classList.add('active');
@@ -1088,6 +1092,16 @@ function afficherNumeroCommande(){
   } 
 }
 
+// --------------------- AUTRE ---------------
+
+/**
+ * 
+ */
+ function headerFondTransparent (){
+  let header = document.querySelector('.choix header');
+  header.classList.add('headerChoix');
+ 
+}
 
 
   

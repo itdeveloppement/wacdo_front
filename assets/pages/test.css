@@ -254,33 +254,36 @@ ul {
   width: 80%;
 }
 .carouselCategorie, .carouselBoisson {
-  overflow: hidden;
-  width: 100%; 
-  position: relative;
-  padding-left: 70px;
-  padding-right: 85px;
+    overflow: hidden;
+    width: 100%; 
+    position: relative;
+    padding-left: 70px;
+    padding-right: 85px;
 }
 .carouselBoisson{
   margin-bottom: 40px;
 }
 .carousel-categorie, .carousel-boisson {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
 }
 .cardCategorie, .cardBoisson {
-  flex: 200px; /*  flex: 0 0 200px; L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
-  /*height: 180px; /*  height: auto;*/
-    /* min-width: 200px; */
-    /* max-width: 200px; */
-  min-height: 180px;
-  max-height: 180px;
-  margin: 5px;
-  border: 2px solid var(--quatriemeColor);
-  border-radius: var(--borderRadius);
+    flex: 200px; /*  flex: 0 0 200px; L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
+    /*height: 180px; /*  height: auto;*/
+     /* min-width: 200px; */
+     /* max-width: 200px; */
+    min-height: 180px;
+    max-height: 180px;
+    margin: 5px;
+    border: 2px solid var(--quatriemeColor);
+    border-radius: var(--borderRadius);
+
 }
+
 .cardCategorie:hover, .cardBoisson:hover {
   border: 2px solid var(--premiereColor);
 }
+
 .cardCarouselCorps {
   padding: 15px 10px 15px 10px;
   flex-direction: column;
@@ -298,6 +301,7 @@ ul {
   width: 100px;
   height: auto;
 }
+
 .prevCategorie, .nextCategorie, .prevBoisson, .nextBoisson{
     position: absolute;
     top: 50%;
@@ -311,6 +315,7 @@ ul {
 .nextCategorie, .nextBoisson  {
     right: 20px;
 }
+
 .prevCorps .nextCorps {
   background-color: var(--sixiemeColor);
 }
@@ -451,7 +456,6 @@ ul {
 }
 .overlayCardParent {
   width: 100%;
-  height: 100%;
   justify-content: space-between;
 }
 
@@ -605,11 +609,13 @@ main {
 
 /* montant commande */
 #commandeMontant {
+
   right: 0;
   bottom: 0;
   width: 100%;
   border-top: 2px solid var(--troisiemeColor);
   padding: 10px;
+
 }
 .btnCommande {
   justify-content: space-between;
@@ -639,6 +645,7 @@ main {
   width: 0;
   overflow: hidden;
   transition: width 0.3s ease-in-out;
+  background-color: cadetblue;
 }
 .modal {
   position: fixed;
@@ -663,6 +670,7 @@ main {
 .sectionPrincipale.active {
   width: 80%;
 }
+
 
 /* PAGE CHEVALET */
 
@@ -710,7 +718,7 @@ main {
 /* RESPONSIVE */
 
 
-/* regles specifiques de 0 à 714px */
+/* regles specifiques de 0 à 400px */
 @media all and (max-width: 400px) {
 
   /* generale */
@@ -735,7 +743,6 @@ main {
     font-size: 12px;
 
   }
-
   /* card principale */
   .cardPrincipale {
     width: 90%;
@@ -753,47 +760,6 @@ main {
     font-size: 20px;
   }
 
-/* overlay */
-  .overlay .overlayNav {
-    padding: 0;
-  }
-  .overlayFond{
-    width: 100%;
-  }
-  .overlayFond .overlayCoprs{
-    padding: 0px;
-  }
-  .overlayFond, .overlayCardParent {
-  }
-  .overlayFond, .cardSegondaireCoprs {
-    padding: 10px;
-    width: 100%;
-    height: 100%;
-  }
-  .overlayFond .cardSegondaireImg {
-    width: 60%;
-    height: 60%;
-  }
-  .overlayFond .cardSegondaireImg img {
-    width: 100%;
-    height: 100%;
-  }
-  .overlayFond .cardSegondaireText {
-    margin: 0;
-    height: 20px;
-  }
-  .overlayFond  .overlayTitre {
-      margin: 0;
-  }
-  .overlayFond  .overlayTitre h4 {
-    margin-top: 10px;
-    font-size: 20px;
-  }
-  .overlayFond  .overlayTitre p {
-    font-size: 12px;
-    margin-bottom: 10px;
-  }
-  
   /* formulaire chevalet*/
   .form div {
     gap: 5px
@@ -812,6 +778,7 @@ main {
   }
 
   /* MODALE LATERALE */
+  /*
   .modal-container.active {
     width: 100%;
   }
@@ -827,7 +794,7 @@ main {
   .modal {
     transition: transform 0.3s ease-in-out;
   }
-
+*/
 }
 /* regles specifiques de 401 à 714px */
 @media all and (min-width: 401px) and (max-width: 714px) {
@@ -841,6 +808,7 @@ main {
   #btn-typo {
     width: 45%;
     font-size: 12px;
+    
   }
   .open-btn {
     width: 45%;
@@ -856,6 +824,7 @@ main {
   }
 
   /* MODALE LATERALE */
+  /*
   .modal-container.active {
     width: 100%;
   }
@@ -871,34 +840,43 @@ main {
   .modal {
     transition: transform 0.3s ease-in-out;
   }
+    */
 }
 
 /* Règles spécifiques de 715px à 1080px */
 @media all and (min-width: 715px) and (max-width:1080px ) {
     
-  /* modale laterale */
-    .modal{
-      width: 30%;
-    }
-    .carouselCat {
-      width: 70%;
-    }
-}
+   /* card principale */
+   .cardPrincipale {
+    width: 80%;
+  }
 
-/* Règles spécifiques de 1080px à plus*/
-@media all and (min-width: 1081px) {
-    
-}
-
-/* Règles communes de 715px à plus */
-@media (min-width: 715px) {
-  
   /* MODALE LATERALE */
+  /*
   .modal {
     transform: translateX(0);
   }
   .open-btn, .close-btn {
     display: none;
-  }
-
+  } 
+    */
 }
+
+/* Règles spécifiques de 1080px à plus*/
+@media all and (min-width: 1081px) {
+    /* MODALE LATERALE */
+  /*
+    .modal {
+      transform: translateX(0);
+    }
+    .open-btn, .close-btn {
+      display: none;
+    }  
+*/
+}
+
+
+/* Règles communes de 715px à plus */
+
+@media (min-width: 715px) {
+  
