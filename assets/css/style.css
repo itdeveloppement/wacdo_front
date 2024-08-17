@@ -68,13 +68,11 @@
 /* ACCESSIBILITE TYPO */ 
 /* nav chagement de typo */
 #btn-typo {
-  
   background-color: var(--cinquiemeColor);
-  width: 150px;
+  width: 200px;
   border: 1px solid var(--troisiemeColor);
   transition: background-color 0.3s ease-in-out;
   text-align: center;
-  
 }
 
 #btn-typo:hover {
@@ -153,7 +151,7 @@ h3 {
   width: 100%;
   font-weight: 600;
   font-size: 30px;
-  margin-top: 20px;
+
 }
 h4 {
   width: 100%;
@@ -242,15 +240,21 @@ ul {
   color: var(--deuxiemeColor);
 }
 /*  caroussel */
+
+.carouselCat {
+  position: fixed;
+  left: 0;
+  top: 85px;
+  background-color: var(--sixiemeColor);
+  padding-bottom: 20px;
+  width: 80%;
+}
 .carouselCategorie, .carouselBoisson {
     overflow: hidden;
     width: 100%; 
     position: relative;
     padding-left: 70px;
     padding-right: 85px;
-}
-.carouselCategorie{
-  margin-top: 90px;
 }
 .carouselBoisson{
   margin-bottom: 40px;
@@ -299,7 +303,7 @@ ul {
     top: 50%;
     transform: translateY(-50%); /* centrer verticalement avec position absolut */
     cursor: pointer;
-    z-index: 1;
+    z-index: 10;
 }
 .prevCategorie, .prevBoisson {
     left: 20px;
@@ -462,30 +466,38 @@ ul {
 }
 
 /* PAGE CHOIX */
-header {
-  margin: 20px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 8;
+.choix {
+  position: relative;
 }
+header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 8;
+  width: 100%;
+  padding: 20px;
+  background-color: var(--sixiemeColor);
+}
+
 main {
   margin: 20px;
+  height: 100%;
 }
 
 /* section principale */
 .sectionPrincipale {
-  width: 80%;
+  width: 100%;
+  height: 100%
 }
 
 /* section produit */
 .produits {
+  padding: 300px 10% 10% 10%;
   padding-left: 10%;
-
 }
 .listeProduits {
   width: 100%;
-  margin: 20px 0 50px 0;
+  margin: 0px 0 50px 0;
 }
 .listeProduitsCards{
   width: 100%;
@@ -505,25 +517,28 @@ main {
   object-fit: cover;
 }
 .nomProduit, .priceMenu {
-text-align: center;
-font-weight: 600;
-margin-top: 20px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 20px;
 }
 
 /*  SECTION COMMANDE */
 
 .sectionCommande {
-  flex-direction: column;
-  justify-content:start;
-  width: 20%;
+  align-content:start;
+height: 100vh;
   background-color: var(--quatriemeColor);
   padding:20px;
+  width: 100%;
+  background-color: cadetblue;
 }
 
 /* entete commande */
 .enteteCommande {
+  width: 100%;
   padding-bottom: 10px;
-  min-height: 100px; /* ou une hauteur fixe */
+  height: 100px;
+  background-color: aquamarine;
 }
 .logo {
   width: 100%;
@@ -536,6 +551,7 @@ margin-top: 20px;
   object-fit: contain;
 }
 .commandeNumPlace {
+  width: 100%;
   border-bottom: 2px solid var(--troisiemeColor);
   padding: 10px 0;
 }
@@ -546,8 +562,13 @@ margin-top: 20px;
 
 /* commande menus-produits */
 .cmdMenuProduit {
-  padding-top: 100px;
-  min-height: 58vh;
+  width: 100%;
+ min-height: 58vh;
+ max-height:58vh;
+ background-color: brown;
+ padding-top: 10px;
+ overflow-y: scroll;
+
 }
 
 /* liste menu et produit */
@@ -555,6 +576,7 @@ margin-top: 20px;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  background-color: aqua;
 }
 .menuCmd {
   width: 85%;
@@ -583,13 +605,15 @@ margin-top: 20px;
 
 /* montant commande */
 #commandeMontant {
+  width: 100%;
   border-top: 2px solid var(--troisiemeColor);
   padding-top: 10px;
+  background-color: burlywood;
 }
 .btnCommande {
-justify-content: space-between;
-align-items: center;
-padding: 20px 0 20px 0 ;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 20px 0 ;
 }
 #commandeMontant .btnTransparent, #commandeMontant .btnJaune{
   min-width: 50px;
@@ -603,6 +627,60 @@ padding: 20px 0 20px 0 ;
 #commandeMontant .montantTotal {
   font-size: 30px;
   text-align: center;
+}
+
+
+/* MODALE (modale) LATERALE */
+
+.modal-container {
+  position: relative;
+  height: 100%;
+  z-index: 9999;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease-in-out;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  transform-origin: right;
+  transform: translateX(100%);
+  transition: transform 0s ease-in-out;
+}
+
+.modal.active {
+  transform: translateX(0);
+}
+
+.modal-container.active {
+  width: 20%;
+}
+
+.sectionPrincipale {
+  width: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+.sectionPrincipale.active {
+  width: 80%;
+}
+
+.open-btn {
+  background-color: blue;
+  width: 200px;
+  height: 50px;
+  z-index: 9999;
+}
+
+.close-btn {
+  background-color: rgb(255, 0, 170);
+  width: 200px;
+  height: 50px;
+  z-index: 9999;
 }
 
 /* PAGE CHEVALET */
@@ -650,17 +728,66 @@ padding: 20px 0 20px 0 ;
 
 /* RESPONSIVE */
 
-/* De 0 à 630px */
+/* regles specifiques de 0 à 630px */
 @media all and (max-width: 630px) {
   
+  /* PAGE CHOIX */
+  .cardProduitCoprs {
+    justify-content: space-between;
+  }
+
+  /* MODALE LATERALE */
+  .modal-container.active {
+    width: 100%;
+  }
+  .sectionPrincipale.active {
+    width: 0%;
+  }
+  .modal, header, .produits, .carouselCat  {
+    width: 100%;
+  }
+  .modal-container {
+    transition: transform 0s ease-in-out;
+  }
+  .modal {
+    transition: transform 0.3s ease-in-out;
+  }
 }
 
-/* De 631px à 950px */
-@media all and (min-width: 631px) and (max-width: 950px) {
-  
+/* Règles spécifiques de 631px à 1080px */
+@media all and (min-width: 631px) and (max-width:1080px ) {
+    
+  .container {
+    justify-content: space-between;
+  }
 }
 
-/* De 951px et plus */
-@media all and (min-width: 951px) {
+/* Règles spécifiques de 1080px à plus*/
+@media all and (min-width: 1081px) {
+    
+  .container {
+    justify-content: space-between;
+  }
+}
+
+/* Règles communes de 631px à plus */
+@media (min-width: 631px) {
   
+  /* MODALE LATERALE */
+  .sectionPrincipale {
+    width: 80%;
+  }
+
+  .modal-container {
+    width: 20%;
+  }
+
+  .modal {
+    transform: translateX(0);
+  }
+
+  .open-btn, .close-btn {
+    display: none;
+  }
+
 }

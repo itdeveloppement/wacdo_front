@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.pathname; // url relative
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   typo()
-  
+  modaleLaterale()
+
+ 
     // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
     afficherNumeroChevalet(urlParams);
@@ -17,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     afficherMontantCommande(0)
     datasProduits('menus')
     datasCategorie(() => {
-      carousselCategorie();
+    carousselCategorie();
     });
     
   }
@@ -232,7 +234,6 @@ function caroussel (carousel, cards, cat) {
 
   // Fonction pour recalculer les dimensions et ajuster le carrousel
   const recalculate = () => {
-    console.log("test")
     cardWidth = cards[0].offsetWidth; // Recalculer la largeur d'une carte
     carouselWidth = carousel.offsetWidth; // Recalculer la largeur visible du carrousel
     visibleCards = Math.floor(carouselWidth / cardWidth); // Recalculer le nombre de cartes visibles
@@ -286,7 +287,6 @@ const cardsCategorie = document.querySelectorAll('.cardCategorie');
 
 
 cardsCategorie.forEach(card => {
-  console.log(card)
   if(card.querySelector('p').textContent == 'menus') {
     activeBordureJaune(card);
   };
@@ -917,7 +917,7 @@ function afficherMontantCommande (montant) {
           <p>(ttc)</p>
       </div>
       <p class="montantTotal">${montant.toFixed(2)} €</p>
-     </div>
+    </div>
     <div class="btnCommande flex">
         <a class="btnTransparent" href="../../index.html">Abandon</a>
         <button class="btnJaune" id="btnPayerCommande">Payer</button>
@@ -992,6 +992,31 @@ function desactiveBordureJaune(elements){
   });
 };
 
+/**
+ * trole : ouverture et fermeture modale laterale
+ * param : no
+ */
+function modaleLaterale() { 
+  const openBtn = document.querySelector('.open-btn');
+  const closeBtn = document.querySelector('.close-btn');
+  const modal = document.querySelector('.modal');
+
+  const modalContainer = document.querySelector('.modal-container');
+  const sectionPrincipale = document.querySelector('.sectionPrincipale');
+
+  openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+      modalContainer.classList.add('active');
+      sectionPrincipale.classList.add('active');
+  });
+
+  closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      modalContainer.classList.remove('active');
+      sectionPrincipale.classList.remove('active');
+  });
+
+}
 // ------- FORM CHEVALET ----------------------------------------------
 
 /**

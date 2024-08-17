@@ -43,6 +43,10 @@
     - reprendre mise en forme section commande
     - responsive
  
+  - CSS
+    - classes generiques
+    - 
+
   - fonctionnalités accessibilité
     - typo Luciol
     - attribut alt sur image et title (sur les a)

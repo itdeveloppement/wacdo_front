@@ -13,27 +13,30 @@
     <!-- favicon et image à la racine du site-->
     <link rel="shortcut icon" type="image/png" href="../../logo.ico"/>
 </head>
-<body class="flex choix">
+<body class="choix">
     <div class="sectionPrincipale">
         <!-- SECTION HEADER CAROUSSEL -->
         <header>
             <button id="btn-typo" type="button">Changer la typo</button>
+            <button class="open-btn">Ouvrir</button>
         </header>
         <main>
            <!-- SECTION CAROUSSEL CATEGORIE -->
-            <section class="carouselCategorie">
-                <div class="prevCorps">
-                    <img class="prevCategorie" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+           <section class="carouselCat">
+                <div class="carouselCategorie">
+                    <div class="prevCorps">
+                        <img class="prevCategorie" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+                    </div>
+                    <div class="carousel-categorie">
+                        <!-- fct js afficherCardsCategorie -->
+                    </div>
+                    <div class="nextCorps">
+                        <img class="nextCategorie" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+                    </div>
                 </div>
-                <div class="carousel-categorie">
-                    <!-- fct js afficherCardsCategorie -->
-                </div>
-                <div class="nextCorps">
-                    <img class="nextCategorie" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
-                </div>
-            </section>
+             </section>
             <!-- SECTION PRODUITS -->
-            <section class="flex produits">
+            <section class="produits flex">
                 <div class="listeProduits flex">
                     <!-- fct js afficherCardsProduits -->
                 </div>
@@ -55,40 +58,48 @@
             </section>  
         </main>
     </div>
-    <!-- SECTION COMMANDE EN COURS -->
-    <aside class="sectionCommande flex">
-        <!-- entete-->
-        <div class="enteteCommande">
-
-            <div class="logo">
-                <img src="../images/images/logo.png" alt="logo de la société Wacdo">
-            </div>
-
-            <div class="commandeNumPlace">
-                <div class="surplace">
-                    <!-- fonction js afficherNumeroChevalet -->
+    
+    <div class="modal-container flex">
+        <div class="modal flex">
+            <!-- SECTION COMMANDE EN COURS -->
+            <aside class="sectionCommande flex">
+                <button class="close-btn">Fermer</button>
+                <!-- entete-->
+                <div class="enteteCommande">
+                    <div class="logo">
+                        <img src="../images/images/logo.png" alt="logo de la société Wacdo">
+                    </div>
                 </div>
-                <div class="numeroCommande">
-                    <!-- fonction js afficherNumeroCCommande -->
+
+                <div class="commandeNumPlace">
+                    <div class="surplace">
+                        <!-- fonction js afficherNumeroChevalet -->
+                    </div>
+                    <div class="numeroCommande">
+                        <!-- fonction js afficherNumeroCCommande -->
+                    </div>
                 </div>
-            </div>
+              
+                <div class="cmdMenuProduit">
+                    <!-- menu -->
+                    <div id="commandeMenu">
+                        <!-- fct js afficherMenuCommande-->
+                    </div>
+                    <div id="commandeProduit">
+                        <!-- fct js afficherProduitCommande-->
+                    </div>
+                </div>
 
+                <div id="commandeMontant">
+                    <!-- fct js afficherMontantCommande-->
+                </div>
+               
+            </aside>
+          
         </div>
-        <div class="cmdMenuProduit">
-            <!-- menu -->
-            <div id="commandeMenu">
-                <!-- fct js afficherMenuCommande-->
-            </div>
-            <div id="commandeProduit">
-                <!-- fct js afficherProduitCommande-->
-            </div>
-        </div>
+    </div>
 
-        <div id="commandeMontant">
-            <!-- fct js afficherMontantCommande-->
-        </div>
-
-    </aside>
+ 
        <script src="../js/app.js" defer></script>
 </body>
 </html>
