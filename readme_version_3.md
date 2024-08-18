@@ -12,7 +12,6 @@
 
    - CSS
     - classes generiques
-    - 
 
   - fonctionnalités accessibilité
     - typo Luciol
