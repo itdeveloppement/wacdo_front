@@ -33,7 +33,7 @@
     - mise en place gitignore
   
   - fonctionnalités en places
-    - enregistrer un numero de chevalet
+    - enregistrer un numero de chevalet et le controler
     - générer un numero de commande
     - enregistrer, supprimer une commande (produit / menu)
     - calculer le montant de la commande
@@ -45,7 +45,6 @@
     - overlay menu : choisir une frite ou une salde pour les menus
     - overlay menu : choisir sauce 
     - quantité variable pour une selection d'un produit
-    - message erreur sur form chevalet
     - améliorer et verifier le traitement des erreurs
  
   - UI/UX fonctionnel
@@ -56,5 +55,15 @@
     - overlay : supprimer le scroll quand overlay ouvert
     - responsive : entre 400 et 700
  
+ - responsive
+   - smartphone en mode paysage : oui
+   - smartphone en mode portrait non
+   - tableatte en mode paysage : non
+   - tablette en mode portrait : oui 
+   - ecran ordinateur : oui
+  
  A faire 
  - affichage photo au chargement sur smartphone : defer ???
+ - mise en page liste commande sur smartphone
+ - mise en page smartphone en mode portrait
+ - bouton typo et panier trop large pour smartphone

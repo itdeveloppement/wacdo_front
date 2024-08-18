@@ -363,8 +363,8 @@ ul {
 /* card produit */
 .cardProduit{
   flex: 1; /* occuper tout l'espace disponible */
-  min-width: 200px;
-  max-width: 200px;
+  min-width: 300px;
+  max-width: 300px;
   min-height: 310px;
   max-height: 310px;
   border: 2px solid var(--quatriemeColor);
@@ -376,8 +376,8 @@ ul {
 }
 .listeProduitsCards .cardProduit:last-child {
   flex: 0 0 auto; /* pour largeur de la derniere card produit */
-  max-width: 200px;
-
+  min-width: 300px;
+  max-width: 300px;
 }
 
 /* formulaire chevalet*/
@@ -492,13 +492,13 @@ main {
 /* section principale */
 .sectionPrincipale {
   width: 100%;
-  height: 100%
+  height: 100%;
+  padding-right: 20%;
 }
 
 /* section produit */
 .produits {
-  padding: 300px 10% 10% 10%;
-  padding-left: 10%;
+  padding: 300px 5% 10% 5%;
 }
 .listeProduits {
   width: 100%;
@@ -511,15 +511,16 @@ main {
 .cardProduitCoprs {
   height: 100%;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
 }
 .cardProduitImg {
-  width: 100%;
+  width: 60%;
+  height: 60%;
 }
 .cardProduitImg img{
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: ccontain
 }
 .nomProduit, .priceMenu {
   text-align: center;
@@ -732,8 +733,13 @@ main {
   .open-btn {
     width: 150px;
     font-size: 12px;
-
   }
+  .btnTransparent {
+    width: 150px;
+    font-size: 12px;
+    padding: 10px;
+  }
+  
 
   /* card principale */
   .cardPrincipale {
@@ -750,56 +756,6 @@ main {
   /* PAGE CHEVALET */
   .formChevalet input {
     font-size: 20px;
-  }
-
-/* overlay */
-  .overlay .overlayNav {
-    padding: 0;
-  }
-  .overlayFond{
-    width: 100%;
-  }
-  .overlayFond .overlayCoprs{
-    padding: 0px;
-  }
-  .overlayFond, .overlayCardParent {
-  }
-  .overlayFond, .cardSegondaireCoprs {
-    padding: 10px;
-    width: 100%;
-    height: 100%;
-  }
-  .overlayFond .cardSegondaireImg {
-    width: 60%;
-    height: 60%;
-  }
-  .overlayFond .cardSegondaireImg img {
-    width: 100%;
-    height: 100%;
-  }
-  .overlayFond .cardSegondaireText {
-    margin: 0;
-    height: 20px;
-  }
-  .overlayFond  .overlayTitre {
-      margin: 0;
-  }
-  .overlayFond  .overlayTitre h4 {
-    margin-top: 10px;
-    font-size: 20px;
-  }
-  .overlayFond  .overlayTitre p {
-    font-size: 12px;
-    margin-bottom: 10px;
-  }
-  
-  /* formulaire chevalet*/
-  .form div {
-    gap: 5px
-  } 
-  .form input {
-    font-size: 30px;
-    width: 40px;
   }
 
    /* PAGE CHOIX */
@@ -828,6 +784,73 @@ main {
   }
 
 }
+
+/* regles specifiques de 0 à 714px */
+@media all and (max-width: 714px) {
+  /* choix section principale */
+  .sectionPrincipale {
+    padding-right: 0;
+  }
+
+  /* overlay */
+  .overlay .overlayNav {
+    padding: 0;
+  }
+  .overlayFond{
+    width: 100%;
+    overflow-y: scroll;
+  }
+  .overlayFond .overlayCoprs{
+    padding: 20px;
+
+  }
+  .overlayFond, .overlayCardParent {
+  }
+  .overlayFond, .cardSegondaireCoprs {
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+  }
+  .overlayFond .cardSegondaireImg {
+    width: 50%;
+    height: 50%;
+  }
+  .overlayFond .cardSegondaireImg img {
+    width: 100%;
+    height: 100%;
+  }
+  .overlayFond .cardSegondaireText {
+    margin: 0;
+    height: 20px;
+  }
+  .overlayFond  .overlayTitre {
+      margin: 0 0 20px 0;
+  }
+  .overlayFond  .overlayTitre h4 {
+    margin-top: 10px;
+    font-size: 20px;
+  }
+  .overlayFond  .overlayTitre p {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  /* card produit */
+  .choix .cardProduit {
+    width: 100%;
+  }
+  /* BTN */ 
+  #btn-typo {
+    width: 45%;
+    font-size: 12px;
+
+  }
+  .open-btn {
+    width: 45%;
+    font-size: 12px;
+  }
+
+}
 /* regles specifiques de 401 à 714px */
 @media all and (min-width: 401px) and (max-width: 714px) {
   
@@ -836,15 +859,6 @@ main {
     width: 90%;
   }
 
-  /* BTN */ 
-  #btn-typo {
-    width: 45%;
-    font-size: 12px;
-  }
-  .open-btn {
-    width: 45%;
-    font-size: 12px;
-  }
 
   /* PAGE CHOIX */
   .cardProduitCoprs {
@@ -874,7 +888,10 @@ main {
 
 /* Règles spécifiques de 715px à 1080px */
 @media all and (min-width: 715px) and (max-width:1080px ) {
-    
+    /* choix section principale */
+  .sectionPrincipale {
+    padding-right: 30%;
+  }
   /* modale laterale */
     .modal{
       width: 30%;

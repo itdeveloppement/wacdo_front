@@ -1302,7 +1302,6 @@ let numeroCommande = null;
  * @param {*} 
  */
 function afficherNumeroCommande(){
-  console.log("test")
   min = 1;
   max = 100;
   let zone = document.querySelector(".numeroCommande")
