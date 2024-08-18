@@ -13,38 +13,31 @@ document.addEventListener('DOMContentLoaded', () => {
   if (currentUrl === '/assets/pages/choix.html') { 
     afficherNumeroChevalet(urlParams);
     modaleLaterale()
-    afficherNumeroCommande()
+    // afficherNumeroCommande()
     afficherMontantCommande(0)
     datasProduits('menus')
     datasCategorie(() => {
-    carousselCategorie();
-    headerFondTransparent ()
+        carousselCategorie();
+        headerFondTransparent ()
     });
   }
 
   // page chevalet
   if (currentUrl === '/assets/pages/chevalet.html') { 
-    // verification des champs du formulaire
-    const regex = /^[0-9]$/;
-    const nombre1 = document.getElementById('nombre1');
-    nombre1.addEventListener('input', () => {
-      if (!regex.test(nombre1.value)) {
-        alert('Veuillez entrer un chiffre de 0 à 9.')
-    }});
-    const nombre2 = document.getElementById('nombre2');
-    nombre2.addEventListener('input', () => {
-      if (!regex.test(nombre2.value)) {
-        alert('Veuillez entrer un chiffre de 0 à 9.')
-    }});
-    const nombre3 = document.getElementById('nombre3'); 
-    nombre3.addEventListener('input', () => {
-      if (!regex.test(nombre3.value)) {
-        alert('Veuillez entrer un chiffre de 0 à 9.')
-    }});
-    formChevalet();
-}
+  let monform = document.getElementById('formChevalet');
+  let nombre1 = document.getElementById('nombre1');
+  let nombre2 = document.getElementById('nombre2');
+  let nombre3 = document.getElementById('nombre3');
+
+  verificationFormChevalet (nombre1, nombre2, nombre3) 
+  submitFormChevalet (monform, nombre1, nombre2, nombre3)
+  // formChevalet();
+  }
 
 });
+
+
+
 
 // ---------------------- FETCHE ------------------------------------
 
@@ -1023,10 +1016,224 @@ function modaleLaterale() {
 }
 // ------- FORM CHEVALET ----------------------------------------------
 
+const maxLengthNombre = 2;
+
+
+// SOUMISSION DU FORMULAIRE
+// A la soumission du formulaire 
+// si toutes les fonctions retournent true
+// j'envoie le formulaire
+function submitFormChevalet (monform, nombre1, nombre2, nombre3) { 
+  monform.addEventListener("submit",(event)=>{
+      event.preventDefault();
+      let test1 = testNombre1();
+      let test2 = testNombre2();
+      let test3 = testNombre3();
+    
+      if(test1===true && 
+        test2===true &&
+        test3===true
+      ) {
+       // Envoyer les données à la nouvelle page 
+      numeroChevalet = nombre1.value + nombre2.value + nombre3.value
+      const params = new URLSearchParams();
+      params.append('nombreChevalet', numeroChevalet);
+      window.location.href = 'choix.html?' + params.toString();
+    }
+})
+}
+
+/**
+ * role : verification des données du formulaire
+ */
+function verificationFormChevalet (nombre1, nombre2, nombre3) {
+  
+
+  nombre1.addEventListener("change",testNombre1);
+  nombre2.addEventListener("change",testNombre2);
+  nombre3.addEventListener("change",testNombre3);
+
+}
+/** CHAMPS NOMBRE : verifie si les donnéeS sont valide
+*       si la valeur du champs est vide
+*       si la valeur du champs n'est pas plus long que X caractères
+*       si la valeur du champ ne comporte pas de code
+*       si la valeur du champ n'est pas un nombre
+* @returns {boolean} false si une erreur de validation
+* @returns {boolean} true si aucune erreur
+*/
+function testNombre1(){
+  // si le champs est vide
+  if(beEmpty (nombre1.value)){
+      // affiche le message d'erreur et bordure
+      afficheErreur("nombre1", "Ce champs doit etre complété");
+      return false
+   // si le texte dépasse x caracteres // 
+  }else if(maxLength(nombre1.value, maxLengthNombre)){
+      afficheErreur("nombre1", `Ce champ ne peux pas depasser ${maxLengthNombre} caracteres`);
+      return false
+  // si injection de code
+  }else if(hasCode(nombre1.value)){ 
+      afficheErreur("nombre1", "Vous ne pouvez pas injecter de code ici!");
+      return false
+  // si la valeur du champ n'est pas un nombre
+  } else if (onlyNumber (nombre1.value)=== false) {
+      afficheErreur("nombre1", " Indiquer un chiffre");
+      return false
+  }
+  
+  enleveErreur("nombre1")
+  return true
+};
+
+/** CHAMPS NOMBRE : verifie si les donnéeS sont valide
+*       si la valeur du champs est vide
+*       si la valeur du champs n'est pas plus long que X caractères
+*       si la valeur du champ ne comporte pas de code
+*       si la valeur du champ n'est pas un nombre
+* @returns {boolean} false si une erreur de validation
+* @returns {boolean} true si aucune erreur
+*/
+function testNombre2(){
+  // si le champs est vide
+  if(beEmpty (nombre2.value)){
+      // affiche le message d'erreur et bordure
+      afficheErreur("nombre2", "Ce champs doit etre complété");
+      return false
+   // si le texte dépasse x caracteres // 
+  }else if(maxLength(nombre2.value, maxLengthNombre)){
+      afficheErreur("nombre2", "Ce champ ne peux pas depasser caracteres");
+      return false
+  // si injection de code
+  }else if(hasCode(nombre2.value)){ 
+      afficheErreur("nombre2", "Vous ne pouvez pas injecter de code ici!");
+      return false
+  // si la valeur du champ n'est pas un nombre
+  } else if (onlyNumber (nombre2.value)=== false) {
+      afficheErreur("nombre2", " Indiquer un chiffre");
+      return false
+  }
+  
+  enleveErreur("nombre2")
+  return true
+};
+
+/** CHAMPS NOMBRE : verifie si les donnéeS sont valide
+*       si la valeur du champs est vide
+*       si la valeur du champs n'est pas plus long que X caractères
+*       si la valeur du champ ne comporte pas de code
+*       si la valeur du champ n'est pas un nombre
+* @returns {boolean} false si une erreur de validation
+* @returns {boolean} true si aucune erreur
+*/
+function testNombre3(){
+  // si le champs est vide
+  if(beEmpty (nombre3.value)){
+      // affiche le message d'erreur et bordure
+      afficheErreur("nombre3", "Ce champs doit etre complété");
+      return false
+   // si le texte dépasse x caracteres // 
+  }else if(maxLength(nombre3.value, maxLengthNombre)){
+      afficheErreur("nombre3", "Ce champ ne peux pas depasser caracteres");
+      return false
+  // si injection de code
+  }else if(hasCode(nombre3.value)){ 
+      afficheErreur("nombre3", "Vous ne pouvez pas injecter de code ici!");
+      return false
+  // si la valeur du champ n'est pas un nombre
+  } else if (onlyNumber (nombre3.value)=== false) {
+      afficheErreur("nombre3", " Indiquer un chiffre");
+      return false
+  }
+  
+  enleveErreur("nombre3")
+  return true
+};
+
+// AFFICHAGE DU MESSAGE ERREUR
+
+/** affiche un message d'erreur
+ * @param {string} id 
+ * @param {string} messageErreur 
+ */
+function afficheErreur(id,messageErreur){
+  // Role : Afficher une erreur : mettre une bordure sur le bon input, et remplir le paragraphe d'erreur associé
+  // Parametres : id l'id de l'input dans le quel il y a une erreur
+  // messageErreur : le message a afficher
+  // retour: rien !
+  let input = document.getElementById(id);
+  input.classList.add("input-error");
+  let p = document.getElementById("error-"+id);
+  p.innerText = messageErreur;
+  p.classList.remove("d-none");
+}
+/** efface le message d'erreur
+* @param {string} id 
+* 
+*/
+function enleveErreur(id){
+  // Role: eneleve l'erreur sur l'input et cache le paragraphe associé
+  let input = document.getElementById(id);
+  input.classList.remove("input-error");
+  let p = document.getElementById("error-"+id);
+  p.innerText ="";
+  p.classList.add("d-none");
+}
+
+/* FONCTIONS TESTE */
+
+/**CHAMPS VIDE : verifie si la valeur du champ est vide
+ * @param {string} valueField la chaine de caractere du champ
+ * @returns true si la chaine est vide sinon retourne false
+ */
+function beEmpty (valueField, texteDescription){
+  if ((valueField === "") ||(valueField === texteDescription)) { 
+  return true; 
+} return false
+}
+/** TEXTE CODE : verifie si la valeur du champ contient du code
+* @param {string} valueField la chaine de caractere du champ
+* @returns  true si il y a du code 
+* @returns false si il n'y a pas de code
+*/
+function hasCode(valueField){
+  // cette fonction cherche dans une chaine s'il y a une balise script
+  // retour true : y'a du code
+  // false :y'a pas de code
+  let reg = /<script/;
+  if (reg.test(valueField)) {
+  return true;
+  } return false;
+}
+/** NOMBRE COMPARAISON : compare si la valeur du champ est superieure à une valeur (logueur voulue) passée en parametre
+ * @param {number} string la chaine de caractere du champ
+ * @param {number} longueurMax la longueur max que peut prendre la chaine
+ * @returns true si la chaine de caractere du camps est plus longue que le parametre sinon retourne false
+ */
+function maxLength (valueField, longueurMax){
+  if(valueField.length >= longueurMax) {
+  return true;
+  } return false
+}
+/** NOMBRE : verifie si la valeur du champ contient des chiffres
+* @param {number} valueField valeur du champs
+* @returns true si la valeur du champs contien des chiffre
+* @returns false sinon
+*/
+function onlyNumber (valueField) {
+  let reg=/^\d+$/;
+  if (reg.test(valueField)) {
+      return true;
+  } return false
+
+}
+
 /**
  * role : envoi les données du formulaire pour affichage
  * param no
  */
+
+/*
 function formChevalet () {
 
 const form = document.getElementById('formChevalet');
@@ -1045,6 +1252,8 @@ form.addEventListener('submit', (event) => {
     window.location.href = 'choix.html?' + params.toString();
 });
 }
+
+*/
 
 /**
  * role : affiche le numero du chevalet si il existe
