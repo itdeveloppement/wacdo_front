@@ -35,18 +35,14 @@
         <form id="formChevalet" class="flex form" action="./choix.html" method="post"> 
             <!-- utilisaton type text avec validation js et non number pour faciliter formatage css-->
             <div class="flex">
-                <div>
-                    <input type="text" id="nombre1" name="nombre1" required placeholder="0">
-                    <p class="p-error d-none" id="error-nombre1">Entrer un nombre entre 0 et 9</p>
-                </div>
-                <div>
-                    <input type="text" id="nombre2" name="nombre2" required placeholder="0">
-                    <p class="p-error d-none" id="error-nombre2">Entrer un nombre entre 0 et 9</p>
-                </div>
-                <div>
-                    <input type="text" id="nombre3" name="nombre3" required placeholder="0">
-                    <p class="p-error d-none" id="error-nombre3">Entrer un nombre entre 0 et 9</p>
-                </div>
+                <input type="text" id="nombre1" name="nombre1" required placeholder="0">
+                <input type="text" id="nombre2" name="nombre2" required placeholder="0">
+                <input type="text" id="nombre3" name="nombre3" required placeholder="0">
+            </div>
+            <div class=" flex">
+                <p class="p-error d-none" id="error-nombre1"></p>
+                <p class="p-error d-none" id="error-nombre2"></p>
+                <p class="p-error d-none" id="error-nombre3"></p>
             </div>
             <button class="btnJaune" type="submit">Enregistrer votre numéro</button>
         </form>

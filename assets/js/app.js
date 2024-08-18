@@ -1066,19 +1066,19 @@ function testNombre1(){
   // si le champs est vide
   if(beEmpty (nombre1.value)){
       // affiche le message d'erreur et bordure
-      afficheErreur("nombre1", "Ce champs doit etre complété");
+      afficheErreur("nombre1", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
    // si le texte dépasse x caracteres // 
   }else if(maxLength(nombre1.value, maxLengthNombre)){
-      afficheErreur("nombre1", `Ce champ ne peux pas depasser ${maxLengthNombre} caracteres`);
+      afficheErreur("nombre1", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   // si injection de code
   }else if(hasCode(nombre1.value)){ 
-      afficheErreur("nombre1", "Vous ne pouvez pas injecter de code ici!");
+      afficheErreur("nombre1", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   // si la valeur du champ n'est pas un nombre
   } else if (onlyNumber (nombre1.value)=== false) {
-      afficheErreur("nombre1", " Indiquer un chiffre");
+      afficheErreur("nombre1", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   }
   
@@ -1098,19 +1098,19 @@ function testNombre2(){
   // si le champs est vide
   if(beEmpty (nombre2.value)){
       // affiche le message d'erreur et bordure
-      afficheErreur("nombre2", "Ce champs doit etre complété");
+      afficheErreur("nombre2", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
    // si le texte dépasse x caracteres // 
   }else if(maxLength(nombre2.value, maxLengthNombre)){
-      afficheErreur("nombre2", "Ce champ ne peux pas depasser caracteres");
+      afficheErreur("nombre2", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   // si injection de code
   }else if(hasCode(nombre2.value)){ 
-      afficheErreur("nombre2", "Vous ne pouvez pas injecter de code ici!");
+      afficheErreur("nombre2", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   // si la valeur du champ n'est pas un nombre
   } else if (onlyNumber (nombre2.value)=== false) {
-      afficheErreur("nombre2", " Indiquer un chiffre");
+      afficheErreur("nombre2", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   }
   
@@ -1130,19 +1130,19 @@ function testNombre3(){
   // si le champs est vide
   if(beEmpty (nombre3.value)){
       // affiche le message d'erreur et bordure
-      afficheErreur("nombre3", "Ce champs doit etre complété");
+      afficheErreur("nombre3", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
    // si le texte dépasse x caracteres // 
   }else if(maxLength(nombre3.value, maxLengthNombre)){
-      afficheErreur("nombre3", "Ce champ ne peux pas depasser caracteres");
+      afficheErreur("nombre3", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   // si injection de code
   }else if(hasCode(nombre3.value)){ 
-      afficheErreur("nombre3", "Vous ne pouvez pas injecter de code ici!");
+      afficheErreur("nombre3", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   // si la valeur du champ n'est pas un nombre
   } else if (onlyNumber (nombre3.value)=== false) {
-      afficheErreur("nombre3", " Indiquer un chiffre");
+      afficheErreur("nombre3", "Votre numero de chevalet doit etre composé de chiffres de 0 à 9");
       return false
   }
   
@@ -1157,7 +1157,8 @@ function testNombre3(){
  * @param {string} messageErreur 
  */
 function afficheErreur(id,messageErreur){
-  // Role : Afficher une erreur : mettre une bordure sur le bon input, et remplir le paragraphe d'erreur associé
+  enleveErreurs()
+  // Role : Afficher une erreur 
   // Parametres : id l'id de l'input dans le quel il y a une erreur
   // messageErreur : le message a afficher
   // retour: rien !
@@ -1172,12 +1173,35 @@ function afficheErreur(id,messageErreur){
 * 
 */
 function enleveErreur(id){
-  // Role: eneleve l'erreur sur l'input et cache le paragraphe associé
+
+  // Role: enlever l'erreur sur l'input et cache le paragraphe associé
   let input = document.getElementById(id);
   input.classList.remove("input-error");
   let p = document.getElementById("error-"+id);
   p.innerText ="";
   p.classList.add("d-none");
+}
+
+/** efface tous les messages d'erreur
+* @param {string} id 
+* 
+*/
+function enleveErreurs(){
+  // Role: enlever l'erreur sur l'input et cache le paragraphe associé
+  let ids = ["nombre1", "nombre2", "nombre3"]
+  ids.forEach(id => {
+    console.log(id)
+    // si input nombre1 contien inputerro tu enleve
+    let input = document.getElementById(id);
+    console.log(input)
+    if (input.classList.contains('input-error')){
+    input.classList.remove("input-error");
+    let p = document.getElementById("error-"+id);
+    p.innerText ="";
+    p.classList.add("d-none");
+  }
+  });
+  
 }
 
 /* FONCTIONS TESTE */
