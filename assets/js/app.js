@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
     afficherNumeroChevalet(urlParams);
-    modaleLaterale()
-    // afficherNumeroCommande()
-    afficherMontantCommande(0)
-    datasProduits('menus')
+    modaleLaterale();
+    afficherNumeroCommande();
+    afficherMontantCommande(0);
+    datasProduits('menus');
     datasCategorie(() => {
         carousselCategorie();
-        headerFondTransparent ()
+        headerFondTransparent();
     });
   }
 
@@ -1270,7 +1270,7 @@ function onlyThreeNumber (valueField) {
  */
 function afficherNumeroChevalet(urlParams){
   const nombreChevalet = urlParams.get('nombreChevalet'); // recuperation parametre
-  if (!onlyThreeNumber(nombreChevalet)){
+  if (!(nombreChevalet == null) && !onlyThreeNumber(nombreChevalet)){
     console.log(onlyThreeNumber)
     window.location.href = 'chevalet.html?';
   }
@@ -1302,6 +1302,7 @@ let numeroCommande = null;
  * @param {*} 
  */
 function afficherNumeroCommande(){
+  console.log("test")
   min = 1;
   max = 100;
   let zone = document.querySelector(".numeroCommande")
