@@ -66,4 +66,12 @@
  - affichage photo au chargement sur smartphone : defer ???
  - mise en page liste commande sur smartphone
  - mise en page smartphone en mode portrait
- - afficher nombre de produit sr bouton panier
+ - afficher nombre de produit sur bouton panier
+
+- prio
+  - quantité variable pour une selection d'un produit
+    - ex : sur boisson
+        - carde chois normal ou xxl
+        - choix quantité
+        - btn : annuler
+        - btn : ajouter à la commande    

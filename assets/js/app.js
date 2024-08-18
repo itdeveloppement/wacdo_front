@@ -274,9 +274,6 @@ function afficherCardsCategorie(datas){
 // --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
 
 const cardsCategorie = document.querySelectorAll('.cardCategorie');
-
-
-
 cardsCategorie.forEach(card => {
   if(card.querySelector('p').textContent == 'menus') {
     activeBordureJaune(card);
@@ -325,7 +322,7 @@ function afficherCardsProduit(datas, categorie){
                 <img itemprop="image" src="../images/${card.image}" alt="menu ${card.image}">
             </div>
             <p class="nomProduit" itemprop="name">${card.nom}</p>
-            <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)} €</p>
+            <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)}</p><p> €</p>
           </div>
         </article>
       `;    
@@ -343,13 +340,227 @@ cardsProduit.forEach(card => {
       afficherModaleTailleMenu(event.currentTarget);
       togglerModale(".modaleTailleMenu");
     } else {
-      afficherProduitCommande(event.currentTarget)
+
+      // GESTION DES PRODUITS
+      // ouvrir overlay quantite
+      // renseignier la commande avec la quantite
+      // afficherProduitCommande(event.currentTarget) //
+      togglerModale(".modaleQuantiteTaille");
+      afficherModaleQuantiteTaille(event.currentTarget)
     }
       
   });
 });
 
 const modal = document.getElementById('modaleTailleMenu');
+}
+
+// -------------- MODALES QANTITE TAILLE----------------------------------
+
+/**
+ * role : affiche la modale quantite taille
+ * param : htmlElement : le produit selectionné
+ */
+function afficherModaleQuantiteTaille(produit){
+  
+  let selectionTaille = false; // etat si card taille selectionnée = true sinon false
+  let messageErreurEtat = false; // etat si message est affiché = true sinon false (class = modal-hidden)
+
+  // traitement des données
+  const nom = produit.querySelector('p').textContent
+  const price = produit.querySelector('.priceMenu').textContent
+  const urlImage =  produit.querySelector('img').src
+  const quantite = 1;
+
+  let produitQuantite = {
+    "nom": nom,
+    "price": price,
+    "quantite": quantite,
+  };
+
+  let zone = document.querySelector(".modaleQuantiteTaille")
+  let template= 
+  `
+  <div class="overlayFond">
+    <!-- nav-->
+    <nav class="flex overlayNav">
+      <div id="croixImageMenu">
+        <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+      </div>
+    </nav>
+
+    <div class="flex overlayCoprs">
+
+        <!-- titre -->
+        <div class="flex overlayTitre">
+            <h4>Une grosse fin ?????</h4>
+            <p>Choississer la taille de votre ${nom} </p>
+        </div>
+
+        <!-- taille produits -->
+        <section class="flex overlayCardParent">
+            <article class="produitNormal flex cardSegondaireCoprs">
+                <div class="cardSegondaireImg">
+                    <img src="${urlImage}" alt="menu ${nom}">
+                </div>
+                <p class="cardSegondaireText">${nom}</p>
+                <span hidden>${price}</span>
+            </article>
+            <article class="produitMax flex cardSegondaireCoprs">
+                <div class="cardSegondaireImg">
+                    <img src="${urlImage}" alt="menu ${nom}">
+                </div>
+                <p class="cardSegondaireText">${nom} Maxi</p>
+                
+                <p>+</p><p id="supplement">0.50</p><p> €</p>
+                <span hidden>${price}</span>
+            </article>
+            <div>
+              <button id="btnQuantiteMoins">-</button>
+                <div id="quantiteProduit">${quantite}</div>
+              <button id="btnQuantitePlus">+</button>
+        </section>
+
+        <!-- message erreur -->
+        <div class="erreurtTailleMenu modal-hidden erreurMessage">
+            <p class="cardSegondaireText">Selectionner une taille</p>
+        </div>
+
+        <!-- button -->
+        <div class="btnCorps flex">
+            <button id="btnmodaleQuantiteTaille" class="btnJaune">Ajouter à la commande</button>
+        </div>
+
+    </div>
+  </div>
+  `
+  zone.innerHTML = template;
+
+  // -----  ecouteurs evenement dans la modale quantite taille------
+
+  //ajouter le choix taille normale à la commande
+  const produitNormal = document.querySelector(".produitNormal");
+  produitNormal.addEventListener("click", (event) => {
+    produitMax.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
+    messageErreur (".erreurtTailleMenu")
+    let quantite = 0;
+    preparartionCommande(event.currentTarget, produitQuantite, quantite)
+    selectionTaille = true;
+  });
+
+  // ajouter le choix taille max à la commande
+  const produitMax = document.querySelector(".produitMax");
+  produitMax.addEventListener("click", (event) => {
+    produitNormal.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
+    messageErreur (".erreurtTailleMenu")
+    let quantite = 0;
+    preparartionCommande(event.currentTarget, produitQuantite, quantite)
+    selectionTaille = true;
+  });
+
+  // ajouter une quantité
+  const quantitePlus = document.getElementById("btnQuantitePlus");
+  quantitePlus.addEventListener("click", () => {
+    let messageErreur = document.querySelector('.erreurtTailleMenu');
+    messageErreur.classList.contains('.modal-hidden')
+    if(selectionTaille) {
+      let quantite = 1;
+      let param = null;
+      messageErreurEtat = false;
+      preparartionCommande(param, produitQuantite, quantite)
+    } else if (!selectionTaille && !messageErreurEtat) {
+      messageErreurEtat = true;
+      togglerModale(".erreurtTailleMenu");
+    }
+  });
+
+  // supprime une quantité
+  const quantiteMoins = document.getElementById("btnQuantiteMoins");
+  quantiteMoins.addEventListener("click", () => {
+    let messageErreur = document.querySelector('.erreurtTailleMenu');
+    messageErreur.classList.contains('.modal-hidden')
+    if(selectionTaille) {
+      let quantite = -1;
+      let param = null;
+      messageErreurEtat = false;
+      preparartionCommande(param, produitQuantite, quantite)
+    } else if (!selectionTaille && !messageErreurEtat) {
+      messageErreurEtat = true;
+      togglerModale(".erreurtTailleMenu");
+    }
+  });
+
+  // fermeture modale par la croix (a faire)
+  const croixFermeture = document.getElementById("croixImageMenu");
+  croixFermeture.addEventListener("click", function(){
+    togglerModale(".modaleQuantiteTaille");
+  });
+
+  // boutton etape suivante (a faire)
+  const btnModalTailleMenu = document.getElementById("btnmodaleQuantiteTaille");
+  btnModalTailleMenu.addEventListener("click", () => {
+    if(selectionTaille){
+    togglerModale(".modaleQuantiteTaille");
+    messageErreurEtat = false;
+    // Suppression de l'écouteur après le premier clic
+    btnModalTailleMenu.removeEventListener('click', arguments.callee);
+  } else if (!selectionTaille && !messageErreurEtat) {
+    messageErreurEtat = true;
+    togglerModale(".erreurtTailleMenu");
+  }
+  });
+}
+
+/**
+ * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * param : le produit selectionnée (event.currentTarget)
+ * param : le produit courent : objet 
+ * param : quantité (1 pour ajouter, -1 pour supression)
+ */
+function preparartionCommande(produitCurrent, produitQuantite, quantite) {
+  // si event.currentTarget est null
+  if (produitCurrent == null) {
+    produitCurrent = produitQuantite;
+    let quantiteTemp = produitQuantite.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite.quantite = produitQuantite.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
+    }
+    //mise a jour quantite
+    document.getElementById("quantiteProduit").innerText
+  // si event.currentTarget n'est pas null
+  } else { 
+    // modification nom
+    let nom =produitCurrent.querySelector('p').textContent;
+    produitQuantite.nom = nom;
+
+    // modification prix
+    let priceSupplementPrice = null;
+    let priceProduit = produitCurrent.querySelector('span').textContent;
+      // supplement prix : si supplement exsite ajoute le sinon prix identique
+    if (!produitCurrent.querySelector('#supplement')) { 
+      produitQuantite.price = parseFloat(priceProduit);
+    } else { 
+      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
+      produitQuantite.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
+    }
+    // quantite
+    let quantiteTemp = produitQuantite.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite.quantite = produitQuantite.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
+    }
+  }
+
+  // envoyer les donnée commandeProduit) 
 }
 
 // -------------- MODALES MENU ----------------------------------
@@ -919,7 +1130,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-    window.location.href = "./abientot.html";   // Redirection
+    // window.location.href = "./abientot.html";   // Redirection
 });
 
 }
@@ -1201,7 +1412,6 @@ function enleveErreurs(){
     p.classList.add("d-none");
   }
   });
-  
 }
 
 /* FONCTIONS TESTE */
@@ -1249,7 +1459,6 @@ function onlyNumber (valueField) {
   if (reg.test(valueField)) {
       return true;
   } return false
-
 }
 
 /** NOMBRE : verifie si la valeur du champ contient des chiffres
