@@ -710,7 +710,7 @@ main {
 
 /* RESPONSIVE */
 
-/* regles specifiques de 0 à 714px */
+/* regles specifiques de 0 à 400px */
 @media all and (max-width: 400px) {
 
   /* generale */
@@ -898,6 +898,10 @@ main {
     }
     .carouselCat {
       width: 70%;
+    }
+
+    .listeProduitsCards {
+      justify-content: center;
     }
 }
 
