@@ -466,6 +466,26 @@ ul {
   width: 350px;
 }
 
+/* overlay quantite taille */
+.quantite {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+#btnQuantiteMoins,  #btnQuantiteplus{
+  width: 50px;
+}
+#quantiteProduit {
+  width: 50px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+#btnmodaleQuantiteTaille {
+  width: 300px;
+}
 /* PAGE CHOIX */
 .choix {
   position: relative;

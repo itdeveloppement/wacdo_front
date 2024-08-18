@@ -1,5 +1,6 @@
 // variables globales
 let commandeProduit = [];
+let commandeProduitTemp = [];
 let commandeMenus=[];
 let produit = null;
 
@@ -336,19 +337,15 @@ cardsProduit.forEach(card => {
   card.addEventListener('click', (event) => {
     desactiveBordureJaune(cardsProduit); 
     activeBordureJaune(event.currentTarget); 
+     // GESTION DES MENUS
     if (categorie == "menus") {
       afficherModaleTailleMenu(event.currentTarget);
       togglerModale(".modaleTailleMenu");
-    } else {
-
       // GESTION DES PRODUITS
-      // ouvrir overlay quantite
-      // renseignier la commande avec la quantite
-      // afficherProduitCommande(event.currentTarget) //
+    } else {
       togglerModale(".modaleQuantiteTaille");
       afficherModaleQuantiteTaille(event.currentTarget)
     }
-      
   });
 });
 
@@ -415,10 +412,11 @@ function afficherModaleQuantiteTaille(produit){
                 <p>+</p><p id="supplement">0.50</p><p> €</p>
                 <span hidden>${price}</span>
             </article>
-            <div>
-              <button id="btnQuantiteMoins">-</button>
-                <div id="quantiteProduit">${quantite}</div>
-              <button id="btnQuantitePlus">+</button>
+            <div class="quantite flex">
+              <button id="btnQuantiteMoins" class="btnJaune">-</button>
+              <div id="quantiteProduit">${quantite}</div>
+              <button id="btnQuantitePlus" class="btnJaune">+</button>
+            </div>
         </section>
 
         <!-- message erreur -->
@@ -503,6 +501,7 @@ function afficherModaleQuantiteTaille(produit){
   btnModalTailleMenu.addEventListener("click", () => {
     if(selectionTaille){
     togglerModale(".modaleQuantiteTaille");
+    afficherProduitsCommande(commandeProduitTemp);
     messageErreurEtat = false;
     // Suppression de l'écouteur après le premier clic
     btnModalTailleMenu.removeEventListener('click', arguments.callee);
@@ -512,6 +511,7 @@ function afficherModaleQuantiteTaille(produit){
   }
   });
 }
+
 
 /**
  * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
@@ -538,7 +538,6 @@ function preparartionCommande(produitCurrent, produitQuantite, quantite) {
     // modification nom
     let nom =produitCurrent.querySelector('p').textContent;
     produitQuantite.nom = nom;
-
     // modification prix
     let priceSupplementPrice = null;
     let priceProduit = produitCurrent.querySelector('span').textContent;
@@ -559,8 +558,7 @@ function preparartionCommande(produitCurrent, produitQuantite, quantite) {
       document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
     }
   }
-
-  // envoyer les donnée commandeProduit) 
+  commandeProduitTemp = produitQuantite;
 }
 
 // -------------- MODALES MENU ----------------------------------
@@ -995,14 +993,8 @@ function afficherMenuCommande (commandeMenu) {
  * role : afficher la commande d'un produit individuel
  * @param {*} produit produit selectionnée
  */
-function afficherProduitCommande(produit) {
-  // recuperation des données
-  let nom = produit.querySelector('.nomProduit').textContent
-  let price = produit.querySelector('.priceMenu').textContent
-  let produitTemp = [];
-  produitTemp.nom = nom;
-  produitTemp.price = price;
-  commandeProduit.push(produitTemp)
+function afficherProduitsCommande(commandeProduitTemp) {
+  commandeProduit.push(commandeProduitTemp)
   // affichage
   let zone = document.getElementById("commandeProduit")
     let template = ''; // declaration
@@ -1013,7 +1005,10 @@ function afficherProduitCommande(produit) {
             <div class="menuCmd">
               <p class="cmd-nomProduit titleCmd">${produit.nom}</p>
               <ul>
-                <li>${produit.price}</li>
+                <li>Quantité : ${produit.quantite}</li>
+              </ul>
+              <ul>
+                <li>Unité : ${produit.price} €</li>
               </ul>
             </div>
             <div class="poubelleImage  pblCmd">
@@ -1067,7 +1062,7 @@ function supprimerMenu(event) {
 function calculerMontantCommandeProduit (commandeProduit) {
   let montanProduit = 0;
   commandeProduit.forEach(produit => {
-    montanProduit +=  parseFloat(produit.price);
+    montanProduit +=  parseFloat(produit.price) * parseInt(produit.quantite);
   })
   param = "produits";
   sommeCommande(montanProduit, param)
