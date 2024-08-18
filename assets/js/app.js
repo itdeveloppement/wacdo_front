@@ -1,4 +1,3 @@
-
 // variables globales
 let commandeProduit = [];
 let commandeMenus=[];
@@ -9,17 +8,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.pathname; // url relative
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   typo()
-  
+ 
     // page choix
   if (currentUrl === '/assets/pages/choix.html') { 
     afficherNumeroChevalet(urlParams);
+    modaleLaterale()
     afficherNumeroCommande()
     afficherMontantCommande(0)
     datasProduits('menus')
     datasCategorie(() => {
-      carousselCategorie();
+    carousselCategorie();
+    headerFondTransparent ()
     });
-    
   }
 
   // page chevalet
@@ -91,11 +91,12 @@ function datasProduits(categorie) {
  * param : no
  * return :array : liste des produits
  */
-function datasBoissons(commandeMenu) {
+function datasBoissons(commandeMenu, callback) {
   fetch('../../json/produits.json')
     .then(response => response.json())
     .then(datas => {
     afficherCardsBoissons(datas, commandeMenu)
+    callback();
   })
     .catch(error => {
       console.error('Erreur lors de la récupération des boissons :', error);
@@ -107,7 +108,6 @@ function datasBoissons(commandeMenu) {
 function typo(){
   const btnTypo = document.getElementById("btn-typo")
   btnTypo.addEventListener("click", () => {
-    console.log("test")
     changeTypo()
 
   });
@@ -125,13 +125,45 @@ function changeTypo() {
     btnTypo.classList.toggle("newTypo");
 }
 }
-// ----------------- CAROUSSEL CATEGORIE -------------------------
+// ----------------- CAROUSSEL -------------------------
+
+// ----------------- carousel categorie ----------------
 
 /**
- * orole : organise le defilement du caroussel
+ * orole : préparation des données du caroussel categorie
  */
 function carousselCategorie() {
   
+  // selection des elements
+  const carousel = document.querySelector('.carousel-categorie');
+  const cards = document.querySelectorAll('.cardCategorie');
+  let cat = "Categorie";
+  caroussel (carousel, cards, cat)
+}
+
+// ----------------- caroussel boisson -------------------------
+
+/**
+ * orole : préparation des données du caroussel categorie
+ */
+function carousselBoissons() {
+  
+  // selection des elements
+  const carousel = document.querySelector('.carousel-boisson');
+  const cards = document.querySelectorAll('.cardBoisson');
+  let cat = "Boisson";
+  caroussel (carousel, cards, cat)
+}
+
+// ----------------- carousel general ----------------
+/**
+ * role : organise le defilement du carousel
+ * @param {*} carousel eltHtml caroussel
+ * @param {*} cards eltHtml cards
+ * @param {*} cat : utilisation du carouselle pour (ex categories ou boissons)
+ */
+function caroussel (carousel, cards, cat) {
+
   /**
    * Algo : au click fleche de droite
    *  si index different de 0
@@ -145,18 +177,16 @@ function carousselCategorie() {
    *  je desactive la fleche si index = 0
    */
 
-  // selection des elements
-  const carousel = document.querySelector('.carousel-categorie');
-  const cards = document.querySelectorAll('.cardCategorie');
-  const prevBtn = document.querySelector('.prevCategorie');
-  const nextBtn = document.querySelector('.nextCategorie'); 
+  const selectorPrev = "prev" + cat;
+  const selectorNext = "next" + cat;
+  const prevBtn = document.querySelector('.' + selectorPrev);
+  const nextBtn = document.querySelector('.' + selectorNext); 
   // variables
   let currentIndex = 0;
-  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
-  const carouselWidth = carousel.offsetWidth; // Largeur visible du carrousel
-  const visibleCards = Math.floor(carouselWidth / cardWidth); // Nombre de cartes visibles
+  let cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
+  let carouselWidth = carousel.offsetWidth; // Largeur visible du carrousel
+  let visibleCards = Math.floor(carouselWidth / cardWidth); // Nombre de cartes visibles
   // bornage du defilement
-  const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
   const isLastSlide = () => currentIndex === cards.length - visibleCards; // si index card = cards.length - visibleCards; (derniere card) alors true sinon false
   
   /**
@@ -196,68 +226,32 @@ function carousselCategorie() {
   };
 
   // ecouteurs evenements
-  prevBtn.addEventListener('click', goToPrevSlide);
-  nextBtn.addEventListener('click', goToNextSlide);
+ prevBtn.addEventListener('click', goToPrevSlide);
+ nextBtn.addEventListener('click', goToNextSlide);
+
+
+  // Fonction pour recalculer les dimensions et ajuster le carrousel
+  const recalculate = () => {
+    cardWidth = cards[0].offsetWidth; // Recalculer la largeur d'une carte
+    carouselWidth = carousel.offsetWidth; // Recalculer la largeur visible du carrousel
+    visibleCards = Math.floor(carouselWidth / cardWidth); // Recalculer le nombre de cartes visibles
+
+    // S'assurer que l'index actuel n'est pas hors des limites après le redimensionnement
+    if (currentIndex > cards.length - visibleCards) {
+      currentIndex = cards.length - visibleCards;
+    }
+
+    updateCarousel(); // Mettre à jour la position du carrousel
+  };
+
+  // Écouteur d'événement pour le redimensionnement de la fenêtre
+  window.addEventListener('resize', recalculate);
+
+  // Initialisation
+  recalculate();
 }
 
-// ----------------- CAROUSSEL BOISSONS -------------------------
 
-function carousselBoissons() {
-  
-  // selection des elements
-  const carousel = document.querySelector('.carousel-boisson');
-  const cards = document.querySelectorAll('.cardBoisson');
-  const prevBtn = document.querySelector('.prevBoisson');
-  const nextBtn = document.querySelector('.nextBoisson'); 
-  // variables
-  let currentIndex = 0;
-  //  const cardWidth = cards[0].offsetWidth; // calcul du deplacement d'une card
-  cardWidth = 200; // largeur card
-  // bornage du defilement
-  const isFirstSlide = () => currentIndex === 0; // si index card = 0 (premiere card) alors true sinon false
-  const isLastSlide = () => currentIndex === cards.length - 1; // si index card = cards.length - 1; (derniere card) alors true sinon false
-
-  /**
-   * role : fonction pour defiler les cards/ Translation d'une longueur egale à la positon de la card * la largeur de la card
-   * param : no
-   * return : no 
-   */
-  const updateCarousel = () => {
-    carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    nextBtn.disabled = isLastSlide(); // Désactiver le bouton "Suivant" à la fin
-    prevBtn.disabled = isFirstSlide(); // Désactiver le bouton "Précédent" au début
-  };
-
-  /**
-   * role : faire defiler ou pas le caroussel (precedent)
-   * param : no
-   * return : no
-   * algo : au click si defilement possible decrementte l'index et effectue la translation
-   */
-  const goToPrevSlide = () => {
-    if (!isFirstSlide()) {
-      currentIndex--;
-      updateCarousel();
-    }
-  };
-
-  /**
-   * role : faire defiler ou pas le caroussel (precedent)
-   * param : no
-   * return : no
-   * algo : au click si defilement possible incremente l'index et effectue la translation
-   */
-  const goToNextSlide = () => {
-    if (!isLastSlide()) {
-      currentIndex++;
-      updateCarousel();
-    }
-  };
-
-  // ecouteurs evenements
-  prevBtn.addEventListener('click', goToPrevSlide);
-  nextBtn.addEventListener('click', goToNextSlide);
-}
 
 // ---------- AFFICHAGE CARDS CATEGORIE --------------------------
 
@@ -287,10 +281,18 @@ function afficherCardsCategorie(datas){
 // --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
 
 const cardsCategorie = document.querySelectorAll('.cardCategorie');
+
+
+
 cardsCategorie.forEach(card => {
+  if(card.querySelector('p').textContent == 'menus') {
+    activeBordureJaune(card);
+  };
   card.addEventListener('click', (event) => {
+    desactiveBordureJaune(cardsCategorie);
     const categorie = event.currentTarget.querySelector('p').textContent;
     datasProduits(categorie);
+    activeBordureJaune(event.currentTarget);
   });
 });
 }
@@ -326,7 +328,7 @@ function afficherCardsProduit(datas, categorie){
       `
         <article class="cardProduit" itemscope itemtype="http://schema.org/Product">
           <div class="cardProduitCoprs flex">
-            <div class="cardProduitImg">
+            <div class="cardProduitImg flex">
                 <img itemprop="image" src="../images/${card.image}" alt="menu ${card.image}">
             </div>
             <p class="nomProduit" itemprop="name">${card.nom}</p>
@@ -342,15 +344,19 @@ zone2.innerHTML = cardPoduit;
 const cardsProduit = document.querySelectorAll('.cardProduit');
 cardsProduit.forEach(card => {
   card.addEventListener('click', (event) => {
-    const produit = event.currentTarget;
+    desactiveBordureJaune(cardsProduit); 
+    activeBordureJaune(event.currentTarget); 
     if (categorie == "menus") {
-      afficherModaleTailleMenu(produit);
+      afficherModaleTailleMenu(event.currentTarget);
       togglerModale(".modaleTailleMenu");
     } else {
-      afficherProduitCommande(produit)
+      afficherProduitCommande(event.currentTarget)
     }
+      
   });
 });
+
+const modal = document.getElementById('modaleTailleMenu');
 }
 
 // -------------- MODALES MENU ----------------------------------
@@ -369,6 +375,7 @@ function afficherModaleTailleMenu(produit){
   let zone = document.querySelector(".modaleTailleMenu")
   let template= 
   `
+  <div class="overlayFond">
     <!-- nav-->
     <nav class="flex overlayNav">
       <div id="croixImageMenu">
@@ -387,14 +394,14 @@ function afficherModaleTailleMenu(produit){
         <!-- taille produits -->
         <section class="flex overlayCardParent">
             <article class="menuNormal flex cardSegondaireCoprs">
-                <div>
+                <div class="cardSegondaireImg">
                     <img src="${urlImage}" alt="menu ${name}">
                 </div>
                 <p class="cardSegondaireText">${name}</p>
                 <span hidden>${price}</span>
             </article>
             <article class="menuMax flex cardSegondaireCoprs">
-                <div>
+                <div class="cardSegondaireImg">
                     <img src="${urlImage}" alt="menu ${name}">
                 </div>
                 <p class="cardSegondaireText">${name} Maxi</p>
@@ -414,6 +421,7 @@ function afficherModaleTailleMenu(produit){
         </div>
 
     </div>
+  </div>
   `
   zone.innerHTML = template;
 
@@ -422,6 +430,8 @@ function afficherModaleTailleMenu(produit){
   //ajouter le choix taille normale à la commande
   const menuNormal = document.querySelector(".menuNormal");
   menuNormal.addEventListener("click", (event) => {
+    menuMax.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
     let produit = event.currentTarget;
     ajouterMenuNormalCommande(produit, commandeMenu);
@@ -430,6 +440,8 @@ function afficherModaleTailleMenu(produit){
   // ajouter le choix taille max à la commande
   const menuMax = document.querySelector(".menuMax");
   menuMax.addEventListener("click", (event) => {
+    menuNormal.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
     let produit = event.currentTarget;
     ajouterMenuMaxCommande(produit, commandeMenu);
@@ -492,6 +504,7 @@ function afficherModaleFrite(produit, commandeMenu){
   let zone = document.querySelector(".modaleFrite")
   let template = 
     `
+    <div class="overlayFond">
         <nav class="flex">
           <ul class="flex overlayNav">
               <li>
@@ -540,6 +553,7 @@ function afficherModaleFrite(produit, commandeMenu){
           </div>
 
       </div>
+    </div>
     `
   zone.innerHTML = template;
 
@@ -575,6 +589,8 @@ function afficherModaleFrite(produit, commandeMenu){
   const friteModal = document.querySelector(".friteModal");
   friteModal.addEventListener("click", (event) => {
     messageErreur (".erreurtFrite")
+    potatoesModal.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
     commandeMenu.frite = frite; 
@@ -583,6 +599,8 @@ function afficherModaleFrite(produit, commandeMenu){
   // ajouter potetose à la commande
   const potatoesModal = document.querySelector(".potatoesModal");
   potatoesModal.addEventListener("click", (event) => {
+    friteModal.classList.remove('activeBordureJaune'); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtFrite")
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
@@ -596,6 +614,7 @@ function afficherModaleBoisson(produit, commandeMenu) {
   let zone = document.querySelector(".modaleBoissons")
   let template = 
     `
+    <div class="overlayFond">
        <nav class="flex">
         <ul class="flex overlayNav">
             <li>
@@ -640,13 +659,14 @@ function afficherModaleBoisson(produit, commandeMenu) {
               <button id="btnModalAjouter" class="btnJaune">Ajouter le menu à ma commande</button>
           </div>
 
+      </div>
     </div>
     `
   zone.innerHTML = template;
 
-  datasBoissons(commandeMenu)
-  carousselBoissons();
-
+// carouselBoissons en caalback pour timing dom
+datasBoissons(commandeMenu, carousselBoissons);
+  
   // -----  ecouteurs evenement dans la modale boisson ------
 
   // fermeture modale par la croix
@@ -705,6 +725,8 @@ function afficherCardsBoissons(datas, commandeMenu){
 const cardsBoisson = document.querySelectorAll('.cardBoisson');
 cardsBoisson.forEach(card => {
   card.addEventListener('click', (event) => {
+    desactiveBordureJaune(cardsBoisson); 
+    activeBordureJaune(event.currentTarget);
     messageErreur (".erreurBoisson")
     const boisson = event.currentTarget.querySelector('p').textContent;
     commandeMenu.boisson = boisson; 
@@ -731,14 +753,16 @@ function afficherMenuCommande (commandeMenu) {
   commandeMenus.forEach(menu=>{
       template += 
       `
-        <div>
-            <div>
-                <p class="cmd-nomProduitM">${menu.menu ? menu.menu : ''}</p>
-                <p>${menu.frite ? menu.frite : ''}</p>
-                <p>${menu.boisson ? menu.boisson : ''}</p>
-                <p>${menu.priceMenu ? menu.priceMenu : ''} €</p>
+        <div class="menuCmdDetail flex">
+            <div class="menuCmd">
+                <p class="cmd-nomProduitM titleCmd">${menu.menu ? menu.menu : ''}</p>
+                <ul>
+                    <li>${menu.frite ? menu.frite : ''}</li>
+                    <li>${menu.boisson ? menu.boisson : ''}</li>
+                    <li>${menu.priceMenu ? menu.priceMenu : ''} €</li>
+                </ul>
             </div>
-            <div class="poubelleImageM">
+            <div class="poubelleImageM pblCmd">
                 <img src="../images/images/trash.png" alt="poubelle">
             </div>
         </div>
@@ -781,12 +805,16 @@ function afficherProduitCommande(produit) {
     commandeProduit.forEach(produit=>{
         template += 
         `
-          <div>
-              <p class="cmd-nomProduit">${produit.nom}</p>
-              <p>${produit.price}</p>
-              <div class="poubelleImage">
-                <img src="../images/images/trash.png" alt="poubelle">
-              </div>
+          <div class="menuCmdDetail flex">
+            <div class="menuCmd">
+              <p class="cmd-nomProduit titleCmd">${produit.nom}</p>
+              <ul>
+                <li>${produit.price}</li>
+              </ul>
+            </div>
+            <div class="poubelleImage  pblCmd">
+              <img src="../images/images/trash.png" alt="poubelle">
+            </div>
           </div>
         `;    
     });
@@ -887,7 +915,7 @@ function afficherMontantCommande (montant) {
           <p>(ttc)</p>
       </div>
       <p class="montantTotal">${montant.toFixed(2)} €</p>
-     </div>
+    </div>
     <div class="btnCommande flex">
         <a class="btnTransparent" href="../../index.html">Abandon</a>
         <button class="btnJaune" id="btnPayerCommande">Payer</button>
@@ -945,6 +973,54 @@ function messageErreur (classModal) {
     }
   }
 
+/**
+ * role : active ou desactive la bordure jaune si element est selectionné
+ * param : htmlElement : element selectionné
+ */
+function activeBordureJaune(element) {
+  element.classList.toggle("activeBordureJaune");
+}
+/**
+ * role : desactive la bordure jaune
+ * param : htmlElement : les elements concernés
+ */
+function desactiveBordureJaune(elements){ 
+  elements.forEach(autresElements=> {
+  autresElements.classList.remove('activeBordureJaune');
+  });
+};
+
+/**
+ * trole : ouverture et fermeture modale laterale
+ * param : no
+ */
+function modaleLaterale() { 
+  const openBtn = document.querySelector('.open-btn');
+  const closeBtn = document.querySelector('.close-btn');
+  const modal = document.querySelector('.modal');
+
+  const modalContainer = document.querySelector('.modal-container');
+  const sectionPrincipale = document.querySelector('.sectionPrincipale');
+
+  // modale ouverte au chargement
+  /*
+  modal.classList.add('active');
+  modalContainer.classList.add('active');
+  sectionPrincipale.classList.add('active');
+*/
+  openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+      modalContainer.classList.add('active');
+      sectionPrincipale.classList.add('active');
+  });
+
+  closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      modalContainer.classList.remove('active');
+      sectionPrincipale.classList.remove('active');
+  });
+
+}
 // ------- FORM CHEVALET ----------------------------------------------
 
 /**
@@ -980,14 +1056,18 @@ function afficherNumeroChevalet(urlParams){
   if(nombreChevalet) { 
     let template=
     `
-      <p>Surplace</P>
+    <div>
+      <p>Surplace</p>
       <p>Chevalet : ${nombreChevalet}</p>
+    </div>
     `
     zone.innerHTML = template;
   } else {
     let template=
     `
-      <p>A emporter</P>
+    <div>
+      <p>A emporter</p>
+    </div>
     `
     zone.innerHTML = template;
   }
@@ -1012,6 +1092,16 @@ function afficherNumeroCommande(){
   } 
 }
 
+// --------------------- AUTRE ---------------
+
+/**
+ * 
+ */
+ function headerFondTransparent (){
+  let header = document.querySelector('.choix header');
+  header.classList.add('headerChoix');
+ 
+}
 
 
   
