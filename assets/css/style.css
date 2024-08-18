@@ -535,7 +535,7 @@ main {
   align-content:start;
   height: 100vh;
   background-color: var(--quatriemeColor);
-  padding:10px;
+  padding:20px;
   width: 100%;
 }
 
@@ -726,20 +726,7 @@ main {
   }
  
   /* BTN */ 
-  #btn-typo {
-    width: 150px;
-    font-size: 12px;
-  }
-  .open-btn {
-    width: 150px;
-    font-size: 12px;
-  }
-  .btnTransparent {
-    width: 150px;
-    font-size: 12px;
-    padding: 10px;
-  }
-  
+ 
 
   /* card principale */
   .cardPrincipale {
@@ -841,13 +828,15 @@ main {
   }
   /* BTN */ 
   #btn-typo {
-    width: 45%;
+    width: 120px;
     font-size: 12px;
-
+    padding: 10px;
   }
   .open-btn {
-    width: 45%;
+    width: 120px;
     font-size: 12px;
+  }
+  .btnTransparent {
   }
 
 }
@@ -858,7 +847,6 @@ main {
   .cardPrincipale {
     width: 90%;
   }
-
 
   /* PAGE CHOIX */
   .cardProduitCoprs {

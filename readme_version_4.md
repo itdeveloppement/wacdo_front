@@ -58,7 +58,7 @@
  - responsive
    - smartphone en mode paysage : oui
    - smartphone en mode portrait non
-   - tableatte en mode paysage : non
+   - tableatte en mode paysage : oui
    - tablette en mode portrait : oui 
    - ecran ordinateur : oui
   
@@ -66,4 +66,4 @@
  - affichage photo au chargement sur smartphone : defer ???
  - mise en page liste commande sur smartphone
  - mise en page smartphone en mode portrait
- - bouton typo et panier trop large pour smartphone
+ - afficher nombre de produit sr bouton panier
