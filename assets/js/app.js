@@ -1252,39 +1252,29 @@ function onlyNumber (valueField) {
 
 }
 
-/**
- * role : envoi les données du formulaire pour affichage
- * param no
- */
-
-/*
-function formChevalet () {
-
-const form = document.getElementById('formChevalet');
-form.addEventListener('submit', (event) => {
-    event.preventDefault(); // Empêche le rechargement de la page
-
-    // Récupérer les valeurs des champs
-    const nombre1 = document.getElementById('nombre1').value;
-    const nombre2 = document.getElementById('nombre2').value;
-    const nombre3 = document.getElementById('nombre3').value;  
-    numeroChevalet = nombre1+nombre2+nombre3;
-  
-    // Envoyer les données à la nouvelle page
-    const params = new URLSearchParams();
-    params.append('nombreChevalet', numeroChevalet);
-    window.location.href = 'choix.html?' + params.toString();
-});
-}
-
+/** NOMBRE : verifie si la valeur du champ contient des chiffres
+* @param {number} valueField valeur du champs
+* @returns true si la valeur du champs contien des chiffre
+* @returns false sinon
 */
+function onlyThreeNumber (valueField) {
+  let reg=/^\d{3}$/;
+  if (reg.test(valueField)) {
+      return true;
+  } return false
 
+}
 /**
  * role : affiche le numero du chevalet si il existe
  * @param {*} urlParams 
  */
 function afficherNumeroChevalet(urlParams){
   const nombreChevalet = urlParams.get('nombreChevalet'); // recuperation parametre
+  if (!onlyThreeNumber(nombreChevalet)){
+    console.log(onlyThreeNumber)
+    window.location.href = 'chevalet.html?';
+  }
+
   let zone = document.querySelector(".surplace")
   if(nombreChevalet) { 
     let template=
