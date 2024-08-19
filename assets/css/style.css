@@ -419,8 +419,7 @@ ul {
   background-color: rgba(241, 241, 241, 0.517);
 }
 .overlayFond{
-  /* width: 70%; */
-  /* height: 90%; */
+  width: 80%;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -441,7 +440,6 @@ ul {
   align-items: center;
   margin-bottom: 20px;
 }
-
 #croixImageMenu img:hover, #croixImageFrite img:hover, #croixImageBoisson img:hover  {
   background-color: var(--quatriemeColor);
   border-radius: 50%;
@@ -485,7 +483,6 @@ ul {
   font-weight: 600;
   font-size: 20px;
 }
-
 #btnmodaleQuantiteTaille {
   width: 300px;
 }
@@ -804,7 +801,6 @@ main {
   .modal {
     transition: transform 0.3s ease-in-out;
   }
-
 }
 
 /* regles specifiques de 0 à 714px */
@@ -826,7 +822,6 @@ main {
     padding: 20px;
 
   }
-  
   .cardSegondaireCoprs {
     width: 100%;
     margin: 0;
@@ -834,8 +829,6 @@ main {
   .cardSegondaireCoprs {
     margin: 0 0 10px 0;
   }
-
-
   .overlayFond, .cardSegondaireCoprs {
     padding: 10px;
     width: 100%;
@@ -923,6 +916,7 @@ main {
   .sectionPrincipale {
     padding-right: 30%;
   }
+  
   /* modale laterale */
     .modal{
       width: 30%;

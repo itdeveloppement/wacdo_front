@@ -70,7 +70,6 @@
   
  A faire 
  - affichage photo au chargement sur smartphone : defer ???
- - mise en page liste commande sur smartphone
  - mise en page smartphone en mode portrait
  - afficher nombre de produit sur bouton panier
  - compatibilité navigateur
@@ -79,9 +78,15 @@
  - balise meta titre
  - temps de charges utilisation sprites
  - utilisation libraiire
+ - factooriser code
 
 prio
-- hauteur card overlay quantite
-- maj css overlay
+
+
+Amelioration 
+Traiter avec objet
+  objet commande
+  objet template modale
+  
 
 
