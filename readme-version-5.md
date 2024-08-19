@@ -79,6 +79,7 @@
  - temps de charges utilisation sprites
  - utilisation libraiire
  - factooriser code
+ - le signe euro sur les carde mal placé
 
 prio
 Demarche de test

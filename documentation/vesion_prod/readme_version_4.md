@@ -79,6 +79,7 @@
  - temps de charges utilisation sprites
  - utilisation libraiire
  - factooriser code
+ - 
 
 prio
 

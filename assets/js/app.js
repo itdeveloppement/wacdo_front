@@ -94,6 +94,25 @@ function datasBoissons(commandeMenu, callback) {
   });
 }
 
+/**
+ * role : envoyer le contenu de la commande 
+ * param : array : contenu de la commande
+ * return :
+ */
+function envoyercommande(datas) {
+  console.log(datas)
+  fetch('/mon-endpoint', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(datas)
+  })
+  .catch(error => {
+    console.error('Erreur lors de l\'envoi de la commande :', error);
+  });
+  
+}
 // ---------------- CHANGEMENT TYPO ------------------------
 
 function typo(){
@@ -664,9 +683,6 @@ function afficherModaleQuantiteTaille(produit){
 
 function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
 
-  console.log(produitCurrent)
-  console.log(produitQuantite2)
-  console.log(quantite)
   if (produitCurrent == null) {   // si event.currentTarget est null
     produitCurrent = produitQuantite2;
     let quantiteTemp = produitQuantite2.quantite + quantite
@@ -1232,57 +1248,6 @@ function supprimerMenu(event) {
   calculerMontantCommandeMenus(commandeMenus);
 }
 
-/* --------------- quantite commande -------------------------------- */
-/**
- * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
- * param : le produit selectionnée (event.currentTarget)
- * param : le produit courent : objet 
- * param : quantité (1 pour ajouter, -1 pour supression)
- */
-
-/*
-function preparartionCommande(produitCurrent, produitQuantite, quantite) {
-  // si event.currentTarget est null
-  if (produitCurrent == null) {
-    produitCurrent = produitQuantite;
-    let quantiteTemp = produitQuantite.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite.quantite = produitQuantite.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
-    }
-    //mise a jour quantite
-    document.getElementById("quantiteProduit").innerText
-  // si event.currentTarget n'est pas null
-  } else { 
-    // modification nom
-    let nom =produitCurrent.querySelector('p').textContent;
-    produitQuantite.nom = nom;
-    // modification prix
-    let priceSupplementPrice = null;
-    let priceProduit = produitCurrent.querySelector('span').textContent;
-      // supplement prix : si supplement exsite ajoute le sinon prix identique
-    if (!produitCurrent.querySelector('#supplement')) { 
-      produitQuantite.price = parseFloat(priceProduit);
-    } else { 
-      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
-      produitQuantite.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
-    }
-    // quantite
-    let quantiteTemp = produitQuantite.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite.quantite = produitQuantite.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
-    }
-  }
-  commandeProduitTemp = produitQuantite;
-}
-*/
 // ------------ calculer et afficher montant commande -----------------
 
 /**
@@ -1366,12 +1331,28 @@ function enregistrerPayment() {
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   const nombreChevalet = urlParams.get('nombreChevalet');
   // Données à envoyées en AJAX vers serveur
-  if(nombreChevalet) {
-    console.log(nombreChevalet)
+  let commande = [];
+  let datas = [];
+  if(!nombreChevalet) {
+    commande = {
+      "status": "emporter",
+      "numChevalet": "non",
+      "numCommande": numeroCommande
+    }
+  } else {
+    commande = {
+      "status": "surplace",
+      "numChevalet": nombreChevalet,
+      "numCommande": numeroCommande
+    }
   }
-  console.log(numeroCommande);
-  console.log(commandeMenus)
-  console.log(commandeProduit)
+  
+  datas = [commande, commandeMenus, commandeProduit]
+
+ // envoyerCommande(datas) 
+  
+  console.log(datas);
+
 }
 
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
