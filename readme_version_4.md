@@ -80,7 +80,8 @@
  - temps de charges utilisation sprites
  - utilisation libraiire
 
-- prio
+prio
 - hauteur card overlay quantite
+- maj css overlay
 
 

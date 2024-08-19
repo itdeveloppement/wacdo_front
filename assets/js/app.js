@@ -342,10 +342,14 @@ cardsProduit.forEach(card => {
     if (categorie == "menus") {
       afficherModaleTailleMenu(event.currentTarget);
       togglerModale(".modaleTailleMenu");
-      // GESTION DES PRODUITS
-    } else {
+      // GESTION DES PRODUITS BOISSON QUANTITE TAILLE
+    } else if (categorie == "boissons"){
       togglerModale(".modaleQuantiteTaille");
       afficherModaleQuantiteTaille(event.currentTarget)
+       // GESTION DES PRODUITS AUTRES PRODUIT QUANTITE
+    } else {
+      togglerModale(".modaleQuantite");
+      afficherModaleQuantite(event.currentTarget)
     }
   });
 });
@@ -353,7 +357,175 @@ cardsProduit.forEach(card => {
 const modal = document.getElementById('modaleTailleMenu');
 }
 
-// -------------- MODALES QANTITE TAILLE----------------------------------
+// -------------- MODALES QUANTITE ----------------------------------
+
+/**
+ * role : affiche la modale quantite taille
+ * param : htmlElement : le produit selectionné
+ */
+function afficherModaleQuantite (produit){
+  
+  let messageErreurEtat = false; // etat si message est affiché = true sinon false (class = modal-hidden)
+  // traitement des données
+  const nom = produit.querySelector('p').textContent
+  const price = produit.querySelector('.priceMenu').textContent
+  const urlImage =  produit.querySelector('img').src
+  const quantite = 1;
+
+  let produitQuantite = {
+    "nom": nom,
+    "price": price,
+    "quantite": quantite,
+  };
+
+  let zone = document.querySelector(".modaleQuantite")
+  let template= 
+  `
+  <div class="overlayFond">
+        <nav class="flex">
+          <ul class="flex overlayNav">
+              <li>
+                <button class="btnTransparent" id="btnRetourFrite">Annuler</button>
+              </li>
+              <li> 
+                <div id="croixImageFrite">
+                  <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+                </div>
+              </li>
+          </ul>
+        </nav>
+
+    <div class="flex overlayCoprs">
+
+        <!-- titre -->
+        <div class="flex overlayTitre">
+            <h4>Choississer la quantité</h4>
+            <p>${nom}, choisisser la quantite </p>
+        </div>
+
+        <!-- taille produits -->
+        <section class="flex overlayCardParent">
+            <article class="produitNormal flex cardSegondaireCoprs">
+                <div class="cardSegondaireImg flex">
+                    <img src="${urlImage}" alt="menu ${nom}">
+                </div>
+                <p class="cardSegondaireText">${nom}</p>
+                <span hidden>${price}</span>
+            </article>
+        </section>
+        <!-- btn quantite -->
+            <div class="quantite flex">
+              <button id="btnQuantiteMoins" class="btnJaune">-</button>
+              <div id="quantiteProduit">${quantite}</div>
+              <button id="btnQuantitePlus" class="btnJaune">+</button>
+            </div>
+        <!-- message erreur -->
+            <div class="erreurtTailleMenu modal-hidden erreurMessage">
+                <p class="cardSegondaireText">Selectionner une taille</p>
+            </div>
+        <!-- button -->
+        <div class="btnCorps flex">
+            <button id="btnmodaleQuantiteTaille" class="btnJaune">Ajouter à la commande</button>
+        </div>
+
+    </div>
+  </div>
+  `
+  zone.innerHTML = template;
+
+  // -----  ecouteurs evenement dans la modale quantite ------
+
+
+  // ajouter une quantité
+  const quantitePlus = document.getElementById("btnQuantitePlus");
+  quantitePlus.addEventListener("click", () => {
+      let quantite = 1;
+      let param = null;
+      messageErreurEtat = false;
+      preparartionCommande(param, produitQuantite, quantite)
+  });
+
+  // supprime une quantité
+  const quantiteMoins = document.getElementById("btnQuantiteMoins");
+  quantiteMoins.addEventListener("click", () => {
+      let quantite = -1;
+      let param = null;
+      messageErreurEtat = false;
+      preparartionCommande(param, produitQuantite, quantite)
+  });
+
+  // bouton annuler
+    const btnRetour = document.getElementById("btnRetourFrite");
+    btnRetour.addEventListener("click", (event) => {
+      togglerModale(".modaleQuantite")
+  });
+
+  // fermeture modale par la croix (a faire)
+  const croixFermeture = document.getElementById("croixImageFrite");
+  croixFermeture.addEventListener("click", function(){
+    togglerModale(".modaleQuantite");
+  });
+
+  // boutton etape suivante
+  const btnModalTailleMenu = document.getElementById("btnmodaleQuantiteTaille");
+  btnModalTailleMenu.addEventListener("click", () => {
+    togglerModale(".modaleQuantite");
+    afficherProduitsCommande(commandeProduitTemp);
+    // Suppression de l'écouteur après le premier clic
+    btnModalTailleMenu.removeEventListener('click', arguments.callee);
+  });
+}
+
+/**
+ * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * param : le produit selectionnée (event.currentTarget)
+ * param : le produit courent : objet 
+ * param : quantité (1 pour ajouter, -1 pour supression)
+ */
+function preparartionCommande(produitCurrent, produitQuantite, quantite) {
+  // si event.currentTarget est null
+  if (produitCurrent == null) {
+    produitCurrent = produitQuantite;
+    let quantiteTemp = produitQuantite.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite.quantite = produitQuantite.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
+    }
+    //mise a jour quantite
+    document.getElementById("quantiteProduit").innerText
+  // si event.currentTarget n'est pas null
+  } else { 
+    // modification nom
+    let nom =produitCurrent.querySelector('p').textContent;
+    produitQuantite.nom = nom;
+    // modification prix
+    let priceSupplementPrice = null;
+    let priceProduit = produitCurrent.querySelector('span').textContent;
+      // supplement prix : si supplement exsite ajoute le sinon prix identique
+    if (!produitCurrent.querySelector('#supplement')) { 
+      produitQuantite.price = parseFloat(priceProduit);
+    } else { 
+      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
+      produitQuantite.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
+    }
+    // quantite
+    let quantiteTemp = produitQuantite.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite.quantite = produitQuantite.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
+    }
+  }
+  commandeProduitTemp = produitQuantite;
+}
+
+
+// -------------- MODALES QUANTITE TAILLE----------------------------------
 
 /**
  * role : affiche la modale quantite taille
