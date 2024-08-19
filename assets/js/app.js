@@ -669,8 +669,6 @@ function preparartionCommande(produitCurrent, produitQuantite, quantite) {
   console.log(quantite)
   
  
-
-
   if (produitCurrent == null) {
     console.log("test non currenr")
     produitCurrent = produitQuantite;
@@ -684,29 +682,13 @@ function preparartionCommande(produitCurrent, produitQuantite, quantite) {
 
       // mise a jour affichage
       document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-      /*
-      if (document.getElementById("quantiteProduit").classList.contains("quantiteProduitQ")) {
-        document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-      } else {
-        document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
-      }
-        */
+     
     } else {
       console.log(produitQuantite);
       console.log(document.getElementById("quantiteProduit").classList.contains("quantiteProduitQ"));
       
       produitQuantite.quantite = produitQuantite.quantite + quantite;
       document.getElementById("quantiteProduit").innerText = produitQuantite.quantite;
-
-      /*
-      // mise a jour affichage
-      if (document.getElementById("quantiteProduit").classList.contains("quantiteProduitQ")) {
-        document.querySelector(".quantiteProduitQ").innerText = produitQuantite.quantite;
-        // document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
-      } else {
-        document.getElementById("quantiteProduit").innerText = produitQuantite.quantite;
-      }
-      */
     }
 
     //mise a jour quantite
