@@ -637,6 +637,7 @@ function afficherModaleQuantiteTaille(produit){
  * param : le produit courent : objet 
  * param : quantité (1 pour ajouter, -1 pour supression)
  */
+/*
 function preparartionCommande(produitCurrent, produitQuantite, quantite) {
   // si event.currentTarget est null
   if (produitCurrent == null) {
@@ -678,7 +679,7 @@ function preparartionCommande(produitCurrent, produitQuantite, quantite) {
   }
   commandeProduitTemp = produitQuantite;
 }
-
+*/
 // -------------- MODALES MENU ----------------------------------
 
 /**
