@@ -11,8 +11,8 @@
      - decoupage html
 
    - CSS
-    - classes generiques
-    - 
+    - classes generiques reutilisable
+    - classe regroupées pas thematique
 
   - fonctionnalités accessibilité
     - typo Luciol
@@ -26,6 +26,10 @@
     - shema.org sur cardProduit
     - balise strong pour renforcer referencement
   
+  - organisation code
+    - commenaires
+    - indentation
+  
   - initialisation projet 
     - arborescence projet
     - mise à jour du code auto sur serveur
@@ -33,6 +37,8 @@
     - mise en place gitignore
   
   - fonctionnalités en places
+    - creer une commande menu et produit
+    - ajouter des quantités
     - enregistrer un numero de chevalet et le controler
     - générer un numero de commande
     - enregistrer, supprimer une commande (produit / menu)
@@ -40,12 +46,13 @@
     - accessibilité : changer de type
     - soumission du payement
     - affichage modale sur smartphone panier
+    - controle des formulaire et message erreurs
 
   - fonctionnalités à ajouter
     - overlay menu : choisir une frite ou une salde pour les menus
     - overlay menu : choisir sauce 
-    - quantité variable pour une selection d'un produit
-    - améliorer et verifier le traitement des erreurs
+    - améliorer et verifier le traitement des erreurs (try cach)
+    - test unitaire des fonctions
  
   - UI/UX fonctionnel
     - mise en page accueil / chevalet / choix / a bientot
@@ -53,7 +60,6 @@
   - UI/UX a ajouter ou modifier
     - carooussel : adapatation largeur ecran auto si modification (portrait paysage)
     - overlay : supprimer le scroll quand overlay ouvert
-    - responsive : entre 400 et 700
  
  - responsive
    - smartphone en mode paysage : oui
@@ -67,11 +73,14 @@
  - mise en page liste commande sur smartphone
  - mise en page smartphone en mode portrait
  - afficher nombre de produit sur bouton panier
+ - compatibilité navigateur
+ - utilisation du clavier
+ - shema.org
+ - balise meta titre
+ - temps de charges utilisation sprites
+ - utilisation libraiire
 
 - prio
-  - quantité variable pour une selection d'un produit
-    - ex : sur boisson
-        - carde chois normal ou xxl
-        - choix quantité
-        - btn : annuler
-        - btn : ajouter à la commande    
+- hauteur card overlay quantite
+
+

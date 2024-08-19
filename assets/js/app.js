@@ -3,6 +3,7 @@ let commandeProduit = [];
 let commandeProduitTemp = [];
 let commandeMenus=[];
 let produit = null;
+const maxLengthNombre = 2;
 
 // -------------- AU CHARGEMENT --------------------
 document.addEventListener('DOMContentLoaded', () => {
@@ -379,19 +380,25 @@ function afficherModaleQuantiteTaille(produit){
   let template= 
   `
   <div class="overlayFond">
-    <!-- nav-->
-    <nav class="flex overlayNav">
-      <div id="croixImageMenu">
-        <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
-      </div>
-    </nav>
+        <nav class="flex">
+          <ul class="flex overlayNav">
+              <li>
+                <button class="btnTransparent" id="btnRetourFrite">Annuler</button>
+              </li>
+              <li> 
+                <div id="croixImageFrite">
+                  <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+                </div>
+              </li>
+          </ul>
+        </nav>
 
     <div class="flex overlayCoprs">
 
         <!-- titre -->
         <div class="flex overlayTitre">
-            <h4>Une grosse fin ?????</h4>
-            <p>Choississer la taille de votre ${nom} </p>
+            <h4>Choississer la taille et la quantité</h4>
+            <p>${nom}, choisisser la taille et la quantité </p>
         </div>
 
         <!-- taille produits -->
@@ -412,18 +419,17 @@ function afficherModaleQuantiteTaille(produit){
                 <p>+</p><p id="supplement">0.50</p><p> €</p>
                 <span hidden>${price}</span>
             </article>
+        </section>
+        <!-- btn quantite -->
             <div class="quantite flex">
               <button id="btnQuantiteMoins" class="btnJaune">-</button>
               <div id="quantiteProduit">${quantite}</div>
               <button id="btnQuantitePlus" class="btnJaune">+</button>
             </div>
-        </section>
-
         <!-- message erreur -->
-        <div class="erreurtTailleMenu modal-hidden erreurMessage">
-            <p class="cardSegondaireText">Selectionner une taille</p>
-        </div>
-
+            <div class="erreurtTailleMenu modal-hidden erreurMessage">
+                <p class="cardSegondaireText">Selectionner une taille</p>
+            </div>
         <!-- button -->
         <div class="btnCorps flex">
             <button id="btnmodaleQuantiteTaille" class="btnJaune">Ajouter à la commande</button>
@@ -490,8 +496,14 @@ function afficherModaleQuantiteTaille(produit){
     }
   });
 
+  // bouton annuler
+    const btnRetour = document.getElementById("btnRetourFrite");
+    btnRetour.addEventListener("click", (event) => {
+      togglerModale(".modaleQuantiteTaille")
+  });
+
   // fermeture modale par la croix (a faire)
-  const croixFermeture = document.getElementById("croixImageMenu");
+  const croixFermeture = document.getElementById("croixImageFrite");
   croixFermeture.addEventListener("click", function(){
     togglerModale(".modaleQuantiteTaille");
   });
@@ -611,12 +623,10 @@ function afficherModaleTailleMenu(produit){
                 <span hidden>${price}</span>
             </article>
         </section>
-
         <!-- message erreur -->
         <div class="erreurtTailleMenu modal-hidden erreurMessage">
             <p class="cardSegondaireText">Selectionner une taille</p>
         </div>
-
         <!-- button -->
         <div class="btnCorps flex">
             <button id="btnModalTailleMenu" class="btnJaune">Etape suivante</button>
@@ -1125,7 +1135,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-    // window.location.href = "./abientot.html";   // Redirection
+    window.location.href = "./abientot.html";   // Redirection
 });
 
 }
@@ -1222,7 +1232,7 @@ function modaleLaterale() {
 }
 // ------- FORM CHEVALET ----------------------------------------------
 
-const maxLengthNombre = 2;
+
 
 
 // SOUMISSION DU FORMULAIRE
