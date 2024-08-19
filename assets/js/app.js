@@ -373,7 +373,6 @@ const modal = document.getElementById('modaleTailleMenu');
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleQuantite (produit){
-console.log(produit)
   // traitement des données
   const nom = produit.querySelector('p').textContent
   const price = produit.querySelector('.priceMenu').textContent
@@ -385,7 +384,8 @@ console.log(produit)
     "price": price,
     "quantite": quantite,
   };
-  
+  commandeProduitTemp = produitQuantite;
+
   let zone = document.querySelector(".modaleQuantite")
   let template= 
   `
@@ -481,6 +481,7 @@ console.log(produit)
   btnModalTailleMenuQ.addEventListener("click", () => {
     togglerModale(".modaleQuantite");
     afficherProduitsCommande(commandeProduitTemp);
+    console.log(commandeProduitTemp)
     //Suppression de l'écouteur après le premier clic
     btnModalTailleMenuQ.removeEventListener('click', arguments.callee);
   });
@@ -507,6 +508,8 @@ function afficherModaleQuantiteTaille(produit){
     "price": price,
     "quantite": quantite,
   };
+
+  // commandeProduitTemp = produitQuantite;
 
   let zone = document.querySelector(".modaleQuantiteTaille");
   let template= 
@@ -674,100 +677,6 @@ function afficherModaleQuantiteTaille(produit){
   });
 }
 
-/**
- * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
- * param : le produit selectionnée (event.currentTarget)
- * param : le produit courent : objet 
- * param : quantité (1 pour ajouter, -1 pour supression)
- */
-
-function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
-
-  if (produitCurrent == null) {   // si event.currentTarget est null
-    produitCurrent = produitQuantite2;
-    let quantiteTemp = produitQuantite2.quantite + quantite
-    if (quantiteTemp <=0) {
-      console.log(produitQuantite2)
-      produitQuantite2.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite;
-    }
-    document.getElementById("quantiteProduit").innerText  //mise a jour quantite
-  } else { // si event.currentTarget n'est pas null
-    let nom =produitCurrent.querySelector('p').textContent;   // modification nom
-    produitQuantite2.nom = nom;
-    let priceSupplementPrice = null; // modification prix
-    let priceProduit = produitCurrent.querySelector('span').textContent;
-    if (!produitCurrent.querySelector('#supplement')) { // supplement prix : si supplement exsite ajoute le sinon prix identique
-      produitQuantite2.price = parseFloat(priceProduit);
-    } else { 
-      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
-      produitQuantite2.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
-    }
-    // quantite
-    let quantiteTemp = produitQuantite2.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite2.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite; // mise a jour affichage
-    }
-  }
-  commandeProduitTemp = produitQuantite2;
-}
-
-/**
- * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
- * param : le produit selectionnée (event.currentTarget)
- * param : le produit courent : objet 
- * param : quantité (1 pour ajouter, -1 pour supression)
- */
-
-function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite) {
-
-  console.log(produitCurrent)
-  console.log(produitQuantite2)
-  console.log(quantite)
-  if (produitCurrent == null) {   // si event.currentTarget est null
-    produitCurrent = produitQuantite2;
-    let quantiteTemp = produitQuantite2.quantite + quantite
-    if (quantiteTemp <=0) {
-      console.log(produitQuantite2)
-      produitQuantite2.quantite = 1;
-      document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
-      document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite;
-    }
-    document.querySelector(".quantiteProduitQ").innerText  //mise a jour quantite
-  } else { // si event.currentTarget n'est pas null
-    let nom =produitCurrent.querySelector('p').textContent;   // modification nom
-    produitQuantite2.nom = nom;
-    let priceSupplementPrice = null; // modification prix
-    let priceProduit = produitCurrent.querySelector('span').textContent;
-    if (!produitCurrent.querySelector('#supplement')) { // supplement prix : si supplement exsite ajoute le sinon prix identique
-      produitQuantite2.price = parseFloat(priceProduit);
-    } else { 
-      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
-      produitQuantite2.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
-    }
-    // quantite
-    let quantiteTemp = produitQuantite2.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite2.quantite = 1;
-      document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
-      document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite; // mise a jour affichage
-    }
-  }
-  commandeProduitTemp = produitQuantite2;
-}
-
-
 // -------------- MODALES MENU ----------------------------------
 
 /**
@@ -871,32 +780,6 @@ function afficherModaleTailleMenu(produit){
       togglerModale(".erreurtTailleMenu");
     }
   });
-}
-
-// ------ fct preparation commande --------------
-
-/**
- * role : ajouter menu normal à la commande
- * param : htmlElement : produit selectionné
- */
-function ajouterMenuNormalCommande(produit, commandeMenu) {
-  menu = produit.querySelector('p').textContent;
-  priceMenu = produit.querySelector('span').textContent;
-  priceMenu = parseFloat(priceMenu)
-  commandeMenu.menu= menu;
-  commandeMenu.priceMenu= priceMenu;
-}
-
-/**
- * role : ajouter menu max à la commande
- * param : htmlElement : produit selectionné
- */
-function ajouterMenuMaxCommande(produit, commandeMenu) {
-  menu = produit.querySelector('p').textContent;
-  priceMenu = produit.querySelector('span').textContent;
-  priceMenu = parseFloat(priceMenu)+ 0.5;
-  commandeMenu.menu= menu;
-  commandeMenu.priceMenu= priceMenu;
 }
 
 // ----------------- MODAL FRITE -----------------------
@@ -1219,6 +1102,122 @@ zone.addEventListener('click', supprimerProduit);
 
 calculerMontantCommandeProduit (commandeProduit)
 };
+
+/**
+ * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * param : le produit selectionnée (event.currentTarget)
+ * param : le produit courent : objet 
+ * param : quantité (1 pour ajouter, -1 pour supression)
+ */
+
+function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
+console.log(quantite)
+  if (produitCurrent == null) {   // si event.currentTarget est null
+    produitCurrent = produitQuantite2;
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      console.log(produitQuantite2)
+      produitQuantite2.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite;
+    }
+    document.getElementById("quantiteProduit").innerText  //mise a jour quantite
+  } else { // si event.currentTarget n'est pas null
+    let nom =produitCurrent.querySelector('p').textContent;   // modification nom
+    produitQuantite2.nom = nom;
+    let priceSupplementPrice = null; // modification prix
+    let priceProduit = produitCurrent.querySelector('span').textContent;
+    if (!produitCurrent.querySelector('#supplement')) { // supplement prix : si supplement exsite ajoute le sinon prix identique
+      produitQuantite2.price = parseFloat(priceProduit);
+    } else { 
+      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
+      produitQuantite2.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
+    }
+    // quantite
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite2.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite; // mise a jour affichage
+    }
+  }
+  commandeProduitTemp = produitQuantite2;
+}
+
+/**
+ * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * param : le produit selectionnée (event.currentTarget)
+ * param : le produit courent : objet 
+ * param : quantité (1 pour ajouter, -1 pour supression)
+ */
+
+function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite) {
+console.log(quantite)
+  if (produitCurrent == null) {   // si event.currentTarget est null
+    produitCurrent = produitQuantite2;
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      console.log(produitQuantite2)
+      produitQuantite2.quantite = 1;
+      document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite;
+    }
+    document.querySelector(".quantiteProduitQ").innerText  //mise a jour quantite
+  } else { // si event.currentTarget n'est pas null
+    let nom =produitCurrent.querySelector('p').textContent;   // modification nom
+    produitQuantite2.nom = nom;
+    let priceSupplementPrice = null; // modification prix
+    let priceProduit = produitCurrent.querySelector('span').textContent;
+    if (!produitCurrent.querySelector('#supplement')) { // supplement prix : si supplement exsite ajoute le sinon prix identique
+      produitQuantite2.price = parseFloat(priceProduit);
+    } else { 
+      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
+      produitQuantite2.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
+    }
+    // quantite
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite2.quantite = 1;
+      document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite; // mise a jour affichage
+    }
+  }
+  commandeProduitTemp = produitQuantite2;
+}
+
+  // ------ fct preparation commande --------------
+
+/**
+ * role : ajouter menu normal à la commande
+ * param : htmlElement : produit selectionné
+ */
+function ajouterMenuNormalCommande(produit, commandeMenu) {
+    menu = produit.querySelector('p').textContent;
+    priceMenu = produit.querySelector('span').textContent;
+    priceMenu = parseFloat(priceMenu)
+    commandeMenu.menu= menu;
+    commandeMenu.priceMenu= priceMenu;
+  }
+
+/**
+ * role : ajouter menu max à la commande
+ * param : htmlElement : produit selectionné
+ */
+function ajouterMenuMaxCommande(produit, commandeMenu) {
+    menu = produit.querySelector('p').textContent;
+    priceMenu = produit.querySelector('span').textContent;
+    priceMenu = parseFloat(priceMenu)+ 0.5;
+    commandeMenu.menu= menu;
+    commandeMenu.priceMenu= priceMenu;
+  }
 
 // -------- supression produit ou menus commande --------------------
 
