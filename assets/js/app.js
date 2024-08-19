@@ -2,7 +2,7 @@
 let commandeProduit = [];
 let commandeProduitTemp = [];
 let commandeMenus=[];
-let produit = null;
+// let produit = null;
 const maxLengthNombre = 2;
 
 // -------------- AU CHARGEMENT --------------------
@@ -36,9 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
-
-
-
 
 // ---------------------- FETCHE ------------------------------------
 
@@ -97,6 +94,24 @@ function datasBoissons(commandeMenu, callback) {
   });
 }
 
+/**
+ * role : envoyer le contenu de la commande 
+ * param : array : contenu de la commande
+ * return :
+ */
+function envoyercommande(datas) {
+  fetch('/mon-endpoint', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(datas)
+  })
+  .catch(error => {
+    console.error('Erreur lors de l\'envoi de la commande :', error);
+  });
+  
+}
 // ---------------- CHANGEMENT TYPO ------------------------
 
 function typo(){
@@ -317,7 +332,10 @@ function afficherCardsProduit(datas, categorie){
                 <img itemprop="image" src="../images/${card.image}" alt="menu ${card.image}">
             </div>
             <p class="nomProduit" itemprop="name">${card.nom}</p>
-            <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)}</p><p> €</p>
+            <div class="flex price">
+              <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)}</p>
+              <p class="euro"> €</p>
+            </div>
           </div>
         </article>
       `;    
@@ -368,6 +386,7 @@ function afficherModaleQuantite (produit){
     "price": price,
     "quantite": quantite,
   };
+  commandeProduitTemp = produitQuantite;
 
   let zone = document.querySelector(".modaleQuantite")
   let template= 
@@ -376,10 +395,10 @@ function afficherModaleQuantite (produit){
         <nav class="flex">
           <ul class="flex overlayNav">
               <li>
-                <button class="btnTransparent" id="btnRetourFrite">Annuler</button>
+                <button class="btnTransparent btnRetourQu" id="btnRetourFrite">Annuler</button>
               </li>
               <li> 
-                <div id="croixImageFrite">
+                <div id="croixImageFrite" class="croixImg">
                   <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
                 </div>
               </li>
@@ -406,9 +425,9 @@ function afficherModaleQuantite (produit){
         </section>
         <!-- btn quantite -->
             <div class="quantite flex">
-              <button id="btnQuantiteMoins" class="btnJaune">-</button>
-              <div id="quantiteProduit">${quantite}</div>
-              <button id="btnQuantitePlus" class="btnJaune">+</button>
+              <button id="btnQuantiteMoins" class="btnJaune btnMoins">-</button>
+              <div id="quantiteProduit" class="quantiteProduitQ">${quantite}</div>
+              <button id="btnQuantitePlus" class="btnJaune btnPlus">+</button>
             </div>
         <!-- message erreur -->
             <div class="erreurtTailleMenu modal-hidden erreurMessage">
@@ -416,52 +435,58 @@ function afficherModaleQuantite (produit){
             </div>
         <!-- button -->
         <div class="btnCorps flex">
-            <button id="btnmodaleQuantiteTaille" class="btnJaune">Ajouter à la commande</button>
+            <button id="btnmodaleQuantiteTaille" class="btnJaune btnmodQuantite">Ajouter à la commande</button>
         </div>
-
     </div>
   </div>
   `
   zone.innerHTML = template;
 
-  // -----  ecouteurs evenement dans la modale quantite ------
-
   // ajouter une quantité
-  const quantitePlus = document.getElementById("btnQuantitePlus");
-  quantitePlus.addEventListener("click", () => {
+  const quantitePlusQ = document.querySelector(".btnPlus");
+  quantitePlusQ.addEventListener("click", () => {
       let quantite = 1;
       let param = null;
-      messageErreurEtat = false;
-      preparartionCommande(param, produitQuantite, quantite)
+      preparartionCommandeProduit(param, produitQuantite, quantite)
+  // Suppression de l'écouteur après le premier clic
+  quantitePlusQ.removeEventListener('click', arguments.callee);
   });
 
   // supprime une quantité
-  const quantiteMoins = document.getElementById("btnQuantiteMoins");
-  quantiteMoins.addEventListener("click", () => {
+  const quantiteMoinsQ = document.querySelector(".btnMoins");
+  quantiteMoinsQ.addEventListener("click", () => {
       let quantite = -1;
       let param = null;
-      messageErreurEtat = false;
-      preparartionCommande(param, produitQuantite, quantite)
+      preparartionCommandeProduit(param, produitQuantite, quantite)
+  // Suppression de l'écouteur après le premier clic
+  quantiteMoinsQ.removeEventListener('click', arguments.callee);
   });
 
   // bouton annuler
-    const btnRetour = document.getElementById("btnRetourFrite");
-    btnRetour.addEventListener("click", (event) => {
+    const btnRetourQ = document.querySelector(".btnRetourQu");
+    btnRetourQ.addEventListener("click", (event) => {
       togglerModale(".modaleQuantite")
+    // Suppression de l'écouteur après le premier clic
+    btnRetourQ.removeEventListener('click', arguments.callee);
   });
 
   // fermeture modale par la croix
-  const croixFermeture = document.getElementById("croixImageFrite");
-  croixFermeture.addEventListener("click", function(){
+  const croixFermetureQ = document.querySelector(".croixImg");
+  croixFermetureQ.addEventListener("click", function(){
     togglerModale(".modaleQuantite");
+    // Suppression de l'écouteur après le premier clic
+    croixFermetureQ.removeEventListener('click', arguments.callee);
   });
 
   // boutton etape suivante
-  const btnModalTailleMenu = document.getElementById("btnmodaleQuantiteTaille");
-  btnModalTailleMenu.addEventListener("click", () => {
+  const btnModalTailleMenuQ = document.querySelector(".btnmodQuantite");
+  btnModalTailleMenuQ.addEventListener("click", () => {
     togglerModale(".modaleQuantite");
     afficherProduitsCommande(commandeProduitTemp);
+    //Suppression de l'écouteur après le premier clic
+    btnModalTailleMenuQ.removeEventListener('click', arguments.callee);
   });
+  
 }
 
 // -------------- MODALES QUANTITE TAILLE----------------------------------
@@ -485,7 +510,9 @@ function afficherModaleQuantiteTaille(produit){
     "quantite": quantite,
   };
 
-  let zone = document.querySelector(".modaleQuantiteTaille")
+  commandeProduitTemp = produitQuantite;
+
+  let zone = document.querySelector(".modaleQuantiteTaille");
   let template= 
   `
   <div class="overlayFond">
@@ -516,6 +543,7 @@ function afficherModaleQuantiteTaille(produit){
                     <img src="${urlImage}" alt="menu ${nom}">
                 </div>
                 <p class="cardSegondaireText">${nom}</p>
+                <p class="cardSegondaireText">30Cl</p>
                 <span hidden>${price}</span>
             </article>
             <article class="produitMax flex cardSegondaireCoprs">
@@ -523,7 +551,7 @@ function afficherModaleQuantiteTaille(produit){
                     <img src="${urlImage}" alt="menu ${nom}">
                 </div>
                 <p class="cardSegondaireText">${nom} Maxi</p>
-                
+                <p class="cardSegondaireText">50Cl</p>
                 <p>+</p><p id="supplement">0.50</p><p> €</p>
                 <span hidden>${price}</span>
             </article>
@@ -558,6 +586,8 @@ function afficherModaleQuantiteTaille(produit){
     let quantite = 0;
     preparartionCommande(event.currentTarget, produitQuantite, quantite)
     selectionTaille = true;
+    // Suppression de l'écouteur après le premier clic
+    produitNormal.removeEventListener('click', arguments.callee);
   });
 
   // ajouter le choix taille max à la commande
@@ -569,6 +599,8 @@ function afficherModaleQuantiteTaille(produit){
     let quantite = 0;
     preparartionCommande(event.currentTarget, produitQuantite, quantite)
     selectionTaille = true;
+    // Suppression de l'écouteur après le premier clic
+    produitMax.removeEventListener('click', arguments.callee);
   });
 
   // ajouter une quantité
@@ -581,9 +613,13 @@ function afficherModaleQuantiteTaille(produit){
       let param = null;
       messageErreurEtat = false;
       preparartionCommande(param, produitQuantite, quantite)
+    // Suppression de l'écouteur après le premier clic
+    quantitePlus.removeEventListener('click', arguments.callee);
     } else if (!selectionTaille && !messageErreurEtat) {
       messageErreurEtat = true;
       togglerModale(".erreurtTailleMenu");
+    // Suppression de l'écouteur après le premier clic
+    quantitePlus.removeEventListener('click', arguments.callee);
     }
   });
 
@@ -597,9 +633,13 @@ function afficherModaleQuantiteTaille(produit){
       let param = null;
       messageErreurEtat = false;
       preparartionCommande(param, produitQuantite, quantite)
+          // Suppression de l'écouteur après le premier clic
+          quantiteMoins.removeEventListener('click', arguments.callee);
     } else if (!selectionTaille && !messageErreurEtat) {
       messageErreurEtat = true;
       togglerModale(".erreurtTailleMenu");
+  // Suppression de l'écouteur après le premier clic
+  quantiteMoins.removeEventListener('click', arguments.callee);
     }
   });
 
@@ -613,6 +653,8 @@ function afficherModaleQuantiteTaille(produit){
   const croixFermeture = document.getElementById("croixImageFrite");
   croixFermeture.addEventListener("click", function(){
     togglerModale(".modaleQuantiteTaille");
+  // Suppression de l'écouteur après le premier clic
+  croixFermeture.removeEventListener('click', arguments.callee);
   });
 
   // boutton etape suivante (a faire)
@@ -627,59 +669,13 @@ function afficherModaleQuantiteTaille(produit){
   } else if (!selectionTaille && !messageErreurEtat) {
     messageErreurEtat = true;
     togglerModale(".erreurtTailleMenu");
+    // Suppression de l'écouteur après le premier clic
+    btnModalTailleMenu.removeEventListener('click', arguments.callee);
+    afficherProduitsCommande(commandeProduitTemp);
   }
   });
 }
 
-/**
- * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
- * param : le produit selectionnée (event.currentTarget)
- * param : le produit courent : objet 
- * param : quantité (1 pour ajouter, -1 pour supression)
- */
-/*
-function preparartionCommande(produitCurrent, produitQuantite, quantite) {
-  // si event.currentTarget est null
-  if (produitCurrent == null) {
-    produitCurrent = produitQuantite;
-    let quantiteTemp = produitQuantite.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite.quantite = produitQuantite.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
-    }
-    //mise a jour quantite
-    document.getElementById("quantiteProduit").innerText
-  // si event.currentTarget n'est pas null
-  } else { 
-    // modification nom
-    let nom =produitCurrent.querySelector('p').textContent;
-    produitQuantite.nom = nom;
-    // modification prix
-    let priceSupplementPrice = null;
-    let priceProduit = produitCurrent.querySelector('span').textContent;
-      // supplement prix : si supplement exsite ajoute le sinon prix identique
-    if (!produitCurrent.querySelector('#supplement')) { 
-      produitQuantite.price = parseFloat(priceProduit);
-    } else { 
-      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
-      produitQuantite.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
-    }
-    // quantite
-    let quantiteTemp = produitQuantite.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite.quantite = produitQuantite.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
-    }
-  }
-  commandeProduitTemp = produitQuantite;
-}
-*/
 // -------------- MODALES MENU ----------------------------------
 
 /**
@@ -785,33 +781,7 @@ function afficherModaleTailleMenu(produit){
   });
 }
 
-// ------ fct preparation commande --------------
-
-/**
- * role : ajouter menu normal à la commande
- * param : htmlElement : produit selectionné
- */
-function ajouterMenuNormalCommande(produit, commandeMenu) {
-  menu = produit.querySelector('p').textContent;
-  priceMenu = produit.querySelector('span').textContent;
-  priceMenu = parseFloat(priceMenu)
-  commandeMenu.menu= menu;
-  commandeMenu.priceMenu= priceMenu;
-}
-
-/**
- * role : ajouter menu max à la commande
- * param : htmlElement : produit selectionné
- */
-function ajouterMenuMaxCommande(produit, commandeMenu) {
-  menu = produit.querySelector('p').textContent;
-  priceMenu = produit.querySelector('span').textContent;
-  priceMenu = parseFloat(priceMenu)+ 0.5;
-  commandeMenu.menu= menu;
-  commandeMenu.priceMenu= priceMenu;
-}
-
-// ----------------- MODAL FRITE -----------------------
+// ----------------- MODAL MENU FRITE -----------------------
 
 /**
  * role : affiche la modale frite
@@ -921,7 +891,7 @@ function afficherModaleFrite(produit, commandeMenu){
   });
 }
 
-// --------------- MODAL BOISSONS ---------------------------------
+// --------------- MODAL MENUS BOISSONS ---------------------------------
 
 function afficherModaleBoisson(produit, commandeMenu) {
   let zone = document.querySelector(".modaleBoissons")
@@ -1055,6 +1025,7 @@ cardsBoisson.forEach(card => {
  */
 function afficherMenuCommande (commandeMenu) {
   // preparation des données
+  commandeMenu.quantite=1;
   commandeMenus.push(commandeMenu);
 
   let zone = document.getElementById("commandeMenu")
@@ -1132,6 +1103,119 @@ zone.addEventListener('click', supprimerProduit);
 calculerMontantCommandeProduit (commandeProduit)
 };
 
+/**
+ * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * param : le produit selectionnée (event.currentTarget)
+ * param : le produit courent : objet 
+ * param : quantité (1 pour ajouter, -1 pour supression)
+ */
+
+function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
+
+  if (produitCurrent == null) {   // si event.currentTarget est null
+    produitCurrent = produitQuantite2;
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite2.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite;
+    }
+    document.getElementById("quantiteProduit").innerText  //mise a jour quantite
+  } else { // si event.currentTarget n'est pas null
+    let nom =produitCurrent.querySelector('p').textContent;   // modification nom
+    produitQuantite2.nom = nom;
+    let priceSupplementPrice = null; // modification prix
+    let priceProduit = produitCurrent.querySelector('span').textContent;
+    if (!produitCurrent.querySelector('#supplement')) { // supplement prix : si supplement exsite ajoute le sinon prix identique
+      produitQuantite2.price = parseFloat(priceProduit);
+    } else { 
+      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
+      produitQuantite2.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
+    }
+    // quantite
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite2.quantite = 1;
+      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite; // mise a jour affichage
+    }
+  }
+  commandeProduitTemp = produitQuantite2;
+}
+
+/**
+ * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * param : le produit selectionnée (event.currentTarget)
+ * param : le produit courent : objet 
+ * param : quantité (1 pour ajouter, -1 pour supression)
+ */
+
+function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite) {
+  if (produitCurrent == null) {   // si event.currentTarget est null
+    produitCurrent = produitQuantite2;
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite2.quantite = 1;
+      document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite;
+    }
+    document.querySelector(".quantiteProduitQ").innerText  //mise a jour quantite
+  } else { // si event.currentTarget n'est pas null
+    let nom =produitCurrent.querySelector('p').textContent;   // modification nom
+    produitQuantite2.nom = nom;
+    let priceSupplementPrice = null; // modification prix
+    let priceProduit = produitCurrent.querySelector('span').textContent;
+    if (!produitCurrent.querySelector('#supplement')) { // supplement prix : si supplement exsite ajoute le sinon prix identique
+      produitQuantite2.price = parseFloat(priceProduit);
+    } else { 
+      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
+      produitQuantite2.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
+    }
+    // quantite
+    let quantiteTemp = produitQuantite2.quantite + quantite
+    if (quantiteTemp <=0) {
+      produitQuantite2.quantite = 1;
+      document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
+    } else {
+      produitQuantite2.quantite = produitQuantite2.quantite + quantite;
+      document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite; // mise a jour affichage
+    }
+  }
+  commandeProduitTemp = produitQuantite2;
+}
+
+  // ------ fct preparation commande --------------
+
+/**
+ * role : ajouter menu normal à la commande
+ * param : htmlElement : produit selectionné
+ */
+function ajouterMenuNormalCommande(produit, commandeMenu) {
+    menu = produit.querySelector('p').textContent;
+    priceMenu = produit.querySelector('span').textContent;
+    priceMenu = parseFloat(priceMenu)
+    commandeMenu.menu= menu;
+    commandeMenu.priceMenu= priceMenu;
+  }
+
+/**
+ * role : ajouter menu max à la commande
+ * param : htmlElement : produit selectionné
+ */
+function ajouterMenuMaxCommande(produit, commandeMenu) {
+    menu = produit.querySelector('p').textContent;
+    priceMenu = produit.querySelector('span').textContent;
+    priceMenu = parseFloat(priceMenu)+ 0.5;
+    commandeMenu.menu= menu;
+    commandeMenu.priceMenu= priceMenu;
+  }
+
 // -------- supression produit ou menus commande --------------------
 
 /**
@@ -1158,55 +1242,6 @@ function supprimerMenu(event) {
   parentDiv.remove();
   commandeMenus.splice(index, 1); // (1 = nb element à suprimer)
   calculerMontantCommandeMenus(commandeMenus);
-}
-
-/* --------------- quantite commande -------------------------------- */
-/**
- * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
- * param : le produit selectionnée (event.currentTarget)
- * param : le produit courent : objet 
- * param : quantité (1 pour ajouter, -1 pour supression)
- */
-function preparartionCommande(produitCurrent, produitQuantite, quantite) {
-  // si event.currentTarget est null
-  if (produitCurrent == null) {
-    produitCurrent = produitQuantite;
-    let quantiteTemp = produitQuantite.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite.quantite = produitQuantite.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
-    }
-    //mise a jour quantite
-    document.getElementById("quantiteProduit").innerText
-  // si event.currentTarget n'est pas null
-  } else { 
-    // modification nom
-    let nom =produitCurrent.querySelector('p').textContent;
-    produitQuantite.nom = nom;
-    // modification prix
-    let priceSupplementPrice = null;
-    let priceProduit = produitCurrent.querySelector('span').textContent;
-      // supplement prix : si supplement exsite ajoute le sinon prix identique
-    if (!produitCurrent.querySelector('#supplement')) { 
-      produitQuantite.price = parseFloat(priceProduit);
-    } else { 
-      priceSupplementPrice = produitCurrent.querySelector('#supplement').textContent;
-      produitQuantite.price = parseFloat(priceSupplementPrice) + parseFloat(priceProduit);
-    }
-    // quantite
-    let quantiteTemp = produitQuantite.quantite + quantite
-    if (quantiteTemp <=0) {
-      produitQuantite.quantite = 1;
-      document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
-    } else {
-      produitQuantite.quantite = produitQuantite.quantite + quantite;
-      document.getElementById("quantiteProduit").innerText = produitQuantite.quantite; // mise a jour affichage
-    }
-  }
-  commandeProduitTemp = produitQuantite;
 }
 
 // ------------ calculer et afficher montant commande -----------------
@@ -1281,7 +1316,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-    window.location.href = "./abientot.html";   // Redirection
+  window.location.href = "./abientot.html";   // Redirection
 });
 
 }
@@ -1292,12 +1327,28 @@ function enregistrerPayment() {
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   const nombreChevalet = urlParams.get('nombreChevalet');
   // Données à envoyées en AJAX vers serveur
-  if(nombreChevalet) {
-    console.log(nombreChevalet)
+  let commande = [];
+  let datas = [];
+  if(!nombreChevalet) {
+    commande = {
+      "status": "emporter",
+      "numChevalet": "non",
+      "numCommande": numeroCommande
+    }
+  } else {
+    commande = {
+      "status": "surplace",
+      "numChevalet": nombreChevalet,
+      "numCommande": numeroCommande
+    }
   }
-  console.log(numeroCommande);
-  console.log(commandeMenus)
-  console.log(commandeProduit)
+  
+  datas = [commande, commandeMenus, commandeProduit]
+
+ // envoyerCommande(datas) 
+  
+  console.log(datas);
+
 }
 
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
@@ -1539,10 +1590,8 @@ function enleveErreurs(){
   // Role: enlever l'erreur sur l'input et cache le paragraphe associé
   let ids = ["nombre1", "nombre2", "nombre3"]
   ids.forEach(id => {
-    console.log(id)
     // si input nombre1 contien inputerro tu enleve
     let input = document.getElementById(id);
-    console.log(input)
     if (input.classList.contains('input-error')){
     input.classList.remove("input-error");
     let p = document.getElementById("error-"+id);
@@ -1617,7 +1666,6 @@ function onlyThreeNumber (valueField) {
 function afficherNumeroChevalet(urlParams){
   const nombreChevalet = urlParams.get('nombreChevalet'); // recuperation parametre
   if (!(nombreChevalet == null) && !onlyThreeNumber(nombreChevalet)){
-    console.log(onlyThreeNumber)
     window.location.href = 'chevalet.html?';
   }
 
