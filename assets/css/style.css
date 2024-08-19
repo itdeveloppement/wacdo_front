@@ -233,6 +233,7 @@ ul {
 /* message erreurs */
 .erreurMessage {
   text-align: center;
+  margin-bottom: 10px;
     /*position: absolute;
     /*top: 10%; */
     /*left: 50%; */
@@ -355,7 +356,7 @@ ul {
 }
 .cardSegondaireText {
   width: 100%;
-  margin-top: 10px;
+  margin: 10px 0;
   text-align: center;
   font-weight: 600;
 }
@@ -466,6 +467,9 @@ ul {
 .modaleboissons .btnJaune {
   width: 350px;
 }
+.modaleBoissons #btnModalAjouter {
+width: 300px;
+}
 
 /* overlay quantite taille */
 .quantite {
@@ -563,9 +567,14 @@ main {
 .nomProduit, .priceMenu {
   text-align: center;
   font-weight: 600;
+}
+.price{
   margin-top: 20px;
 }
-
+.euro {
+  padding-left: 5px;
+  font-weight: 600;
+}
 /*  SECTION COMMANDE */
 
 .sectionCommande {

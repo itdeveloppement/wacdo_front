@@ -78,8 +78,13 @@
  - balise meta titre
  - temps de charges utilisation sprites
  - utilisation libraiire
- - factooriser code
- - le signe euro sur les carde mal placé
+ - factoriser code
+  
+ - image menus maxi plus grande que menu normal identique pour boissons
+- mettre deux chiffre apres le virgule dans la liste commande
+- placer somme total commande en bas de page
+
+
 
 prio
 Demarche de test

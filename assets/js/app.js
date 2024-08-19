@@ -100,7 +100,6 @@ function datasBoissons(commandeMenu, callback) {
  * return :
  */
 function envoyercommande(datas) {
-  console.log(datas)
   fetch('/mon-endpoint', {
     method: 'POST',
     headers: {
@@ -333,7 +332,10 @@ function afficherCardsProduit(datas, categorie){
                 <img itemprop="image" src="../images/${card.image}" alt="menu ${card.image}">
             </div>
             <p class="nomProduit" itemprop="name">${card.nom}</p>
-            <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)}</p><p> €</p>
+            <div class="flex price">
+              <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)}</p>
+              <p class="euro"> €</p>
+            </div>
           </div>
         </article>
       `;    
@@ -481,7 +483,6 @@ function afficherModaleQuantite (produit){
   btnModalTailleMenuQ.addEventListener("click", () => {
     togglerModale(".modaleQuantite");
     afficherProduitsCommande(commandeProduitTemp);
-    console.log(commandeProduitTemp)
     //Suppression de l'écouteur après le premier clic
     btnModalTailleMenuQ.removeEventListener('click', arguments.callee);
   });
@@ -509,7 +510,7 @@ function afficherModaleQuantiteTaille(produit){
     "quantite": quantite,
   };
 
-  // commandeProduitTemp = produitQuantite;
+  commandeProduitTemp = produitQuantite;
 
   let zone = document.querySelector(".modaleQuantiteTaille");
   let template= 
@@ -542,6 +543,7 @@ function afficherModaleQuantiteTaille(produit){
                     <img src="${urlImage}" alt="menu ${nom}">
                 </div>
                 <p class="cardSegondaireText">${nom}</p>
+                <p class="cardSegondaireText">30Cl</p>
                 <span hidden>${price}</span>
             </article>
             <article class="produitMax flex cardSegondaireCoprs">
@@ -549,7 +551,7 @@ function afficherModaleQuantiteTaille(produit){
                     <img src="${urlImage}" alt="menu ${nom}">
                 </div>
                 <p class="cardSegondaireText">${nom} Maxi</p>
-                
+                <p class="cardSegondaireText">50Cl</p>
                 <p>+</p><p id="supplement">0.50</p><p> €</p>
                 <span hidden>${price}</span>
             </article>
@@ -669,10 +671,7 @@ function afficherModaleQuantiteTaille(produit){
     togglerModale(".erreurtTailleMenu");
     // Suppression de l'écouteur après le premier clic
     btnModalTailleMenu.removeEventListener('click', arguments.callee);
-    
-
-    var modal = document.querySelector(".modaleQuantiteTaille");
-    modal.parentNode.removeChild(modal);
+    afficherProduitsCommande(commandeProduitTemp);
   }
   });
 }
@@ -782,7 +781,7 @@ function afficherModaleTailleMenu(produit){
   });
 }
 
-// ----------------- MODAL FRITE -----------------------
+// ----------------- MODAL MENU FRITE -----------------------
 
 /**
  * role : affiche la modale frite
@@ -892,7 +891,7 @@ function afficherModaleFrite(produit, commandeMenu){
   });
 }
 
-// --------------- MODAL BOISSONS ---------------------------------
+// --------------- MODAL MENUS BOISSONS ---------------------------------
 
 function afficherModaleBoisson(produit, commandeMenu) {
   let zone = document.querySelector(".modaleBoissons")
@@ -1026,6 +1025,7 @@ cardsBoisson.forEach(card => {
  */
 function afficherMenuCommande (commandeMenu) {
   // preparation des données
+  commandeMenu.quantite=1;
   commandeMenus.push(commandeMenu);
 
   let zone = document.getElementById("commandeMenu")
@@ -1111,12 +1111,11 @@ calculerMontantCommandeProduit (commandeProduit)
  */
 
 function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
-console.log(quantite)
+
   if (produitCurrent == null) {   // si event.currentTarget est null
     produitCurrent = produitQuantite2;
     let quantiteTemp = produitQuantite2.quantite + quantite
     if (quantiteTemp <=0) {
-      console.log(produitQuantite2)
       produitQuantite2.quantite = 1;
       document.getElementById("quantiteProduit").innerText = 1; // mise a jour affichage
     } else {
@@ -1156,12 +1155,10 @@ console.log(quantite)
  */
 
 function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite) {
-console.log(quantite)
   if (produitCurrent == null) {   // si event.currentTarget est null
     produitCurrent = produitQuantite2;
     let quantiteTemp = produitQuantite2.quantite + quantite
     if (quantiteTemp <=0) {
-      console.log(produitQuantite2)
       produitQuantite2.quantite = 1;
       document.querySelector(".quantiteProduitQ").innerText = 1; // mise a jour affichage
     } else {
@@ -1319,7 +1316,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-    // window.location.href = "./abientot.html";   // Redirection
+  window.location.href = "./abientot.html";   // Redirection
 });
 
 }
@@ -1593,10 +1590,8 @@ function enleveErreurs(){
   // Role: enlever l'erreur sur l'input et cache le paragraphe associé
   let ids = ["nombre1", "nombre2", "nombre3"]
   ids.forEach(id => {
-    console.log(id)
     // si input nombre1 contien inputerro tu enleve
     let input = document.getElementById(id);
-    console.log(input)
     if (input.classList.contains('input-error')){
     input.classList.remove("input-error");
     let p = document.getElementById("error-"+id);
@@ -1671,7 +1666,6 @@ function onlyThreeNumber (valueField) {
 function afficherNumeroChevalet(urlParams){
   const nombreChevalet = urlParams.get('nombreChevalet'); // recuperation parametre
   if (!(nombreChevalet == null) && !onlyThreeNumber(nombreChevalet)){
-    console.log(onlyThreeNumber)
     window.location.href = 'chevalet.html?';
   }
 
