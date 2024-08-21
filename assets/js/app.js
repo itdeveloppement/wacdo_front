@@ -3,7 +3,7 @@ let commandeProduit = [];
 let commandeProduitTemp = [];
 let commandeMenus=[];
 // let produit = null;
-const maxLengthNombre = 2;
+const maxLengthNombre = 1;
 
 // -------------- AU CHARGEMENT --------------------
 
@@ -234,7 +234,6 @@ function caroussel (carousel, cards, cat) {
  prevBtn.addEventListener('click', goToPrevSlide);
  nextBtn.addEventListener('click', goToNextSlide);
 
-
   // Fonction pour recalculer les dimensions et ajuster le carrousel
   const recalculate = () => {
     cardWidth = cards[0].offsetWidth; // Recalculer la largeur d'une carte
@@ -294,12 +293,9 @@ cardsCategorie.forEach(card => {
   card.addEventListener('click', (event) => {
     desactiveBordureJaune(cardsCategorie);
     const categorie = event.currentTarget.querySelector('p').textContent;
-    
     // recuperation id categorie
     let article = event.currentTarget;
     let categorieId = article.dataset.idcategorie;
-   
-  
     datasProduits(categorie, categorieId);
     activeBordureJaune(event.currentTarget);
   });
@@ -382,7 +378,7 @@ const modal = document.getElementById('modaleTailleMenu');
 // -------------- MODALES QUANTITE ----------------------------------
 
 /**
- * role : affiche la modale quantite taille
+ * role : affiche la modale quantite
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleQuantite (produit){
@@ -528,8 +524,6 @@ function afficherModaleQuantiteTaille(produit){
   const idProduit = article.dataset.id;
   const idCategorie = article.dataset.categorie;
  
-
-
   let produitQuantite = {
     "idProduit": idProduit,
     "idCategorie": idCategorie,
@@ -612,6 +606,7 @@ function afficherModaleQuantiteTaille(produit){
     activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
     let quantite = 0;
+    produitQuantite.taille = "normale";
     preparartionCommande(event.currentTarget, produitQuantite, quantite)
     selectionTaille = true;
     // Suppression de l'écouteur après le premier clic
@@ -625,6 +620,7 @@ function afficherModaleQuantiteTaille(produit){
     activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
     let quantite = 0;
+    produitQuantite.taille = "maxi";
     preparartionCommande(event.currentTarget, produitQuantite, quantite)
     selectionTaille = true;
     // Suppression de l'écouteur après le premier clic
@@ -636,7 +632,9 @@ function afficherModaleQuantiteTaille(produit){
   quantitePlus.addEventListener("click", () => {
     let messageErreur = document.querySelector('.erreurtTailleMenu');
     messageErreur.classList.contains('.modal-hidden')
+    console.log(selectionTaille)
     if(selectionTaille) {
+      
       let quantite = 1;
       let param = null;
       messageErreurEtat = false;
@@ -685,7 +683,7 @@ function afficherModaleQuantiteTaille(produit){
   croixFermeture.removeEventListener('click', arguments.callee);
   });
 
-  // boutton etape suivante (a faire)
+  // boutton etape suivante
   const btnModalTailleMenu = document.getElementById("btnmodaleQuantiteTaille");
   btnModalTailleMenu.addEventListener("click", () => {
     if(selectionTaille){
@@ -711,6 +709,8 @@ function afficherModaleQuantiteTaille(produit){
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleTailleMenu(produit){
+  console.log(produit);
+
   let commandeMenu = [];
   // traitement des données
   const name = produit.querySelector('p').textContent
@@ -731,6 +731,7 @@ function afficherModaleTailleMenu(produit){
     "quantite": quantite,
   };
 
+  console.log(produitMenu)
   let zone = document.querySelector(".modaleTailleMenu")
   let template= 
   `
@@ -788,8 +789,9 @@ function afficherModaleTailleMenu(produit){
     menuMax.classList.remove('activeBordureJaune'); 
     activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
-    let produit = event.currentTarget;
-    ajouterMenuNormalCommande(produit, commandeMenu);
+    // let produit = event.currentTarget;
+    produitMenu.taille = "normale";
+    ajouterMenuNormalCommande(produitMenu, commandeMenu);
   });
 
   // ajouter taille max à la commande
@@ -798,8 +800,9 @@ function afficherModaleTailleMenu(produit){
     menuNormal.classList.remove('activeBordureJaune'); 
     activeBordureJaune(event.currentTarget);
     messageErreur (".erreurtTailleMenu")
-    let produit = event.currentTarget;
-    ajouterMenuMaxCommande(produit, commandeMenu);
+    // let produit = event.currentTarget;
+    produitMenu.taille = "maxi";
+    ajouterMenuMaxCommande(produitMenu, commandeMenu);
   });
 
   // fermeture modale par la croix
@@ -811,10 +814,11 @@ function afficherModaleTailleMenu(produit){
   // boutton etape suivante
   const btnModalTailleMenu = document.getElementById("btnModalTailleMenu");
   btnModalTailleMenu.addEventListener("click", () => {
+    console.log(commandeMenu.menu)
     if(commandeMenu.menu){
     togglerModale(".modaleFrite")
     togglerModale(".modaleTailleMenu");
-    afficherModaleFrite(produit, commandeMenu);
+    afficherModaleFrite(produitMenu, commandeMenu);
     // Suppression de l'écouteur après le premier clic
     btnModalTailleMenu.removeEventListener('click', arguments.callee);
     } else {
@@ -829,7 +833,9 @@ function afficherModaleTailleMenu(produit){
  * role : affiche la modale frite
  * param : HTMLelement : le produit menu en cours
  */
-function afficherModaleFrite(produit, commandeMenu){
+function afficherModaleFrite(produitMenu, commandeMenu){
+  console.log(commandeMenu)
+  console.log(produitMenu)
   let zone = document.querySelector(".modaleFrite")
   let template = 
     `
@@ -900,7 +906,7 @@ function afficherModaleFrite(produit, commandeMenu){
   btnModalFrite.addEventListener("click", () => {
     if(commandeMenu.frite){
       togglerModale(".modaleBoissons");
-      afficherModaleBoisson(produit, commandeMenu);
+      afficherModaleBoisson(commandeMenu);
       togglerModale(".modaleFrite")
     
     // Suppression de l'écouteur après le premier clic
@@ -935,7 +941,7 @@ function afficherModaleFrite(produit, commandeMenu){
 
 // --------------- MODAL MENUS BOISSONS ---------------------------------
 
-function afficherModaleBoisson(produit, commandeMenu) {
+function afficherModaleBoisson(commandeMenu) {
   let zone = document.querySelector(".modaleBoissons")
   let template = 
     `
@@ -1004,12 +1010,13 @@ datasBoissons(commandeMenu, carousselBoissons);
     togglerModale(".modaleFrite")
   });
 
-  // ajouter menu à la commande
+  // btn ajouter menu à la commande
   const btnAjouter = document.getElementById("btnModalAjouter");
   btnAjouter.addEventListener("click", function(){
     if(commandeMenu.boisson){
       togglerModale(".modaleBoissons");
       afficherMenuCommande (commandeMenu) 
+      console.log(commandeMenu)
 
     // Suppression de l'écouteur après le premier clic
     btnAjouter.removeEventListener('click', arguments.callee);
@@ -1043,7 +1050,7 @@ function afficherCardsBoissons(datas, commandeMenu){
   
   zone.innerHTML = template;
 
-//  ecoiteur sur card boissons
+//  ecouteur sur card boissons
 const cardsBoisson = document.querySelectorAll('.cardBoisson');
 cardsBoisson.forEach(card => {
   card.addEventListener('click', (event) => {
@@ -1081,7 +1088,7 @@ function afficherMenuCommande (commandeMenu) {
                 <ul>
                     <li>${menu.frite ? menu.frite : ''}</li>
                     <li>${menu.boisson ? menu.boisson : ''}</li>
-                    <li>Prix : ${menu.priceMenu ? menu.priceMenu : ''} €</li>
+                    <li>Prix : ${menu.price ? menu.price : ''} €</li>
                 </ul>
             </div>
             <div class="poubelleImageM pblCmd">
@@ -1242,47 +1249,50 @@ function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite)
  * role : ajouter menu normal à la commande
  * param : htmlElement : produit selectionné
  */
-function ajouterMenuNormalCommande(produit, commandeMenu) {
-  
+function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
+  console.log(produitMenu)
+  /*
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
     priceMenu = parseFloat(priceMenu)
     commandeMenu.menu= menu;
     commandeMenu.priceMenu= priceMenu;
-  
+  */
    
-    /*
-   commandeMenu.idCategorie= produit.idCategorie;
-   commandeMenu.idProduit= produit.idProduit;
-   commandeMenu.name= produit.name;
-   commandeMenu.price= produit.price;
-   commandeMenu.quantite=produit.quantite;
+    
+   commandeMenu.idCategorie= produitMenu.idCategorie;
+   commandeMenu.idProduit= produitMenu.idProduit;
+   commandeMenu.menu= produitMenu.nom;
+   commandeMenu.price= produitMenu.price;
+   commandeMenu.quantite=produitMenu.quantite;
+   commandeMenu.taille=produitMenu.taille;
    // commandeMenu = produitMenu;
    console.log(commandeMenu)
-   */
+   
   }
 
 /**
  * role : ajouter menu max à la commande
  * param : htmlElement : produit selectionné
  */
-function ajouterMenuMaxCommande(produit, commandeMenu) {
-
-  
+function ajouterMenuMaxCommande(produitMenu, commandeMenu) {
+  console.log(produitMenu)
+  /*
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
     priceMenu = parseFloat(priceMenu)+ 0.5;
     commandeMenu.menu= menu;
     commandeMenu.priceMenu= priceMenu;
+*/
 
-/*
-    commandeMenu.idCategorie= produit.idCategorie;
-   commandeMenu.idProduit= produit.idProduit;
-   commandeMenu.name= produit.name;
-   commandeMenu.price= produit.price;
-   commandeMenu.quantite=produit.quantite;
+    commandeMenu.idCategorie= produitMenu.idCategorie;
+   commandeMenu.idProduit= produitMenu.idProduit;
+   commandeMenu.menu= produitMenu.nom;
+   commandeMenu.price= produitMenu.price;
+   commandeMenu.quantite=produitMenu.quantite;
+   commandeMenu.taille=produitMenu.taille;
    // commandeMenu = produitMenu;
-   */
+   
   }
 
 // -------- supression produit ou menus commande --------------------
@@ -1385,7 +1395,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-  window.location.href = "./abientot.html";   // Redirection
+  // window.location.href = "./abientot.html";   // Redirection
 });
 
 }
@@ -1521,9 +1531,9 @@ function submitFormChevalet (monform, nombre1, nombre2, nombre3) {
  * role : verification des données du formulaire
  */
 function verificationFormChevalet (nombre1, nombre2, nombre3) {
-  nombre1.addEventListener("change",testNombre1);
-  nombre2.addEventListener("change",testNombre2);
-  nombre3.addEventListener("change",testNombre3);
+  nombre1.addEventListener("input",testNombre1);
+  nombre2.addEventListener("input",testNombre2);
+  nombre3.addEventListener("input",testNombre3);
 
 }
 /** CHAMPS NOMBRE : verifie si les donnéeS sont valide
@@ -1672,7 +1682,7 @@ function enleveErreurs(){
 
 /* FONCTIONS TESTE */
 
-/**CHAMPS VIDE : verifie si la valeur du champ est vide
+/**CHAMPS VIDE : verifier si la valeur du champ est vide
  * @param {string} valueField la chaine de caractere du champ
  * @returns true si la chaine est vide sinon retourne false
  */
@@ -1701,7 +1711,8 @@ function hasCode(valueField){
  * @returns true si la chaine de caractere du camps est plus longue que le parametre sinon retourne false
  */
 function maxLength (valueField, longueurMax){
-  if(valueField.length >= longueurMax) {
+  console.log(valueField.length)
+  if(valueField.length > longueurMax) {
   return true;
   } return false
 }
