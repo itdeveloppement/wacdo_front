@@ -69,7 +69,6 @@ function datasProduits(categorie, categorieId) {
     return response.json();
   })
   .then (datas => {
-    console.log(datas)
     afficherProduitTitre(categorie)
     afficherCardsProduit(datas, categorie, categorieId)
   })
@@ -269,7 +268,6 @@ function afficherCardsCategorie(datas){
   let zone = document.querySelector(".carousel-categorie")
   let template = '';
   datas.forEach(card=>{
-    console.log(card.id)
       template += 
       `
       <article data-idCategorie=${card.id} class="cardCategorie">
@@ -299,9 +297,8 @@ cardsCategorie.forEach(card => {
     
     // recuperation id categorie
     let article = event.currentTarget;
-    console.log(article)
     let categorieId = article.dataset.idcategorie;
-    console.log(categorie)
+   
   
     datasProduits(categorie, categorieId);
     activeBordureJaune(event.currentTarget);
@@ -333,7 +330,7 @@ zone1.innerHTML = templateTitre;
  * return : no
  */
 function afficherCardsProduit(datas, categorie, categorieId){
-  console.log(categorie)
+
   let zone2 = document.querySelector(".listeProduitsCards")
   let cardPoduit= ''; 
   datas[categorie].forEach(card =>{
@@ -532,7 +529,7 @@ function afficherModaleQuantiteTaille(produit){
   const idCategorie = article.dataset.categorie;
  
 
-  console.log(produit);
+
   let produitQuantite = {
     "idProduit": idProduit,
     "idCategorie": idCategorie,
@@ -1191,7 +1188,7 @@ function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
       document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite; // mise a jour affichage
     }
   }
-  console.log(commandeProduitTemp)
+
   commandeProduitTemp = produitQuantite2;
 }
 
@@ -1235,7 +1232,7 @@ function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite)
       document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite; // mise a jour affichage
     }
   }
-  console.log(commandeProduitTemp)
+ 
   commandeProduitTemp = produitQuantite2;
 }
 
@@ -1246,7 +1243,6 @@ function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite)
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuNormalCommande(produit, commandeMenu) {
-  console.log(produit)
   
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
@@ -1271,7 +1267,7 @@ function ajouterMenuNormalCommande(produit, commandeMenu) {
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuMaxCommande(produit, commandeMenu) {
-  console.log(produit)
+
   
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
