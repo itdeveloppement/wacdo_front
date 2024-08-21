@@ -1385,7 +1385,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-  // window.location.href = "./abientot.html";   // Redirection
+  window.location.href = "./abientot.html";   // Redirection
 });
 
 }
