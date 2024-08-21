@@ -63,7 +63,7 @@ fetch('../../json/categories.json')
  * param : no
  * return :array : liste des produits
  */
-function datasProduits(categorie) { 
+function datasProduits(categorie, categorieId) { 
   fetch('../../json/produits.json')
   .then(response => {
     return response.json();
@@ -71,7 +71,7 @@ function datasProduits(categorie) {
   .then (datas => {
     console.log(datas)
     afficherProduitTitre(categorie)
-    afficherCardsProduit(datas, categorie)
+    afficherCardsProduit(datas, categorie, categorieId)
   })
   .catch(error => {
     console.error('Erreur lors de la recuperation de la liste des produits :', error);
@@ -265,12 +265,14 @@ function caroussel (carousel, cards, cat) {
  * return : no
  */
 function afficherCardsCategorie(datas){
+
   let zone = document.querySelector(".carousel-categorie")
   let template = '';
   datas.forEach(card=>{
+    console.log(card.id)
       template += 
       `
-      <article class="cardCategorie">
+      <article data-idCategorie=${card.id} class="cardCategorie">
         <div class="cardCarouselCorps flex">
             <div class="cardImgCarousel flex">
                 <img src="../images/${card.image}" alt="menu">
@@ -285,14 +287,23 @@ function afficherCardsCategorie(datas){
 // --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
 
 const cardsCategorie = document.querySelectorAll('.cardCategorie');
+
 cardsCategorie.forEach(card => {
   if(card.querySelector('p').textContent == 'menus') {
     activeBordureJaune(card);
   };
+
   card.addEventListener('click', (event) => {
     desactiveBordureJaune(cardsCategorie);
     const categorie = event.currentTarget.querySelector('p').textContent;
-    datasProduits(categorie);
+    
+    // recuperation id categorie
+    let article = event.currentTarget;
+    console.log(article)
+    let categorieId = article.dataset.idcategorie;
+    console.log(categorie)
+  
+    datasProduits(categorie, categorieId);
     activeBordureJaune(event.currentTarget);
   });
 });
@@ -321,13 +332,15 @@ zone1.innerHTML = templateTitre;
  * param : tableau d'objet : liste des produits
  * return : no
  */
-function afficherCardsProduit(datas, categorie){
+function afficherCardsProduit(datas, categorie, categorieId){
+  console.log(categorie)
   let zone2 = document.querySelector(".listeProduitsCards")
   let cardPoduit= ''; 
-  datas[categorie].forEach(card=>{
+  datas[categorie].forEach(card =>{
     cardPoduit += 
       `
-        <article class="cardProduit" itemscope itemtype="http://schema.org/Product">
+        <article class="cardProduit articleProduit" itemscope itemtype="http://schema.org/Product">
+          <div data-id=${card.id} data-categorie=${categorieId} class="articleProduit" ></div>
           <div class="cardProduitCoprs flex">
             <div class="cardProduitImg flex">
                 <img itemprop="image" src="../images/${card.image}" alt="menu ${card.image}">
@@ -376,13 +389,21 @@ const modal = document.getElementById('modaleTailleMenu');
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleQuantite (produit){
+ 
   // traitement des données
-  const nom = produit.querySelector('p').textContent
-  const price = produit.querySelector('.priceMenu').textContent
-  const urlImage =  produit.querySelector('img').src
+  const nom = produit.querySelector('p').textContent;
+  const price = produit.querySelector('.priceMenu').textContent;
+  const urlImage =  produit.querySelector('img').src;
+  // recuperation id categorie et produit
+  const article = produit.querySelector('.articleProduit')
+  const idProduit = article.dataset.id;
+  const idCategorie = article.dataset.categorie;
+  
   const quantite = 1;
 
   let produitQuantite = {
+    "idProduit": idProduit,
+    "idCategorie": idCategorie,
     "nom": nom,
     "price": price,
     "quantite": quantite,
@@ -505,7 +526,16 @@ function afficherModaleQuantiteTaille(produit){
   const urlImage =  produit.querySelector('img').src
   const quantite = 1;
 
+  // recuperation id categorie et produit
+  const article = produit.querySelector('.articleProduit')
+  const idProduit = article.dataset.id;
+  const idCategorie = article.dataset.categorie;
+ 
+
+  console.log(produit);
   let produitQuantite = {
+    "idProduit": idProduit,
+    "idCategorie": idCategorie,
     "nom": nom,
     "price": price,
     "quantite": quantite,
@@ -689,6 +719,20 @@ function afficherModaleTailleMenu(produit){
   const name = produit.querySelector('p').textContent
   const price = produit.querySelector('.priceMenu').textContent
   const urlImage =  produit.querySelector('img').src
+
+  // recuperation id categorie et produit
+  const article = produit.querySelector('.articleProduit')
+  const idProduit = article.dataset.id;
+  const idCategorie = article.dataset.categorie;
+  const quantite = 1;
+
+  let produitMenu = {
+    "idProduit": idProduit,
+    "idCategorie": idCategorie,
+    "nom": name,
+    "price": price,
+    "quantite": quantite,
+  };
 
   let zone = document.querySelector(".modaleTailleMenu")
   let template= 
@@ -1113,7 +1157,8 @@ calculerMontantCommandeProduit (commandeProduit)
 
 function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
 
-  if (produitCurrent == null) {   // si event.currentTarget est null
+  // si event.currentTarget est null
+  if (produitCurrent == null) {   
     produitCurrent = produitQuantite2;
     let quantiteTemp = produitQuantite2.quantite + quantite
     if (quantiteTemp <=0) {
@@ -1124,7 +1169,8 @@ function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
       document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite;
     }
     document.getElementById("quantiteProduit").innerText  //mise a jour quantite
-  } else { // si event.currentTarget n'est pas null
+     // si event.currentTarget n'est pas null
+  } else {
     let nom =produitCurrent.querySelector('p').textContent;   // modification nom
     produitQuantite2.nom = nom;
     let priceSupplementPrice = null; // modification prix
@@ -1145,11 +1191,12 @@ function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
       document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite; // mise a jour affichage
     }
   }
+  console.log(commandeProduitTemp)
   commandeProduitTemp = produitQuantite2;
 }
 
 /**
- * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * role : met a jour le produitCurrent et incremeter ou decrementer la quantite
  * param : le produit selectionnée (event.currentTarget)
  * param : le produit courent : objet 
  * param : quantité (1 pour ajouter, -1 pour supression)
@@ -1188,21 +1235,35 @@ function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite)
       document.querySelector(".quantiteProduitQ").innerText = produitQuantite2.quantite; // mise a jour affichage
     }
   }
+  console.log(commandeProduitTemp)
   commandeProduitTemp = produitQuantite2;
 }
 
-  // ------ fct preparation commande --------------
+  // ------ fct preparation commande MENU --------------
 
 /**
  * role : ajouter menu normal à la commande
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuNormalCommande(produit, commandeMenu) {
+  console.log(produit)
+  
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
     priceMenu = parseFloat(priceMenu)
     commandeMenu.menu= menu;
     commandeMenu.priceMenu= priceMenu;
+  
+   
+    /*
+   commandeMenu.idCategorie= produit.idCategorie;
+   commandeMenu.idProduit= produit.idProduit;
+   commandeMenu.name= produit.name;
+   commandeMenu.price= produit.price;
+   commandeMenu.quantite=produit.quantite;
+   // commandeMenu = produitMenu;
+   console.log(commandeMenu)
+   */
   }
 
 /**
@@ -1210,11 +1271,22 @@ function ajouterMenuNormalCommande(produit, commandeMenu) {
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuMaxCommande(produit, commandeMenu) {
+  console.log(produit)
+  
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
     priceMenu = parseFloat(priceMenu)+ 0.5;
     commandeMenu.menu= menu;
     commandeMenu.priceMenu= priceMenu;
+
+/*
+    commandeMenu.idCategorie= produit.idCategorie;
+   commandeMenu.idProduit= produit.idProduit;
+   commandeMenu.name= produit.name;
+   commandeMenu.price= produit.price;
+   commandeMenu.quantite=produit.quantite;
+   // commandeMenu = produitMenu;
+   */
   }
 
 // -------- supression produit ou menus commande --------------------
@@ -1317,7 +1389,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-  window.location.href = "./abientot.html";   // Redirection
+  // window.location.href = "./abientot.html";   // Redirection
 });
 
 }
