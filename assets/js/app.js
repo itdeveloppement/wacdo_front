@@ -69,6 +69,7 @@ function datasProduits(categorie) {
     return response.json();
   })
   .then (datas => {
+    console.log(datas)
     afficherProduitTitre(categorie)
     afficherCardsProduit(datas, categorie)
   })

@@ -83,6 +83,8 @@
  - image menus maxi plus grande que menu normal identique pour boissons
 - mettre deux chiffre apres le virgule dans la liste commande
 - placer somme total commande en bas de page
+- fonctionnalité salade
+- id
 
 
 
