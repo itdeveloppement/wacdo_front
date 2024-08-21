@@ -79,12 +79,13 @@
  - temps de charges utilisation sprites
  - utilisation libraiire
  - factoriser code
+- recuperation des id categorie et produit ok
   
- - image menus maxi plus grande que menu normal identique pour boissons
-- mettre deux chiffre apres le virgule dans la liste commande
+- image menus maxi plus grande que menu normal identique pour boissons
+- mettre deux chiffres apres le virgule dans la liste commande sur les boisson
 - placer somme total commande en bas de page
 - fonctionnalité salade
-- id
+
 
 
 
