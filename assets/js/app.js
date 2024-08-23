@@ -814,7 +814,6 @@ function afficherModaleTailleMenu(produit){
   // boutton etape suivante
   const btnModalTailleMenu = document.getElementById("btnModalTailleMenu");
   btnModalTailleMenu.addEventListener("click", () => {
-    console.log(commandeMenu.menu)
     if(commandeMenu.menu){
     togglerModale(".modaleFrite")
     togglerModale(".modaleTailleMenu");
@@ -834,64 +833,23 @@ function afficherModaleTailleMenu(produit){
  * param : HTMLelement : le produit menu en cours
  */
 function afficherModaleFrite(produitMenu, commandeMenu){
-  console.log(commandeMenu)
-  console.log(produitMenu)
+ 
+    /*
+
   let zone = document.querySelector(".modaleFrite")
+
+
   let template = 
     `
-    <div class="overlayFond">
-        <nav class="flex">
-          <ul class="flex overlayNav">
-              <li>
-                <button class="btnTransparent" id="btnRetourFrite">Retour</button>
-              </li>
-              <li> 
-                <div id="croixImageFrite">
-                  <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
-                </div>
-              </li>
-          </ul>
-        </nav>
-      <div class="flex overlayCoprs">
-          <!-- titre -->
-          <div class="flex overlayTitre">
-              <h4>Choisissez votre accompagnement</h4>
-              <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
-          </div>
-
-          <!-- frite / potatoes -->
-          <section class="flex overlayCardParent">
-              <article class="friteModal flex cardSegondaireCoprs">
-                  <div>
-                        <img src="../images/frites/GRANDE_FRITE.png" alt="barquette de grande frite">
-                  </div>
-                  <p class="cardSegondaireText">Frites</p>
-              </article>
-              <article class="potatoesModal flex cardSegondaireCoprs">
-                  <div>
-                        <img src="../images/frites/GRANDE_POTATOES.png" alt="barquette de grande frite potetoes">
-                  </div>
-                  <p class="cardSegondaireText">Potatoes</p>
-              </article>
-          </section>
-          <!-- message erreur -->
-          <div class="erreurtFrite modal-hidden erreurMessage">
-            <p class="cardSegondaireText">Selectionner un accompagnement</p>
-          </div>
-          <!-- button -->
-          <div class="btnCorps flex">
-              <button id="btnModalFrite" class="btnJaune">Etape suivante</button>
-          </div>
-
-      </div>
-    </div>
     `
   zone.innerHTML = template;
+*/
 
   // fermeture modale par la croix
   const croix = document.getElementById("croixImageFrite");
   croix.addEventListener("click", function(){
     togglerModale(".modaleFrite")
+     
   });
 
   // bouton retour
@@ -899,18 +857,21 @@ function afficherModaleFrite(produitMenu, commandeMenu){
   btnRetour.addEventListener("click", (event) => {
     togglerModale(".modaleFrite")
     togglerModale(".modaleTailleMenu");
+    
  });
 
   // boutton etape suivante
   const btnModalFrite = document.getElementById("btnModalFrite");
   btnModalFrite.addEventListener("click", () => {
-    if(commandeMenu.frite){
+    console.log(commandeMenu.frite)
+    if(commandeMenu.frite !== undefined){
+      console.log("test")
+    
       togglerModale(".modaleBoissons");
       afficherModaleBoisson(commandeMenu);
+     
       togglerModale(".modaleFrite")
-    
-    // Suppression de l'écouteur après le premier clic
-    btnModalFrite.removeEventListener('click', arguments.callee);
+      supprimerEcouteursFrite()
     } else {
       togglerModale(".erreurtFrite");
     }
@@ -920,20 +881,30 @@ function afficherModaleFrite(produitMenu, commandeMenu){
   const friteModal = document.querySelector(".friteModal");
   friteModal.addEventListener("click", (event) => {
     messageErreur (".erreurtFrite")
+
+    console.log(event)
     potatoesModal.classList.remove('activeBordureJaune'); 
     activeBordureJaune(event.currentTarget);
+
     let produit = event.currentTarget;
+
     let frite = produit.querySelector('p').textContent;
     commandeMenu.frite = frite; 
   });
 
+ 
+
   // ajouter potetose à la commande
   const potatoesModal = document.querySelector(".potatoesModal");
   potatoesModal.addEventListener("click", (event) => {
+    console.log(event)
     friteModal.classList.remove('activeBordureJaune'); 
     activeBordureJaune(event.currentTarget);
+
     messageErreur (".erreurtFrite")
+
     let produit = event.currentTarget;
+   
     let frite = produit.querySelector('p').textContent;
     commandeMenu.frite = frite; 
   });
@@ -942,56 +913,15 @@ function afficherModaleFrite(produitMenu, commandeMenu){
 // --------------- MODAL MENUS BOISSONS ---------------------------------
 
 function afficherModaleBoisson(commandeMenu) {
+   /*
   let zone = document.querySelector(".modaleBoissons")
+ 
   let template = 
     `
-    <div class="overlayFond">
-       <nav class="flex">
-        <ul class="flex overlayNav">
-            <li>
-              <button class="btnTransparent" id="btnRetourBoisson">Retour</button>
-            </li>
-            <li> 
-              <div id="croixImageBoisson">
-                <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
-              </div>
-            </li>
-        </ul>
-      </nav>
-      <div class="flex overlayCoprs">
-          <!-- titre -->
-          <div class="flex overlayTitre">
-              <h4>Choisissez votre accompagnement</h4>
-              <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
-          </div>
-
-          <!-- caroussel boissons -->
-          <div class="carouselBoisson">
-              <div>
-                  <img class="prevBoisson" src="../images/images/fleche-slider.png" alt="Fleche precedent">
-              </div>
-              <div class="carousel-boisson">
-                  <!-- fct js afficherCardBoissons -->
-              </div>
-              <div>
-                  <img class="nextBoisson" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
-              </div>
-          </div>
-
-          <!-- message erreur -->
-          <div class="erreurBoisson modal-hidden erreurMessage">
-            <p class="cardSegondaireText">Selectionner une boisson</p>
-          </div>
-          <!-- boutons -->
-          <div class="btnCorps flex">
-              <button id="btnModalAjouter" class="btnJaune">Ajouter le menu à ma commande</button>
-          </div>
-
-      </div>
-    </div>
+   
     `
   zone.innerHTML = template;
-
+*/
 // carouselBoissons en caalback pour timing dom
 datasBoissons(commandeMenu, carousselBoissons);
   
@@ -1013,11 +943,11 @@ datasBoissons(commandeMenu, carousselBoissons);
   // btn ajouter menu à la commande
   const btnAjouter = document.getElementById("btnModalAjouter");
   btnAjouter.addEventListener("click", function(){
+    console.log(commandeMenu.boisson)
     if(commandeMenu.boisson){
       togglerModale(".modaleBoissons");
       afficherMenuCommande (commandeMenu) 
-      console.log(commandeMenu)
-
+  
     // Suppression de l'écouteur après le premier clic
     btnAjouter.removeEventListener('click', arguments.callee);
   } else {
@@ -1434,8 +1364,8 @@ function enregistrerPayment() {
 
 let modalOuverte = null;
 /**
- * role : ajoute la classe pour affichage de la modale ou l'enleve
- * param : string le nom de la class au forma .nomdelaclasse
+ * role : ajoute la classe pour afficher la modale ou l'enleve
+ * param : string le nom de la class au format .nomdelaclasse
  * return : no
  */
 function togglerModale(classModal) {

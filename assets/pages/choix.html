@@ -60,10 +60,102 @@
             <!-- SECTION MODALE FRITE -->
             <section class="modaleFrite modal-hidden overlay">
                 <!-- fct js afficherModaleFrite -->
+
+                <div class="overlayFond">
+                    <nav class="flex">
+                      <ul class="flex overlayNav">
+                          <li>
+                            <button class="btnTransparent" id="btnRetourFrite">Retour</button>
+                          </li>
+                          <li> 
+                            <div id="croixImageFrite">
+                              <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+                            </div>
+                          </li>
+                      </ul>
+                    </nav>
+                  <div class="flex overlayCoprs">
+                      <!-- titre -->
+                      <div class="flex overlayTitre">
+                          <h4>Choisissez votre accompagnement</h4>
+                          <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+                      </div>
+            
+                      <!-- frite / potatoes -->
+                      <section class="flex overlayCardParent">
+                          <article class="friteModal flex cardSegondaireCoprs">
+                              <div>
+                                    <img src="../images/frites/GRANDE_FRITE.png" alt="barquette de grande frite">
+                              </div>
+                              <p class="cardSegondaireText">Frites</p>
+                          </article>
+                          <article class="potatoesModal flex cardSegondaireCoprs">
+                              <div>
+                                    <img src="../images/frites/GRANDE_POTATOES.png" alt="barquette de grande frite potetoes">
+                              </div>
+                              <p class="cardSegondaireText">Potatoes</p>
+                          </article>
+                      </section>
+                      <!-- message erreur -->
+                      <div class="erreurtFrite modal-hidden erreurMessage">
+                        <p class="cardSegondaireText">Selectionner un accompagnement</p>
+                      </div>
+                      <!-- button -->
+                      <div class="btnCorps flex">
+                          <button id="btnModalFrite" class="btnJaune">Etape suivante</button>
+                      </div>
+            
+                  </div>
+                </div>
+
             </section>
-            <!-- SECTION MODALE BOISSON -->
+            <!-- SECTION MODALE MENU BOISSON -->
             <section class="modaleBoissons modal-hidden overlay">
                 <!-- fct js afficherModaleBoisson -->
+                <div class="overlayFond">
+                    <nav class="flex">
+                     <ul class="flex overlayNav">
+                         <li>
+                           <button class="btnTransparent" id="btnRetourBoisson">Retour</button>
+                         </li>
+                         <li> 
+                           <div id="croixImageBoisson">
+                             <img src="../images/images/supprimer.png" alt="croix pour fermer la popup">
+                           </div>
+                         </li>
+                     </ul>
+                   </nav>
+                   <div class="flex overlayCoprs">
+                       <!-- titre -->
+                       <div class="flex overlayTitre">
+                           <h4>Choisissez votre accompagnement</h4>
+                           <p>Frites, potatoes, la pomme de terre dans tous ses états</p>
+                       </div>
+             
+                       <!-- caroussel boissons -->
+                       <div class="carouselBoisson">
+                           <div>
+                               <img class="prevBoisson" src="../images/images/fleche-slider.png" alt="Fleche precedent">
+                           </div>
+                           <div class="carousel-boisson">
+                               <!-- fct js afficherCardBoissons -->
+                           </div>
+                           <div>
+                               <img class="nextBoisson" src="../images/images/fleche-slider-next.png"  alt="Fleche suivant">
+                           </div>
+                       </div>
+             
+                       <!-- message erreur -->
+                       <div class="erreurBoisson modal-hidden erreurMessage">
+                         <p class="cardSegondaireText">Selectionner une boisson</p>
+                       </div>
+                       <!-- boutons -->
+                       <div class="btnCorps flex">
+                           <button id="btnModalAjouter" class="btnJaune">Ajouter le menu à ma commande</button>
+                       </div>
+             
+                   </div>
+                 </div>
             </section>  
         </main>
     </div>
