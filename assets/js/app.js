@@ -66,13 +66,13 @@ fetch('../../json/categories.json')
  * return :array : liste des produits
  */
 function datasProduits(categorie, categorieId) { 
-  // fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectproduitAPI')
-  fetch('../../json/produits.json')
+  // fetch('../../json/produits.json')
+ fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectproduitAPI')
+
   .then(response => {
     return response.json();
   })
   .then (datas => {
-    console.log(datas)
     afficherProduitTitre(categorie)
     afficherCardsProduit(datas, categorie, categorieId)
   })
@@ -344,7 +344,7 @@ function afficherCardsProduit(datas, categorie, categorieId){
             </div>
             <p class="nomProduit" itemprop="name">${card.nom}</p>
             <div class="flex price">
-              <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)}</p>
+              <p class="priceMenu" itemprop="price">${parseFloat(card.prix).toFixed(2)}</p>
               <p class="euro"> €</p>
             </div>
           </div>
@@ -636,7 +636,6 @@ function afficherModaleQuantiteTaille(produit){
   quantitePlus.addEventListener("click", () => {
     let messageErreur = document.querySelector('.erreurtTailleMenu');
     messageErreur.classList.contains('.modal-hidden')
-    console.log(selectionTaille)
     if(selectionTaille) {
       
       let quantite = 1;
@@ -713,7 +712,6 @@ function afficherModaleQuantiteTaille(produit){
  * param : htmlElement : le produit selectionné
  */
 function afficherModaleTailleMenu(produit){
-  console.log(produit);
 
   let commandeMenu = [];
   // traitement des données
@@ -735,7 +733,6 @@ function afficherModaleTailleMenu(produit){
     "quantite": quantite,
   };
 
-  console.log(produitMenu)
   let zone = document.querySelector(".modaleTailleMenu")
   let template= 
   `
@@ -818,7 +815,6 @@ function afficherModaleTailleMenu(produit){
   // boutton etape suivante
   const btnModalTailleMenu = document.getElementById("btnModalTailleMenu");
   btnModalTailleMenu.addEventListener("click", () => {
-    console.log(commandeMenu.menu)
     if(commandeMenu.menu){
     togglerModale(".modaleFrite")
     togglerModale(".modaleTailleMenu");
@@ -838,8 +834,6 @@ function afficherModaleTailleMenu(produit){
  * param : HTMLelement : le produit menu en cours
  */
 function afficherModaleFrite(produitMenu, commandeMenu){
-  console.log(commandeMenu)
-  console.log(produitMenu)
   let zone = document.querySelector(".modaleFrite")
   let template = 
     `
@@ -1020,7 +1014,6 @@ datasBoissons(commandeMenu, carousselBoissons);
     if(commandeMenu.boisson){
       togglerModale(".modaleBoissons");
       afficherMenuCommande (commandeMenu) 
-      console.log(commandeMenu)
 
     // Suppression de l'écouteur après le premier clic
     btnAjouter.removeEventListener('click', arguments.callee);
@@ -1254,7 +1247,7 @@ function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite)
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
-  console.log(produitMenu)
+
   /*
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
@@ -1271,7 +1264,7 @@ function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
    commandeMenu.quantite=produitMenu.quantite;
    commandeMenu.taille=produitMenu.taille;
    // commandeMenu = produitMenu;
-   console.log(commandeMenu)
+ 
    
   }
 
@@ -1280,7 +1273,6 @@ function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuMaxCommande(produitMenu, commandeMenu) {
-  console.log(produitMenu)
   /*
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
@@ -1349,7 +1341,7 @@ function calculerMontantCommandeProduit (commandeProduit) {
 function calculerMontantCommandeMenus (commandeMenus) {
   let montantMenus = 0;
   commandeMenus.forEach(menu => {
-    montantMenus +=  parseFloat(menu.priceMenu);
+    montantMenus +=  parseFloat(menu.price);
   })
   param = "menus";
   sommeCommande(montantMenus, param)
@@ -1403,6 +1395,8 @@ function afficherMontantCommande (montant) {
 });
 
 }
+
+// --------------------- ENNVOYER COMMANDE AU BACK ------------------------------
 /**
  * role : enregistrer le paiement
  */
@@ -1425,15 +1419,44 @@ function enregistrerPayment() {
       "numCommande": numeroCommande
     }
   }
-  
-  datas = [commande, commandeMenus, commandeProduit]
 
- // envoyerCommande(datas) 
-  
-  console.log(datas);
+  // donnée de test
+  // ne fonctionne pas
+  const datas1 = [
+    { "nom": "John Doe" },
+    { "nom": "Jane Smith" }
+  ];
+ 
+// datas = [commande, commandeMenus, commandeProduit]
 
+// envoyerCommande(datas) 
+ envoyerCommandeAPI(datas1)
 }
 
+
+/**
+ * role : envoyer les donnée de commande au serveur
+ * @param {*} datasaenvoyer : tableau de sommande avec service / commandeMenus et commandeProduits
+ */
+function envoyerCommandeAPI(datas) {
+  const data = JSON.stringify(datas);
+  console.log(datas)
+  fetch('http://exam-back.mcastellano.mywebecom.ovh/public/insertcommandeAPI', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: data
+    })
+    .then(response => response.text())
+    .then(dataconf => {
+      console.log(dataconf)
+        console.log('Réponse du serveur :', dataconf);
+    })
+    .catch(error => {
+        console.error('Erreur lors envoi des données :', error);
+    });
+  }
 // ----------- OUVERTURE ET FERMETURE MODALES --------------------
 
 let modalOuverte = null;
@@ -1715,7 +1738,6 @@ function hasCode(valueField){
  * @returns true si la chaine de caractere du camps est plus longue que le parametre sinon retourne false
  */
 function maxLength (valueField, longueurMax){
-  console.log(valueField.length)
   if(valueField.length > longueurMax) {
   return true;
   } return false
