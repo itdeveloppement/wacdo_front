@@ -40,12 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // ---------------------- FETCHE ------------------------------------
 
 /**
- * role : recuperation de la liste des categorie
+ * role : recuperation de la liste des categories
  * param : no
  * return :array : liste des produits
  */
 function datasCategorie(callback) { 
-fetch('../../json/categories.json')
+// fetch('../../json/categories.json')
+fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectcategorieAPI')
+
   .then(response => {
     return response.json();
   })
@@ -64,11 +66,13 @@ fetch('../../json/categories.json')
  * return :array : liste des produits
  */
 function datasProduits(categorie, categorieId) { 
+  // fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectproduitAPI')
   fetch('../../json/produits.json')
   .then(response => {
     return response.json();
   })
   .then (datas => {
+    console.log(datas)
     afficherProduitTitre(categorie)
     afficherCardsProduit(datas, categorie, categorieId)
   })
