@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
  * return :array : liste des produits
  */
 function datasCategorie(callback) { 
-// fetch('../../json/categories.json')
-fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectcategorieAPI')
+fetch('../../json/categories.json')
+// fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectcategorieAPI')
 
   .then(response => {
     return response.json();
