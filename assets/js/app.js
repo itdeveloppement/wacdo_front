@@ -66,8 +66,8 @@ fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectcategorieAPI')
  * return :array : liste des produits
  */
 function datasProduits(categorie, categorieId) { 
-  // fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectproduitAPI')
-  fetch('../../json/produits.json')
+ fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectproduitAPI')
+  // fetch('../../json/produits.json')
   .then(response => {
     return response.json();
   })
@@ -344,7 +344,7 @@ function afficherCardsProduit(datas, categorie, categorieId){
             </div>
             <p class="nomProduit" itemprop="name">${card.nom}</p>
             <div class="flex price">
-              <p class="priceMenu" itemprop="price">${card.prix.toFixed(2)}</p>
+              <p class="priceMenu" itemprop="price">${parseFloat(card.prix).toFixed(2)}</p>
               <p class="euro"> €</p>
             </div>
           </div>
