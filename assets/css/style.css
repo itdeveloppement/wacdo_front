@@ -234,12 +234,6 @@ ul {
 .erreurMessage {
   text-align: center;
   margin-bottom: 10px;
-    /*position: absolute;
-    /*top: 10%; */
-    /*left: 50%; */
-    /*transform: translateX(-50%);
-    /*width: 300px; */
-    /*z-index: 8; */
 }
 .erreurMessage p{
   color: var(--deuxiemeColor);
@@ -269,10 +263,7 @@ ul {
   transition: transform 0.5s ease-in-out;
 }
 .cardCategorie, .cardBoisson {
-  flex: 200px; /*  flex: 0 0 200px; L'élément prendra toute la place disponible s'il y en a, mais il peut rétrécir si nécessaire. */
-  /*height: 180px; /*  height: auto;*/
-    /* min-width: 200px; */
-    /* max-width: 200px; */
+  flex: 200px; 
   min-height: 180px;
   max-height: 180px;
   margin: 5px;
@@ -302,7 +293,7 @@ ul {
 .prevCategorie, .nextCategorie, .prevBoisson, .nextBoisson{
     position: absolute;
     top: 50%;
-    transform: translateY(-50%); /* centrer verticalement avec position absolut */
+    transform: translateY(-50%);
     cursor: pointer;
     z-index: 10;
 }
@@ -881,9 +872,7 @@ main {
     width: 120px;
     font-size: 12px;
   }
-  .btnTransparent {
-  }
-
+  
 }
 /* regles specifiques de 401 à 714px */
 @media all and (min-width: 401px) and (max-width: 714px) {

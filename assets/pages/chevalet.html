@@ -15,40 +15,40 @@
     <link rel="shortcut icon" type="image/png" href="../../logo.ico">
 </head>
 <body>
-<header>
-    <button id="btn-typo" type="button">Changer la typo</button>
-</header>
-<main>
-    
-    <!-- SECTION IMAGE DE FOND -->
-    <section class="mainImgFond">
-        <div>
-            <img src="../images/images/mc_landing_banner.png" alt="image du logo Wacdo, d'une portion de frite, un burger et un CocaCola">
-        </div>
-    </section>
-    <!-- SECTION CHEVALET -->
-    <section class="flex cardPrincipale chevaletCorps">
-        <div class="chevaletImg">
-            <img src="../images/images/chevalet.png" alt="Image d'un chevalet avec un numero">
-        </div>
-        <h2>Pour etre <strong>servis à table</strong></h2>
-        <h1>Récupérez un <strong>chevalet</strong> et indiquez ici le numéro inscrit dessus ?</h1>
-        <form id="formChevalet" class="flex form" action="./choix.html" method="post"> 
-            <!-- utilisaton type text avec validation js et non number pour faciliter formatage css-->
-            <div class="flex">
-                <input type="text" id="nombre1" name="nombre1" required placeholder="0" maxlength="1" autofocus>
-                <input type="text" id="nombre2" name="nombre2" required placeholder="0" maxlength="1">
-                <input type="text" id="nombre3" name="nombre3" required placeholder="0" maxlength="1">
+    <header>
+        <button id="btn-typo" type="button">Changer la typo</button>
+    </header>
+    <main>
+        
+        <!-- SECTION IMAGE DE FOND -->
+        <section class="mainImgFond">
+            <div>
+                <img src="../images/images/mc_landing_banner.png" alt="image du logo Wacdo, d'une portion de frite, un burger et un CocaCola">
             </div>
-            <div class=" flex">
-                <p class="p-error d-none" id="error-nombre1"></p>
-                <p class="p-error d-none" id="error-nombre2"></p>
-                <p class="p-error d-none" id="error-nombre3"></p>
+        </section>
+        <!-- SECTION CHEVALET -->
+        <section class="flex cardPrincipale chevaletCorps">
+            <div class="chevaletImg">
+                <img src="../images/images/chevalet.png" alt="Image d'un chevalet avec un numero">
             </div>
-            <button class="btnJaune" type="submit">Enregistrer votre numéro</button>
-        </form>
-    </section>
-</main>
-       <script src="../js/app.js" defer></script>
+            <h2>Pour etre <strong>servis à table</strong></h2>
+            <h1>Récupérez un <strong>chevalet</strong> et indiquez ici le numéro inscrit dessus ?</h1>
+            <form id="formChevalet" class="flex form" action="./choix.html" method="post"> 
+                <!-- utilisaton type text avec validation js et non number pour faciliter formatage css-->
+                <div class="flex">
+                    <input type="text" id="nombre1" name="nombre1" required placeholder="0" maxlength="1" autofocus>
+                    <input type="text" id="nombre2" name="nombre2" required placeholder="0" maxlength="1">
+                    <input type="text" id="nombre3" name="nombre3" required placeholder="0" maxlength="1">
+                </div>
+                <div class=" flex">
+                    <p class="p-error d-none" id="error-nombre1"></p>
+                    <p class="p-error d-none" id="error-nombre2"></p>
+                    <p class="p-error d-none" id="error-nombre3"></p>
+                </div>
+                <button class="btnJaune" type="submit">Enregistrer votre numéro</button>
+            </form>
+        </section>
+    </main>
+    <script src="../js/app.js" defer></script>
 </body>
 </html>

@@ -1080,8 +1080,7 @@ function afficherMenuCommande (commandeMenu) {
   // preparation des données
   commandeMenu.quantite=1;
   commandeMenus.push(commandeMenu);
-  console.log(commandeMenus)
-
+  
   let zone = document.getElementById("commandeMenu")
   let template = ''; 
   commandeMenus.forEach(menu=>{
@@ -1405,7 +1404,7 @@ function afficherMontantCommande (montant) {
   let btnPayerCommande = document.getElementById("btnPayerCommande");
   btnPayerCommande.addEventListener("click", function() {
     enregistrerPayment()
-  // window.location.href = "./abientot.html";   // Redirection
+    
 });
 
 }
@@ -1435,8 +1434,9 @@ function enregistrerPayment() {
   }
 let commandeMenusJson = preparerCommandeMenu(commandeMenus)
 datas = [commande, commandeProduit, commandeMenusJson];
-console.log(datas);
+// console.log(datas);
 envoyerCommandeAPI(datas)
+
 
 }
 
@@ -1483,6 +1483,7 @@ function envoyerCommandeAPI(datas) {
     .then(response => response.text())
     .then(dataconf => {
         console.log('Réponse du serveur :', dataconf);
+        window.location.href = "./abientot.html";   // Redirection
     })
     .catch(error => {
         console.error('Erreur lors envoi des données :', error);
