@@ -324,7 +324,7 @@ zone1.innerHTML = templateTitre;
 }
  
 /**
- * role : afficher le titre des cards produits
+ * role : afficher cards produits
  * param : string : category
  * param : tableau d'objet : liste des produits
  * return : no
@@ -719,13 +719,13 @@ function afficherModaleTailleMenu(produit){
   const price = produit.querySelector('.priceMenu').textContent
   const urlImage =  produit.querySelector('img').src
 
-  // recuperation id categorie et produit
+  // recuperation id categorie et produit menu
   const article = produit.querySelector('.articleProduit')
   const idProduit = article.dataset.id;
   const idCategorie = article.dataset.categorie;
   const quantite = 1;
 
-  let produitMenu = {
+   let produitMenu = {
     "idProduit": idProduit,
     "idCategorie": idCategorie,
     "nom": name,
@@ -886,6 +886,7 @@ function afficherModaleFrite(produitMenu, commandeMenu){
     `
   zone.innerHTML = template;
 
+ 
   // fermeture modale par la croix
   const croix = document.getElementById("croixImageFrite");
   croix.addEventListener("click", function(){
@@ -922,6 +923,7 @@ function afficherModaleFrite(produitMenu, commandeMenu){
     activeBordureJaune(event.currentTarget);
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
+    commandeMenu.idFrite = 44; 
     commandeMenu.frite = frite; 
   });
 
@@ -934,6 +936,7 @@ function afficherModaleFrite(produitMenu, commandeMenu){
     let produit = event.currentTarget;
     let frite = produit.querySelector('p').textContent;
     commandeMenu.frite = frite; 
+    commandeMenu.idFrite = 46; 
   });
 }
 
@@ -1013,7 +1016,10 @@ datasBoissons(commandeMenu, carousselBoissons);
   btnAjouter.addEventListener("click", function(){
     if(commandeMenu.boisson){
       togglerModale(".modaleBoissons");
-      afficherMenuCommande (commandeMenu) 
+      const article = document.querySelector('.cardBoisson')
+      const idBoisson = article.dataset.id;
+      commandeMenu.idBoisson = idBoisson; 
+      afficherMenuCommande(commandeMenu);
 
     // Suppression de l'écouteur après le premier clic
     btnAjouter.removeEventListener('click', arguments.callee);
@@ -1034,7 +1040,7 @@ function afficherCardsBoissons(datas, commandeMenu){
   datas.boissons.forEach(card=>{
       template += 
       `
-      <article class="cardBoisson">
+      <article data-id=${card.id} class="cardBoisson">
         <div class="cardCarouselCorps flex">
             <div class="cardImgCarousel flex">
                 <img src="../images/${card.image}" alt="menu">
@@ -1073,6 +1079,7 @@ function afficherMenuCommande (commandeMenu) {
   // preparation des données
   commandeMenu.quantite=1;
   commandeMenus.push(commandeMenu);
+  console.log(commandeMenus)
 
   let zone = document.getElementById("commandeMenu")
   let template = ''; 
@@ -1081,7 +1088,7 @@ function afficherMenuCommande (commandeMenu) {
       `
         <div class="menuCmdDetail flex">
             <div class="menuCmd">
-                <p class="cmd-nomProduitM titleCmd">${menu.menu ? menu.menu : ''}</p>
+                <p class="cmd-nomProduitM titleCmd">${menu.menu ? menu.menu : ''} ${menu.taille ? menu.taille : ''}</p>
                 <ul>
                     <li>${menu.frite ? menu.frite : ''}</li>
                     <li>${menu.boisson ? menu.boisson : ''}</li>
@@ -1247,7 +1254,6 @@ function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite)
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
-
   /*
     menu = produit.querySelector('p').textContent;
     priceMenu = produit.querySelector('span').textContent;
@@ -1258,7 +1264,9 @@ function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
    
     
    commandeMenu.idCategorie= produitMenu.idCategorie;
-   commandeMenu.idProduit= produitMenu.idProduit;
+   commandeMenu.idProduit = produitMenu.idProduit;
+   commandeMenu.idFrite= produitMenu.idFrite;
+   commandeMenu.idBoisson= produitMenu.idBoisson;
    commandeMenu.menu= produitMenu.nom;
    commandeMenu.price= produitMenu.price;
    commandeMenu.quantite=produitMenu.quantite;
@@ -1281,13 +1289,15 @@ function ajouterMenuMaxCommande(produitMenu, commandeMenu) {
     commandeMenu.priceMenu= priceMenu;
 */
 
-    commandeMenu.idCategorie= produitMenu.idCategorie;
+   commandeMenu.idCategorie= produitMenu.idCategorie;
    commandeMenu.idProduit= produitMenu.idProduit;
+   commandeMenu.idFrite= produitMenu.idFrite;
+   commandeMenu.idBoisson= produitMenu.idBoisson;
    commandeMenu.menu= produitMenu.nom;
    commandeMenu.price= produitMenu.price;
    commandeMenu.quantite=produitMenu.quantite;
    commandeMenu.taille=produitMenu.taille;
-   // commandeMenu = produitMenu;
+   //commandeMenu = produitMenu;
    
   }
 
@@ -1404,8 +1414,8 @@ function enregistrerPayment() {
   const urlParams = new URLSearchParams(window.location.search); // parametre de l'url pour chevalet
   const nombreChevalet = urlParams.get('nombreChevalet');
   // Données à envoyées en AJAX vers serveur
-  let commande = [];
-  let datas = [];
+  let commande = {};
+  let datas = {};
   if(!nombreChevalet) {
     commande = {
       "status": "emporter",
@@ -1419,28 +1429,46 @@ function enregistrerPayment() {
       "numCommande": numeroCommande
     }
   }
+  console.log(commandeMenus);
+let commandeMenusJson = preparerCommandeMenu(commandeMenus)
+datas = [commande, commandeProduit, commandeMenusJson];
+console.log(datas);
+envoyerCommandeAPI(datas)
 
-  // donnée de test
-  // ne fonctionne pas
-  const datas1 = [
-    { "nom": "John Doe" },
-    { "nom": "Jane Smith" }
-  ];
- 
-// datas = [commande, commandeMenus, commandeProduit]
-
-// envoyerCommande(datas) 
- envoyerCommandeAPI(datas1)
 }
 
+/**
+ * role : preparer les données vommandeMenu avant envoi
+ */
+function preparerCommandeMenu(commandeMenus) {
+  const tableauJSON = [];
 
+  commandeMenus.forEach(element => {
+    
+    const nouvelObjet = {};
+    // Copier les propriétés pertinentes dans le nouvel objet
+    nouvelObjet.boisson = element.boisson;
+    nouvelObjet.frite = element.frite;
+    nouvelObjet.idCategorie = element.idCategorie;
+    nouvelObjet.idCategorie = element.idBoisson;
+    nouvelObjet.idCategorie = element.idFrite;
+    nouvelObjet.idMenu = element.idProduit ;
+    nouvelObjet.menu = element.menu;
+    nouvelObjet.price = element.price;
+    nouvelObjet.quantite = element.quantite;
+    nouvelObjet.taille = element.taille;
+    // Ajouter l'objet au tableau JSON
+    tableauJSON.push(nouvelObjet);
+  });
+return tableauJSON;
+
+}
 /**
  * role : envoyer les donnée de commande au serveur
  * @param {*} datasaenvoyer : tableau de sommande avec service / commandeMenus et commandeProduits
  */
 function envoyerCommandeAPI(datas) {
   const data = JSON.stringify(datas);
-  console.log(datas)
   fetch('http://exam-back.mcastellano.mywebecom.ovh/public/insertcommandeAPI', {
     method: 'POST',
     headers: {
@@ -1450,7 +1478,6 @@ function envoyerCommandeAPI(datas) {
     })
     .then(response => response.text())
     .then(dataconf => {
-      console.log(dataconf)
         console.log('Réponse du serveur :', dataconf);
     })
     .catch(error => {
