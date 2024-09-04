@@ -792,6 +792,7 @@ function afficherModaleTailleMenu(produit){
     messageErreur (".erreurtTailleMenu")
     // let produit = event.currentTarget;
     produitMenu.taille = "normale";
+  
     ajouterMenuNormalCommande(produitMenu, commandeMenu);
   });
 
@@ -1092,7 +1093,7 @@ function afficherMenuCommande (commandeMenu) {
                 <ul>
                     <li>${menu.frite ? menu.frite : ''}</li>
                     <li>${menu.boisson ? menu.boisson : ''}</li>
-                    <li>Prix : ${menu.price ? menu.price : ''} €</li>
+                    <li>Prix : ${(menu.taille == "normale" ? parseFloat(menu.price) : parseFloat(menu.price) + 0.5)} €</li>
                 </ul>
             </div>
             <div class="poubelleImageM pblCmd">
@@ -1164,7 +1165,6 @@ calculerMontantCommandeProduit (commandeProduit)
  */
 
 function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
-
   // si event.currentTarget est null
   if (produitCurrent == null) {   
     produitCurrent = produitQuantite2;
@@ -1298,7 +1298,7 @@ function ajouterMenuMaxCommande(produitMenu, commandeMenu) {
    commandeMenu.quantite=produitMenu.quantite;
    commandeMenu.taille=produitMenu.taille;
    //commandeMenu = produitMenu;
-   
+  
   }
 
 // -------- supression produit ou menus commande --------------------
@@ -1332,7 +1332,7 @@ function supprimerMenu(event) {
 // ------------ calculer et afficher montant commande -----------------
 
 /**
- * role : calaculer le montant de la commande produits individuel
+ * role : calaculer le montant de la commande produits individuels
  * param : array : liste des produits individuels de la commande
  */
 function calculerMontantCommandeProduit (commandeProduit) {
@@ -1351,7 +1351,11 @@ function calculerMontantCommandeProduit (commandeProduit) {
 function calculerMontantCommandeMenus (commandeMenus) {
   let montantMenus = 0;
   commandeMenus.forEach(menu => {
+    if (menu.taille == "maxi") {
+      montantMenus +=  parseFloat(menu.price) + 0.5;
+    } else { 
     montantMenus +=  parseFloat(menu.price);
+  }
   })
   param = "menus";
   sommeCommande(montantMenus, param)
@@ -1429,7 +1433,6 @@ function enregistrerPayment() {
       "numCommande": numeroCommande
     }
   }
-  console.log(commandeMenus);
 let commandeMenusJson = preparerCommandeMenu(commandeMenus)
 datas = [commande, commandeProduit, commandeMenusJson];
 console.log(datas);
@@ -1442,7 +1445,6 @@ envoyerCommandeAPI(datas)
  */
 function preparerCommandeMenu(commandeMenus) {
   const tableauJSON = [];
-
   commandeMenus.forEach(element => {
     
     const nouvelObjet = {};
@@ -1450,14 +1452,16 @@ function preparerCommandeMenu(commandeMenus) {
     nouvelObjet.boisson = element.boisson;
     nouvelObjet.frite = element.frite;
     nouvelObjet.idCategorie = element.idCategorie;
-    nouvelObjet.idCategorie = element.idBoisson;
-    nouvelObjet.idCategorie = element.idFrite;
+    nouvelObjet.idBoisson = element.idBoisson;
+    nouvelObjet.idFrite = element.idFrite;
     nouvelObjet.idMenu = element.idProduit ;
     nouvelObjet.menu = element.menu;
     nouvelObjet.price = element.price;
     nouvelObjet.quantite = element.quantite;
     nouvelObjet.taille = element.taille;
     // Ajouter l'objet au tableau JSON
+
+    console.log(nouvelObjet)
     tableauJSON.push(nouvelObjet);
   });
 return tableauJSON;
