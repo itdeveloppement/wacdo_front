@@ -60,9 +60,6 @@
     --borderRadius: 10px;
     --borderShadow: 0 0 20px rgb(96, 96, 96);  /* box-shadow */
     --borderHover: 2px solid rgb(255, 200, 54);
-
-    /* largeur goutiere*/
-    --gutter: 10px;
 }
 
 /* ACCESSIBILITE TYPO */ 
@@ -86,51 +83,13 @@
 
 /* LARGEUR COLONNE */
 
-/*Desktop*/
-.large-1 {
-  
-    width: calc(8.3333333333% - 11 * var(--gutter) / 12);
-  }
-  .large-2 {
-    width: calc(16.6666666667% - 5 * var(--gutter) / 6);
-  }
-  .large-3 {
-    width: calc(25% - 3 * var(--gutter) / 4);
-  }
-  .large-4 {
-    width: calc(33.3333333333% - 2 * var(--gutter) / 3);
-  }
-  .large-5 {
-    width: calc(41.6666666667% - 1.4 * var(--gutter) / 2.4);
-  }
-  .large-6 {
-    width: calc(50% - 1 * var(--gutter) / 2);
-  }
-  .large-7 {
-    width: calc(58.3333333333% - 0.7142857143 * var(--gutter) / 1.7142857143);
-  }
-  .large-8 {
-    width: calc(66.6666666667% - 0.5 * var(--gutter) / 1.5);
-  }
-  .large-9 {
-    width: calc(75% - 0.3333333333 * var(--gutter) / 1.3333333333);
-  }
-  .large-10 {
-    width: calc(83.3333333333% - 0.2 * var(--gutter) / 1.2);
-  }
-  .large-11 {
-    width: calc(91.6666666667% - 0.0909090909 * var(--gutter) / 1.0909090909);
-  }
-  .large-12 {
-    width: calc(100% - 0 * var(--gutter) / 1);
-  }
-
 /* GENERALE */
 
 
 body {
   font-family: var(--fonte);
   font-size: 15px;
+ 
 }
 strong {
   font-weight: normal;
@@ -165,15 +124,19 @@ h4 {
 
 /* image de fond */
 .mainImgFond {
-  position: relative;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  transform: scale(1.2);
+  position: fixed; /* Fixe l'image en arrière-plan */
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100%;
+  background-size: cover; /* Couvre tout l'espace disponible en conservant les proportions */
+  background-repeat: no-repeat; /* Empêche la répétition de l'image */
+  background-position: center; /* Centre l'image */
 }
-.mainImgFond img{
-  max-height: 80vh; 
-  width: auto;
+
+.mainImgFond img {
+  /* Cette règle n'est plus nécessaire car l'image est utilisée comme background */
+  display: none;
 }
 /* button */
 button {
