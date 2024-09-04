@@ -123,20 +123,23 @@ h4 {
 }
 
 /* image de fond */
-.mainImgFond {
-  position: fixed; /* Fixe l'image en arrière-plan */
-  top: 0;
-  left: 0;
-  width: 80%;
-  height: 100%;
-  background-size: cover; /* Couvre tout l'espace disponible en conservant les proportions */
-  background-repeat: no-repeat; /* Empêche la répétition de l'image */
-  background-position: center; /* Centre l'image */
+.mainImgFond-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.mainImgFond img {
-  /* Cette règle n'est plus nécessaire car l'image est utilisée comme background */
-  display: none;
+.mainImgFond {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('../images/images/mc_landing_banner.png');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
 }
 /* button */
 button {
@@ -480,10 +483,7 @@ header {
 .headerChoix {
   background-color: var(--sixiemeColor);
 }
-main {
-  margin: 20px;
-  height: 100%;
-}
+
 
 /* section principale */
 .sectionPrincipale {
