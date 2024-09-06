@@ -1,11 +1,35 @@
+
+// 00 : SOMMAIRE
+  // 01 : AU CHARGEMENT
+  // 02 : FETCH
+  // 03 : TYPO
+  // 04 : CAROUSSEL 
+  // 05 : AFFICHAGE CARDS 
+    // 051 : card categorie 
+    // 052 : card produit 
+  // 06 : MODALE
+    // 061 : modale quantite
+    // 062 : modale quantite taille
+    // 063 : modale menu
+    // 064 : modale frite
+    // 065 : modale boisson
+  // 07 : COMMANDE
+    // 071 afficher commande
+    // 072 quantite
+    // 073 supression produit
+    // 074  calcul montant commande
+  // 08 : API
+  // 09 OUVERTURE FERMETURE MODALE
+  // 010 FORMULAIRE CHEVALET
+
 // variables globales
 let commandeProduit = [];
 let commandeProduitTemp = [];
 let commandeMenus=[];
-// let produit = null;
+
 const maxLengthNombre = 1;
 
-// -------------- AU CHARGEMENT --------------------
+// -------------- AU CHARGEMENT 01--------------------
 
 document.addEventListener('DOMContentLoaded', () => {
   const currentUrl = window.location.pathname; // url relative
@@ -37,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-// ---------------------- FETCHE ------------------------------------
+// ---------------------- FETCHE 02 ------------------------------------
 
 /**
  * role : recuperation de la liste des categories
@@ -116,7 +140,7 @@ function envoyercommande(datas) {
   });
   
 }
-// ---------------- CHANGEMENT TYPO ------------------------
+// ---------------- CHANGEMENT TYPO 03 ------------------------
 
 function typo(){
   const btnTypo = document.getElementById("btn-typo")
@@ -138,31 +162,7 @@ function changeTypo() {
     btnTypo.classList.toggle("newTypo");
 }
 }
-// ----------------- CAROUSSEL -------------------------
-
-// ----------------- carousel categorie ----------------
-
-/**
- * orole : préparation des données du caroussel categorie
- */
-function carousselCategorie() {
-  const carousel = document.querySelector('.carousel-categorie');
-  const cards = document.querySelectorAll('.cardCategorie');
-  let cat = "Categorie";
-  caroussel (carousel, cards, cat)
-}
-
-// ----------------- caroussel boisson -------------------------
-
-/**
- * orole : préparation des données du caroussel categorie
- */
-function carousselBoissons() {
-  const carousel = document.querySelector('.carousel-boisson');
-  const cards = document.querySelectorAll('.cardBoisson');
-  let cat = "Boisson";
-  caroussel (carousel, cards, cat)
-}
+// ----------------- CAROUSSEL 04 -------------------------
 
 // ----------------- carousel general ----------------
 /**
@@ -205,8 +205,8 @@ function caroussel (carousel, cards, cat) {
    */
   const updateCarousel = () => {
     carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    nextBtn.disabled = isLastSlide(); // Désactiver  le bouton "Suivant" à la fin / desiable desactive l'elementy
-    prevBtn.disabled = currentIndex === 0;  // Désactiver le bouton "Précédent" au début (optionnel)
+    nextBtn.disabled = isLastSlide(); // Désactiver  le bouton "Suivant" à la fin / desiable desactive l'element
+    prevBtn.disabled = currentIndex === 0;  // Désactiver le bouton "Précédent" au début
   };
 
   /**
@@ -214,7 +214,7 @@ function caroussel (carousel, cards, cat) {
    * return : no
    * algo : au click si defilement possible decrementte l'index et effectue la translation
    */
-  const goToPrevSlide = () => {
+  const slidePrecedente= () => {
     if (currentIndex > 0) {
       currentIndex--;
       updateCarousel();
@@ -227,7 +227,7 @@ function caroussel (carousel, cards, cat) {
    * return : no
    * algo : au click si defilement possible incremente l'index et effectue la translation
    */
-  const goToNextSlide = () => {
+  const slideSuivante = () => {
     if (!isLastSlide()) {
       currentIndex++;
       updateCarousel();
@@ -235,8 +235,8 @@ function caroussel (carousel, cards, cat) {
   };
 
   // ecouteurs evenements
- prevBtn.addEventListener('click', goToPrevSlide);
- nextBtn.addEventListener('click', goToNextSlide);
+ prevBtn.addEventListener('click', slidePrecedente);
+ nextBtn.addEventListener('click', slideSuivante );
 
   // Fonction pour recalculer les dimensions et ajuster le carrousel
   const recalculate = () => {
@@ -259,7 +259,34 @@ function caroussel (carousel, cards, cat) {
   recalculate();
 }
 
-// ---------- AFFICHAGE CARDS CATEGORIE --------------------------
+// ----------------- carousel categorie ----------------
+
+/**
+ * role : préparation des données du caroussel categorie
+ */
+function carousselCategorie() {
+  const carousel = document.querySelector('.carousel-categorie');
+  const cards = document.querySelectorAll('.cardCategorie');
+  let cat = "Categorie";
+  caroussel (carousel, cards, cat)
+}
+
+// ----------------- caroussel boisson 0-------------------------
+
+/**
+ * orole : préparation des données du caroussel categorie
+ */
+function carousselBoissons() {
+  const carousel = document.querySelector('.carousel-boisson');
+  const cards = document.querySelectorAll('.cardBoisson');
+  let cat = "Boisson";
+  caroussel (carousel, cards, cat)
+}
+
+// -------------- AFFICHAGE CARD 05-----------------------------------
+
+
+// ---------- AFFICHAGE CARDS CATEGORIE 051--------------------------
 
 /**
  * role : afficher les cards categorie
@@ -306,7 +333,7 @@ cardsCategorie.forEach(card => {
 });
 }
 
-// ---------- AFFICHAGE CARDS PRODUITS --------------------------
+// ---------- AFFICHAGE CARDS PRODUITS 052 --------------------------
 
 /**
  * role : afficher le titre des cards produits
@@ -379,7 +406,9 @@ cardsProduit.forEach(card => {
 const modal = document.getElementById('modaleTailleMenu');
 }
 
-// -------------- MODALES QUANTITE ----------------------------------
+// -------------- MODALES 06--------------------------------------
+
+// --------------  modale quantite  061 ----------------------------------
 
 /**
  * role : affiche la modale quantite
@@ -508,7 +537,7 @@ function afficherModaleQuantite (produit){
   
 }
 
-// -------------- MODALES QUANTITE TAILLE----------------------------------
+// -------------- modale quantite taille 062 ----------------------------------
 
 /**
  * role : affiche la modale quantite taille
@@ -705,7 +734,7 @@ function afficherModaleQuantiteTaille(produit){
   });
 }
 
-// -------------- MODALES MENU ----------------------------------
+// -------------- MODALES MENU 063----------------------------------
 
 /**
  * role : affiche la modale menu
@@ -828,7 +857,7 @@ function afficherModaleTailleMenu(produit){
   });
 }
 
-// ----------------- MODAL MENU FRITE -----------------------
+// ----------------- MODAL MENU FRITE 064 -----------------------
 
 /**
  * role : affiche la modale frite
@@ -941,7 +970,7 @@ function afficherModaleFrite(produitMenu, commandeMenu){
   });
 }
 
-// --------------- MODAL MENUS BOISSONS ---------------------------------
+// --------------- MODAL MENUS BOISSONS 065 ---------------------------------
 
 function afficherModaleBoisson(commandeMenu) {
   let zone = document.querySelector(".modaleBoissons")
@@ -994,7 +1023,7 @@ function afficherModaleBoisson(commandeMenu) {
     `
   zone.innerHTML = template;
 
-// carouselBoissons en caalback pour timing dom
+// donnees boisson
 datasBoissons(commandeMenu, carousselBoissons);
   
   // -----  ecouteurs evenement dans la modale boisson ------
@@ -1067,7 +1096,7 @@ cardsBoisson.forEach(card => {
 });
 }
 
-// ---------------- COMMANDE -----------------------
+// ---------------- COMMANDE 07 -----------------------
 
 // -------- affichage commande --------------------
 
@@ -1156,15 +1185,18 @@ zone.addEventListener('click', supprimerProduit);
 calculerMontantCommandeProduit (commandeProduit)
 };
 
+// --------------------- QUANTITE PRODUIT 071 ------------------------------------
+
+// a faire fusion des deux fonctions
 /**
- * role : met a jour le produitCurrent et incremeté ou decrementer la quantite
+ * role : met a jour le produitCurrent et incremeter ou decrementer la quantite
  * param : le produit selectionnée (event.currentTarget)
  * param : le produit courent : objet 
  * param : quantité (1 pour ajouter, -1 pour supression)
  */
 
 function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
-  // si event.currentTarget est null
+  // si event.currentTarget est null (card quantite))
   if (produitCurrent == null) {   
     produitCurrent = produitQuantite2;
     let quantiteTemp = produitQuantite2.quantite + quantite
@@ -1176,7 +1208,7 @@ function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
       document.getElementById("quantiteProduit").innerText = produitQuantite2.quantite;
     }
     document.getElementById("quantiteProduit").innerText  //mise a jour quantite
-     // si event.currentTarget n'est pas null
+     // si event.currentTarget n'est pas null (card quantite taille)
   } else {
     let nom =produitCurrent.querySelector('p').textContent;   // modification nom
     produitQuantite2.nom = nom;
@@ -1203,14 +1235,14 @@ function preparartionCommande(produitCurrent, produitQuantite2, quantite) {
 }
 
 /**
- * role : met a jour le produitCurrent et incremeter ou decrementer la quantite
+ * role : met a jour le produitCurrent et incremeter ou decrementer la quantite (modale quantite)
  * param : le produit selectionnée (event.currentTarget)
  * param : le produit courent : objet 
  * param : quantité (1 pour ajouter, -1 pour supression)
  */
-
 function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite) {
-  if (produitCurrent == null) {   // si event.currentTarget est null
+  // si event.currentTarget est null
+  if (produitCurrent == null) {   
     produitCurrent = produitQuantite2;
     let quantiteTemp = produitQuantite2.quantite + quantite
     if (quantiteTemp <=0) {
@@ -1246,22 +1278,13 @@ function preparartionCommandeProduit(produitCurrent, produitQuantite2, quantite)
   commandeProduitTemp = produitQuantite2;
 }
 
-  // ------ fct preparation commande MENU --------------
+  // ------ fct preparation commande MENU 072 --------------
 
 /**
  * role : ajouter menu normal à la commande
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
-  /*
-    menu = produit.querySelector('p').textContent;
-    priceMenu = produit.querySelector('span').textContent;
-    priceMenu = parseFloat(priceMenu)
-    commandeMenu.menu= menu;
-    commandeMenu.priceMenu= priceMenu;
-  */
-   
-    
    commandeMenu.idCategorie= produitMenu.idCategorie;
    commandeMenu.idProduit = produitMenu.idProduit;
    commandeMenu.idFrite= produitMenu.idFrite;
@@ -1270,9 +1293,6 @@ function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
    commandeMenu.price= produitMenu.price;
    commandeMenu.quantite=produitMenu.quantite;
    commandeMenu.taille=produitMenu.taille;
-   // commandeMenu = produitMenu;
- 
-   
   }
 
 /**
@@ -1280,14 +1300,6 @@ function ajouterMenuNormalCommande(produitMenu, commandeMenu) {
  * param : htmlElement : produit selectionné
  */
 function ajouterMenuMaxCommande(produitMenu, commandeMenu) {
-  /*
-    menu = produit.querySelector('p').textContent;
-    priceMenu = produit.querySelector('span').textContent;
-    priceMenu = parseFloat(priceMenu)+ 0.5;
-    commandeMenu.menu= menu;
-    commandeMenu.priceMenu= priceMenu;
-*/
-
    commandeMenu.idCategorie= produitMenu.idCategorie;
    commandeMenu.idProduit= produitMenu.idProduit;
    commandeMenu.idFrite= produitMenu.idFrite;
@@ -1296,8 +1308,6 @@ function ajouterMenuMaxCommande(produitMenu, commandeMenu) {
    commandeMenu.price= produitMenu.price;
    commandeMenu.quantite=produitMenu.quantite;
    commandeMenu.taille=produitMenu.taille;
-   //commandeMenu = produitMenu;
-  
   }
 
 // -------- supression produit ou menus commande --------------------
@@ -1328,7 +1338,7 @@ function supprimerMenu(event) {
   calculerMontantCommandeMenus(commandeMenus);
 }
 
-// ------------ calculer et afficher montant commande -----------------
+// ------------ CALCUL ET AFFICHAGE MONTANT DE COMMANDE 074 -----------------
 
 /**
  * role : calaculer le montant de la commande produits individuels
@@ -1409,7 +1419,7 @@ function afficherMontantCommande (montant) {
 
 }
 
-// --------------------- ENNVOYER COMMANDE AU BACK ------------------------------
+// --------------------- ENNVOYER COMMANDE AU BACK 08------------------------------
 /**
  * role : enregistrer le paiement
  */
@@ -1489,7 +1499,9 @@ function envoyerCommandeAPI(datas) {
         console.error('Erreur lors envoi des données :', error);
     });
   }
-// ----------- OUVERTURE ET FERMETURE MODALES --------------------
+
+
+// ----------- OUVERTURE FERMETURE MODALE 09--------------------
 
 let modalOuverte = null;
 /**
@@ -1560,7 +1572,7 @@ function modaleLaterale() {
   });
 
 }
-// ------- FORM CHEVALET ----------------------------------------------
+// ------- FOMRMULAIRE CHEVALET 010 ----------------------------------------------
 
 // SOUMISSION DU FORMULAIRE
 // A la soumission du formulaire 
@@ -1689,7 +1701,7 @@ function testNombre3(){
   return true
 };
 
-// AFFICHAGE DU MESSAGE ERREUR
+// ---------------------- message erreur formulaire --------------------------------
 
 /** affiche un message d'erreur
  * @param {string} id 
@@ -1739,7 +1751,7 @@ function enleveErreurs(){
   });
 }
 
-/* FONCTIONS TESTE */
+/* ------------------------- calidation des champs formulaire ---------------
 
 /**CHAMPS VIDE : verifier si la valeur du champ est vide
  * @param {string} valueField la chaine de caractere du champ
