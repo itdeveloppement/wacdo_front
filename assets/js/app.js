@@ -70,8 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function datasCategorie(callback) { 
 fetch('../../json/categories.json')
-// fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectcategorieAPI')
-
   .then(response => {
     return response.json();
   })
@@ -90,7 +88,6 @@ fetch('../../json/categories.json')
  * return :array : liste des produits
  */
 function datasProduits(categorie, categorieId) { 
-  // fetch('../../json/produits.json')
  fetch('http://exam-back.mcastellano.mywebecom.ovh/public/selectproduitAPI')
 
   .then(response => {
@@ -310,8 +307,6 @@ function afficherCardsCategorie(datas){
       `;    
   });  
   zone.innerHTML = template;
-
-// --------- ECOUTEUR EVENEMENT CARD CATEGORIE apres ajout du DOM template------------------
 
 const cardsCategorie = document.querySelectorAll('.cardCategorie');
 
