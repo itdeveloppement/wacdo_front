@@ -39,6 +39,11 @@
   font-style: normal;
 }
 
+.focus {
+  border: 2px solid blue; /* Par exemple */
+}
+
+
 /*VARIABLES*/
 :root {
     /*variable color*/

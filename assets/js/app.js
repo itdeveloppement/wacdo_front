@@ -5,7 +5,7 @@
   // 03 : TYPO
   // 04 : CAROUSSEL 
   // 05 : AFFICHAGE CARDS 
-    // 051 : card categorie 
+    // 051 : card categorie  -> shema.org
     // 052 : card produit 
   // 06 : MODALE
     // 061 : modale quantite
@@ -248,7 +248,6 @@ function caroussel (carousel, cards, cat) {
     if (currentIndex > cards.length - visibleCards) {
       currentIndex = cards.length - visibleCards;
     }
-
     updateCarousel(); // Mettre à jour la position du carrousel
   };
 
@@ -1444,9 +1443,7 @@ function enregistrerPayment() {
   }
 let commandeMenusJson = preparerCommandeMenu(commandeMenus)
 datas = [commande, commandeProduit, commandeMenusJson];
-// console.log(datas);
 envoyerCommandeAPI(datas)
-
 
 }
 
@@ -1471,7 +1468,6 @@ function preparerCommandeMenu(commandeMenus) {
     nouvelObjet.taille = element.taille;
     // Ajouter l'objet au tableau JSON
 
-    console.log(nouvelObjet)
     tableauJSON.push(nouvelObjet);
   });
 return tableauJSON;
@@ -1492,7 +1488,6 @@ function envoyerCommandeAPI(datas) {
     })
     .then(response => response.text())
     .then(dataconf => {
-        console.log('Réponse du serveur :', dataconf);
         window.location.href = "./abientot.html";   // Redirection
     })
     .catch(error => {
